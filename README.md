@@ -3,9 +3,8 @@
 
 ## About
 
-
 ## Report
-
+The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 ## Innstructions
 
 ## Dependencies
