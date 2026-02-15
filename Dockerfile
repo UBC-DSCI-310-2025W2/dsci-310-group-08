@@ -11,8 +11,6 @@ SHELL ["/bin/bash", "-l", "-c"]
 
 WORKDIR /workplace
 
-COPY . .
-
 EXPOSE 8888
 
 CMD ["/opt/conda/envs/group_08/bin/jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--IdentityProvider.token=''", "--ServerApp.password=''"]
