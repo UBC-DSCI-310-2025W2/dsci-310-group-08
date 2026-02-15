@@ -6,7 +6,10 @@
 ## Report
 The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 ## Innstructions
-
+- `docker run -it --rm \
+  -v /"$(pwd)":/home/jovyan/work -p 8888:8888 \
+  -e JUPYTER_TOKEN='apassword' \
+  new`
 ## Dependencies
 
 ## Licenses
