@@ -20,7 +20,7 @@ The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 - Once you are done, <kbd>CTRL</kbd>+<kbd>C</kbd> to stop and clean up the launched container.
 - Then type `docker-compose down` in the terminal.
 ## Dependencies
-
+Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).
 ## Licenses
 This project report is offered under 
 the [Attribution-NonCommercial-NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
