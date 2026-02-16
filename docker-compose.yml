@@ -1,0 +1,11 @@
+services:
+    dsci310-project-group-08:
+        stdin_open: true
+        tty: true
+        volumes:
+            - .:/home/jovyan/work
+        ports:
+            - 8888:8888
+        environment:
+            - JUPYTER_TOKEN=dsci310_group_08
+        image: ljy0401/dsci310-project-group-08:latest
