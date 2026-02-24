@@ -2,9 +2,15 @@
 **Authors**: Jingyuan Liu, Shivani Aggarwal, Sarenna Ulman, Luna Gulec
 
 ## About
+In this project, we intend to use the Parks dataset to build a _(classification?)_ model to predict a city’s park access ranking, and whether a city ranks among the top-performing park systems in the United States. Using characteristics of each city's park system and population features, such as total park acreage, number of parks, population size, and population density, we aim to determine which factors are most strongly associated with high park access rankings. 
+
+By identifying the features that distinguish top-ranked cities, this model could help city urban planners and policymakers understand why certain parks may be preferred over others and how to improve park accessibility, equity, and overall system performance.
+
+The dataset contains annual park system data for major U.S. cities up to 2021 and is sourced from the Trust for Public Land’s ParkScore index. The data was obtained from the TidyTuesday repository and can be accessed [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md)
 
 ## Report
 The report of this project can be found [here](notebooks/parks_analysis.ipynb).
+
 ## Innstructions
 **We use a Docker container image to make the computational environment reproducible for this project. You can interactively run, edit, and explore the project in Jupyter Lab by following the instructions below.**\
 *Please ignore the first two steps if you already have Docker set up.*
@@ -19,8 +25,10 @@ The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 - Open `/notebooks/parks_analysis.ipynb` and click **Kernel** > **Restart and runall** to run the entire analysis.
 - Once you are done, <kbd>CTRL</kbd>+<kbd>C</kbd> to stop and clean up the launched container.
 - Then type `docker-compose down` in the terminal.
+
 ## Dependencies
 Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).
+
 ## Licenses
 This project report is offered under 
 the [Attribution-NonCommercial-NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
