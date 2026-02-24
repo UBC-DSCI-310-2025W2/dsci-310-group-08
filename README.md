@@ -2,7 +2,7 @@
 **Authors**: Jingyuan Liu, Shivani Aggarwal, Sarenna Ulman, Luna Gulec
 
 ## About
-In this project, we intend to use the Parks dataset to build a _(classification?)_ model to predict a city’s park access ranking, and whether a city ranks among the top-performing park systems in the United States. Using characteristics of each city's park system and population features, such as total park acreage, number of parks, population size, and population density, we aim to determine which factors are most strongly associated with high park access rankings. 
+In this project, we intend to use the Parks dataset to build a regression model to predict a city’s park access ranking and whether a city ranks among the top-performing park systems in the United States. Using characteristics of each city's park system, demographic information, and population features, such as total park acreage, number of parks, population size, and population density, we aim to determine which factors are most strongly associated with high park access rankings and to build predictive models to accurately predict rankings of cities given those features. 
 
 By identifying the features that distinguish top-ranked cities, this model could help city urban planners and policymakers understand why certain parks may be preferred over others and how to improve park accessibility, equity, and overall system performance.
 
