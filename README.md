@@ -19,7 +19,7 @@ The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 - Open your terminal and navigate to the project's root directory using the `cd` command.
 - Make sure your Docker is running.
 - Run the following command to start the environment: `docker-compose up`.
-- Once the container has launched, users need to navigate to a web browser (i.e., Chrome) and copy the URL `http://localhost:8888/lab` into their web browser to access Jupyter Lab.
+- Once the container has launched, users need to navigate to a web browser (i.e., Chrome) and copy the URL `http://localhost:8887/lab` into their web browser to access Jupyter Lab.
 - Enter `dsci310_group_08` as the token/password to log into Jupyter Lab.
 - Next, in Jupyter Lab, navigate to the `/work` folder, you should be able to see all files and folders in our project repo there.
 - Open `/notebooks/parks_analysis.ipynb` and click **Kernel** > **Restart and runall** to run the entire analysis.
