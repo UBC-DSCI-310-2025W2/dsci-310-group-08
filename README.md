@@ -1,5 +1,6 @@
 # Predicting Park Access Rankings Across U.S. Cities :national_park:
-**Authors**: Jingyuan Liu, Shivani Aggarwal, Sarenna Ulman, Luna Gulec
+**DSCI 310 Group 08**
+**Authors**: Shivani Aggarwal, Luna Gulec, Jingyuan Liu, Sarenna Ulman
 
 ## About
 In this project, we intend to use the Parks dataset to build a regression model to predict a city’s park access ranking and whether a city ranks among the top-performing park systems in the United States. Using characteristics of each city's park system, demographic information, and population features, such as total park acreage, number of parks, population size, and population density, we aim to determine which factors are most strongly associated with high park access rankings and to build predictive models to accurately predict rankings of cities given those features. 
@@ -11,7 +12,31 @@ The dataset contains annual park system data for major U.S. cities up to 2021 an
 ## Report
 The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 
-## Innstructions
+## Repository Structure
+.
+├── .github/
+│   └── workflows/
+├── data/
+│   ├── raw/
+│   │   ├── parks_raw.csv
+│   │   └── .gitkeep
+│   ├── processed/
+│   │   ├── parks_processed.csv
+│   │   └── .gitkeep
+│   └── README.md
+├── notebooks/
+│   ├── parks_analysis.ipynb
+│   ├── README.md
+│   └── .gitkeep
+├── .gitignore
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── docker-compose.yml
+├── Dockerfile
+├── LICENSE.md
+└── README.md
+
+## Instructions
 **We use a Docker container image to make the computational environment reproducible for this project. You can interactively run, edit, and explore the project in Jupyter Lab by following the instructions below.**\
 *Please ignore the first two steps if you already have Docker set up.*
 - You will use Docker to recreate the computational environment for this analysis. For this, you will need a Docker account. You can sign up for a free one [here](https://app.docker.com/accounts/ljy0401).
