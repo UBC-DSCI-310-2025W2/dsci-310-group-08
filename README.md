@@ -1,5 +1,5 @@
 # Predicting Park Access Rankings Across U.S. Cities :national_park:
-**DSCI 310 Group 08**
+**DSCI 310 Group 08**\
 **Authors**: Shivani Aggarwal, Luna Gulec, Jingyuan Liu, Sarenna Ulman
 
 ## About
@@ -13,6 +13,7 @@ The dataset contains annual park system data for major U.S. cities up to 2021 an
 The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 
 ## Repository Structure
+```
 .
 ├── .github/
 │   └── workflows/
@@ -35,6 +36,7 @@ The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 ├── Dockerfile
 ├── LICENSE.md
 └── README.md
+```
 
 ## Instructions
 **We use a Docker container image to make the computational environment reproducible for this project. You can interactively run, edit, and explore the project in Jupyter Lab by following the instructions below.**\
