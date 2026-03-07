@@ -45,7 +45,7 @@ The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 - After signing up and signing into the Docker Store, go [here](https://docs.docker.com/desktop/setup/install/windows-install/) and click on the “Get Docker Desktop” button on the right-hand side of the screen. Then follow the installation instructions on that screen to install the stable version.
 - Open your terminal and navigate to the project's root directory using the `cd` command.
 - Make sure your Docker is running.
-- Run the following command to start the environment: `docker-compose up`.
+- Run the following command to start the environment: `docker-compose up`. If you are using a Mac, use this command instead: `DOCKER_DEFAULT_PLATFORM=linux/amd64 docker-compose up`. Note: the container may take a long time when you first run the image; that is completely fine - just make sure to keep Docker and your terminal open the whole time.
 - Once the container has launched, users need to navigate to a web browser (i.e., Chrome) and copy the URL `http://localhost:8887/lab` into their web browser to access Jupyter Lab.
 - Enter `dsci310_group_08` as the token/password to log into Jupyter Lab.
 - Next, in Jupyter Lab, navigate to the `/work` folder, you should be able to see all files and folders in our project repo there.
