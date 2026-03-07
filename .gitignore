@@ -208,3 +208,6 @@ __marimo__/
 
 # System files
 .DS_Store
+
+# The processed data
+data/processed
