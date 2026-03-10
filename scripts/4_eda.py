@@ -17,6 +17,8 @@ plt.xlabel("Rank")
 plt.ylabel("Frequency")
 plt.title("Figure 1: Ordinal Rank vs Value Frequency in the Training Set");
 plt.savefig("../artifacts/eda/1_rank_frequency.png")
+# clear plot
+plt.clf()
 
 # second plot - frequency of previous ranks
 plt.hist(X_train['rank_last_time'], bins = 12, edgecolor='black', color = 'green')
@@ -24,6 +26,7 @@ plt.xlabel("Rank")
 plt.ylabel("Frequency")
 plt.title("Figure 2: Previous Rank Value vs Frequency it Appears in the Training Set");
 plt.savefig("../artifacts/eda/2_rank-last-time_frequency.png")
+plt.clf()
 
 # third plot - boxplot of point-based features
 columns_to_plot = ['med_park_size_points', 'park_pct_city_points',
@@ -31,8 +34,9 @@ columns_to_plot = ['med_park_size_points', 'park_pct_city_points',
        'basketball_points', 'dogpark_points', 'playground_points',
        'rec_sr_points', 'amenities_points']
 
+plt.figure(figsize=(10,9))
 sns.boxplot(data=X_train[columns_to_plot])
 plt.title("Figure 3: Boxplots of the Point-based Features")
 plt.xticks(rotation=45, ha='right')
-plt.show()
-plt.savefig("../artifacts/eda/3_numerical_boxplots.png")
+plt.subplots_adjust(bottom=0.5, left = 0.2)
+plt.savefig("../artifacts/eda/3_numerical_boxplots.png", pad_inches=10)
