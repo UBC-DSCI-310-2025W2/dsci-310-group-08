@@ -29,10 +29,20 @@ preprocessor = make_column_transformer(
 # model pipeline
 pipe = make_pipeline(preprocessor, Ridge())
 
-# # hyperparameter tuning
-# param_grid = {'ridge__alpha': loguniform(1e-3, 1e3)}
+# hyperparameter tuning
+param_grid = {'ridge__alpha': loguniform(1e-3, 1e3)}
 
-# grid_search = RandomizedSearchCV(pipe, param_distributions=param_grid, random_state=123,
-#                                  n_iter=100, n_jobs=-1, return_train_score=True)
-# grid_search.fit(X_train, y_train)
+grid_search = RandomizedSearchCV(pipe, param_distributions=param_grid, random_state=123,
+                                 n_iter=100, n_jobs=-1, return_train_score=True)
+grid_search.fit(X_train, y_train)
 
+# get feature names after preprocessing
+feature_names = grid_search.best_estimator_.named_steps['columntransformer'].get_feature_names_out()
+
+# zip into a dataframe
+train_coef_df = pd.DataFrame({
+    'feature': feature_names,
+    'coefficient': grid_search.best_estimator_.named_steps['ridge'].coef_
+}).sort_values('coefficient', key=abs, ascending=False)
+
+train_coef_df['feature'] = train_coef_df['feature'].str.replace('onehotencoder__', '').str.replace('standardscaler__', '')
