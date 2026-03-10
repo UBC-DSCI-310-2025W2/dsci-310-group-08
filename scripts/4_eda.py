@@ -4,8 +4,8 @@ from pathlib import Path
 import seaborn as sns
 
 # import split data
-X_train = pd.read_csv("../data/processed/splits/X_train.csv")
-y_train = pd.read_csv("../data/processed/splits/y_train.csv")
+X_train = pd.read_csv("../data/splits/X_train.csv")
+y_train = pd.read_csv("../data/splits/y_train.csv")
 
 # create the paths for plots
 Path("../artifacts").mkdir(parents=True, exist_ok=True)

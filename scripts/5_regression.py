@@ -8,10 +8,10 @@ from scipy.stats import loguniform
 from pathlib import Path
 
 # import split datasets
-X_train = pd.read_csv("../data/processed/splits/X_train.csv")
-y_train = pd.read_csv("../data/processed/splits/y_train.csv")
-X_test = pd.read_csv("../data/processed/splits/X_test.csv")
-y_test = pd.read_csv("../data/processed/splits/y_test.csv")
+X_train = pd.read_csv("../data/splits/X_train.csv")
+y_train = pd.read_csv("../data/splits/y_train.csv")
+X_test = pd.read_csv("../data/splits/X_test.csv")
+y_test = pd.read_csv("../data/splits/y_test.csv")
 
 # manually recoding the year feature as a category since it did not persist from storing the data as a csv
 X_train['year'] = X_train['year'].astype('category')
