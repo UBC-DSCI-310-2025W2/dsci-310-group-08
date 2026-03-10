@@ -212,3 +212,6 @@ __marimo__/
 # The processed data
 data/processed
 predictions/
+
+# ignore the artifacts 
+artifacts/
