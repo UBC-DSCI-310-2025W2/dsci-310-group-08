@@ -5,10 +5,13 @@ from sklearn.linear_model import Ridge
 from sklearn.model_selection import cross_validate, RandomizedSearchCV
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from scipy.stats import loguniform
+from pathlib import Path
 
 # import split datasets
 X_train = pd.read_csv("../data/processed/splits/X_train.csv")
 y_train = pd.read_csv("../data/processed/splits/y_train.csv")
+X_test = pd.read_csv("../data/processed/splits/X_test.csv")
+y_test = pd.read_csv("../data/processed/splits/y_test.csv")
 
 # manually recoding the year feature as a category since it did not persist from storing the data as a csv
 X_train['year'] = X_train['year'].astype('category')
@@ -46,3 +49,16 @@ train_coef_df = pd.DataFrame({
 }).sort_values('coefficient', key=abs, ascending=False)
 
 train_coef_df['feature'] = train_coef_df['feature'].str.replace('onehotencoder__', '').str.replace('standardscaler__', '')
+
+pipe.fit(X_train, y_train)
+
+y_pred = pipe.predict(X_test)
+
+# store predictions to be called by script 6 - results
+y_preds_df = pd.DataFrame({
+    "y_true": y_test.squeeze(),
+    "y_pred": y_pred
+})
+
+Path("../predictions").mkdir(parents=True, exist_ok=True)
+y_preds_df.to_csv("../predictions/test_predictions.csv", index = False)

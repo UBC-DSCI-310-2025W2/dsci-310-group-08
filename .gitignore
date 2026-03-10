@@ -211,3 +211,4 @@ __marimo__/
 
 # The processed data
 data/processed
+predictions/
