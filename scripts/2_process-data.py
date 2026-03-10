@@ -1,5 +1,5 @@
-# imports
 import pandas as pd
+from pathlib import Path
 
 data_raw = pd.read_csv("../data/raw/parks_raw.csv")
 
@@ -49,6 +49,8 @@ data_processed['rank'] = data_processed['rank'].astype('int')
 data_processed['rank_last_time'] = data_processed['rank_last_time'].astype('int')
 data_processed = data_processed.drop(columns=data_processed.filter(regex='data$').columns)
 
+# create directory to store processed data
+Path("../data/processed").mkdir(parents=True, exist_ok=True)
 # export processed data to csv in the processed folder
 data_processed.to_csv("../data/processed/parks_processed.csv", index=False)
 
