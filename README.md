@@ -40,13 +40,6 @@ After running scripts 01-06:
 .
 ├── .github/
 │   └── workflows/
-├── outputs/
-│   ├── eda/
-│   │   ├── 01_rank_frequency.png
-│   │   ├── 02_rank-last-time_frequency.png
-│   │   └── 03_numerical_boxplots.png
-│   └── results/
-│       └── 04_actual-vs-predicted.png
 │
 ├── data/
 │   ├── raw/
@@ -65,6 +58,14 @@ After running scripts 01-06:
 │   ├── parks_analysis.ipynb
 │   ├── README.md
 │   └── .gitkeep
+│
+├── outputs/
+│   ├── eda/
+│   │   ├── 01_rank_frequency.png
+│   │   ├── 02_rank-last-time_frequency.png
+│   │   └── 03_numerical_boxplots.png
+│   └── results/
+│       └── 04_actual-vs-predicted.png
 │
 ├── scripts/
 │   ├── 01_download-data.py
