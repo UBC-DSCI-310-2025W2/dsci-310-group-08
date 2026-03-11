@@ -13,7 +13,7 @@ The dataset contains annual park system data for major U.S. cities up to 2021 an
 The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 
 ## Repository Structure
-Before running any scripts or after running script 7:
+Before running any scripts or after running script 07:
 ```
 .
 ├── .github/
@@ -35,46 +35,45 @@ Before running any scripts or after running script 7:
 ├── LICENSE.md
 └── README.md
 ```
-After running scripts 1-6:
+After running scripts 01-06:
 ```
 .
 ├── .github/
 │   └── workflows/
-├── artifacts/
+├── outputs/
 │   ├── eda/
-│   │   ├── 1_rank_frequency.png
-│   │   ├── 2_rank-last-time_frequency.png
-│   │   └── 3_numerical_boxplots.png
+│   │   ├── 01_rank_frequency.png
+│   │   ├── 02_rank-last-time_frequency.png
+│   │   └── 03_numerical_boxplots.png
 │   └── results/
-│       └── 4_actual-vs-predicted.png
+│       └── 04_actual-vs-predicted.png
 │
 ├── data/
-│   ├── processed/
-│   │   └── parks_processed.csv
 │   ├── raw/
 │   │   └── parks_raw.csv
-│   └── splits/
-│       ├── X_test.csv
-│       ├── X_train.csv
-│       ├── y_test.csv
-│       └── y_train.csv
-│ 
+│   └── processed/
+│       ├── parks_processed.csv
+│       ├── splits/
+│       │   ├── X_test.csv
+│       │   ├── X_train.csv
+│       │   ├── y_test.csv
+│       │   └── y_train.csv
+│       └── predictions/
+│           └── test_predictions.csv
+│
 ├── notebooks/
 │   ├── parks_analysis.ipynb
 │   ├── README.md
 │   └── .gitkeep
 │
-├── predictions/
-│   └── test_predictions.csv
-│
 ├── scripts/
-│   ├── 1_download-data.py
-│   ├── 2_process-data.py
-│   ├── 3_split-data.py
-│   ├── 4_eda.py
-│   ├── 5_regression.py
-│   ├── 6_results.py
-│   └── 7_clean.py
+│   ├── 01_download-data.py
+│   ├── 02_process-data.py
+│   ├── 03_split-data.py
+│   ├── 04_eda.py
+│   ├── 05_regression.py
+│   ├── 06_results.py
+│   └── 07_clean.py
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
