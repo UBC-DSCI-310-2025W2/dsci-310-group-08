@@ -46,13 +46,13 @@ After running scripts 01-06:
 │   │   └── parks_raw.csv
 │   └── processed/
 │       ├── parks_processed.csv
-│       ├── splits/
-│       │   ├── X_test.csv
-│       │   ├── X_train.csv
-│       │   ├── y_test.csv
-│       │   └── y_train.csv
 │       └── predictions/
 │           └── test_predictions.csv
+│       └── splits/
+│           ├── X_test.csv
+│           ├── X_train.csv
+│           ├── y_test.csv
+│           └── y_train.csv
 │
 ├── notebooks/
 │   ├── parks_analysis.ipynb
