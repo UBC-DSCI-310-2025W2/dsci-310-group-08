@@ -53,6 +53,3 @@ data_processed = data_processed.drop(columns=data_processed.filter(regex='data$'
 Path("../data/processed").mkdir(parents=True, exist_ok=True)
 # export processed data to csv in the processed folder
 data_processed.to_csv("../data/processed/parks_processed.csv", index=False)
-
-# verify the script works
-# print(data_processed.head(10)) 
