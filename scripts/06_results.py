@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 # import predictions for plot visualization
-y_preds_df = pd.read_csv("../predictions/test_predictions.csv")
+y_preds_df = pd.read_csv("../data/processed/predictions/test_predictions.csv")
 y_pred = y_preds_df["y_pred"]
 y_test = y_preds_df["y_true"]
 
@@ -15,5 +15,5 @@ plt.ylabel('Predicted')
 plt.title('Figure 4: Actual vs Predicted Ranks')
 
 # make directory to save the plot
-Path("../artifacts/results").mkdir(parents=True, exist_ok=True)
-plt.savefig("../artifacts/results/4_actual-vs-predicted.png")
+Path("../outputs/results").mkdir(parents=True, exist_ok=True)
+plt.savefig("../outputs/results/04_actual-vs-predicted.png")
