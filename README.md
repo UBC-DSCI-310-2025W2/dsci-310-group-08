@@ -13,22 +13,69 @@ The dataset contains annual park system data for major U.S. cities up to 2021 an
 The report of this project can be found [here](notebooks/parks_analysis.ipynb).
 
 ## Repository Structure
+Before running any scripts or after running script 07:
 ```
 .
 ├── .github/
 │   └── workflows/
+│
 ├── data/
-│   ├── raw/
-│   │   ├── parks_raw.csv
-│   │   └── .gitkeep
-│   ├── processed/
-│   │   ├── parks_processed.csv
-│   │   └── .gitkeep
 │   └── README.md
+│
 ├── notebooks/
 │   ├── parks_analysis.ipynb
 │   ├── README.md
 │   └── .gitkeep
+│
+├── .gitignore
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── docker-compose.yml
+├── Dockerfile
+├── LICENSE.md
+└── README.md
+```
+After running scripts 01-06:
+```
+.
+├── .github/
+│   └── workflows/
+│
+├── data/
+│   ├── raw/
+│   │   └── parks_raw.csv
+│   └── processed/
+│       ├── parks_processed.csv
+│       └── predictions/
+│           └── test_predictions.csv
+│       └── splits/
+│           ├── X_test.csv
+│           ├── X_train.csv
+│           ├── y_test.csv
+│           └── y_train.csv
+│
+├── notebooks/
+│   ├── parks_analysis.ipynb
+│   ├── README.md
+│   └── .gitkeep
+│
+├── outputs/
+│   ├── eda/
+│   │   ├── 01_rank_frequency.png
+│   │   ├── 02_rank-last-time_frequency.png
+│   │   └── 03_numerical_boxplots.png
+│   └── results/
+│       └── 04_actual-vs-predicted.png
+│
+├── scripts/
+│   ├── 01_download-data.py
+│   ├── 02_process-data.py
+│   ├── 03_split-data.py
+│   ├── 04_eda.py
+│   ├── 05_regression.py
+│   ├── 06_results.py
+│   └── 07_clean.py
+│
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
