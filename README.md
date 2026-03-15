@@ -100,19 +100,31 @@ After running `make all`:
 ```
 
 ## Instructions
-**We use a Docker container image to make the computational environment reproducible for this project. You can interactively run, edit, and explore the project in Jupyter Lab by following the instructions below.**\
+**We use a Docker container image to make the computational environment reproducible for this project.**\
 *Please ignore the first two steps if you already have Docker set up.*
 - You will use Docker to recreate the computational environment for this analysis. For this, you will need a Docker account. You can sign up for a free one [here](https://app.docker.com/accounts/ljy0401).
 - After signing up and signing into the Docker Store, go [here](https://docs.docker.com/desktop/setup/install/windows-install/) and click on the “Get Docker Desktop” button on the right-hand side of the screen. Then follow the installation instructions on that screen to install the stable version.
+
+*If you want to interactively run our `.ipynb` noyebook, and/or edit any files (i.e., `.md` files, `Makefile`, `Dockerfile`, `.qmd` files, and etc.) in our project repositor, you can launch Jupyter Lab by following the instructions below:*
+
 - Open your terminal and navigate to the project's root directory using the `cd` command.
 - Make sure your Docker is running.
-- Run the following command to start the environment: `docker-compose up --build`.
+- Run the following command to start the environment: `docker-compose up --build jupyter`.
 - Once the container has launched, users need to navigate to a web browser (i.e., Chrome) and copy the URL `http://localhost:8887/lab` into their web browser to access Jupyter Lab.
 - Enter `dsci310_group_08` as the token/password to log into Jupyter Lab.
-- Next, in Jupyter Lab, navigate to the `/work` folder, you should be able to see all files and folders in our project repo there.
-- Open `/notebooks/parks_analysis.ipynb` and click **Kernel** > **Restart and runall** to run the entire analysis.
+- Next, in Jupyter Lab, you should be able to see all files and folders in our project repo there.
 - Once you are done, <kbd>CTRL</kbd>+<kbd>C</kbd> to stop and clean up the launched container.
 - Then type `docker-compose down` in the terminal.
+
+*If you want to use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats, please follow the instructions below:*
+
+- Open your terminal and navigate to the project's root directory using the `cd` command.
+- Make sure your Docker is running.
+- Run the following command to start the environment: `docker-compose run --rm --build make`.
+- Wait for the prompt to appear. You should see something like `(base) jovyan@xxxxxxxxxxxx:~/work$`
+- To clean up existing outputs and rendered Quarto reports, type `make clean` and press `ENTER`. 
+- To render the `.qmd` source file into `PDF` and `HTML` formats, type `make all` and press `ENTER`. 
+- After you finish your work, type `exit` and press `ENTER`.
 
 ## Dependencies
 - Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).

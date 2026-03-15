@@ -1,12 +1,23 @@
 services:
-    dsci310-project-group-08:
+    jupyter:
         build: .
         image: ljy0401/dsci310-project-group-08:latest
         stdin_open: true
         tty: true
         volumes:
             - .:/home/jovyan/work
+        working_dir: /home/jovyan/work
         ports:
             - 8887:8888
         environment:
             - JUPYTER_TOKEN=dsci310_group_08
+
+    make:
+        build: .
+        image: ljy0401/dsci310-project-group-08:latest
+        stdin_open: true
+        tty: true
+        volumes:
+            - .:/home/jovyan/work
+        working_dir: /home/jovyan/work
+        command: //bin/bash
