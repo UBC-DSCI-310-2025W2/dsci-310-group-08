@@ -23,3 +23,82 @@ format:
         embed-resources: true
 editor: source
 ---
+
+## Summary
+
+Urban parks play a crucial role in promoting health, well-being, and social cohesion within cities. Recognizing the importance of equitable access to high-quality parks, this project aims to analyze the characteristics of urban park systems in the United States, identify the factors most strongly associated with top-performing park systems, and predict a city's park access ranking, using a dataset from the **Trust for Public Land**’s ParkScore index up to 2021. 
+
+Our exploratory analysis revealed that while some metrics, like park size and land percentage, have consistent distributions across cities, others, like the percentage of the population living near a park, vary significantly. We developed a Ridge Regression model to predict a city's rank. After identifying and removing the `rank_last_time` feature to prevent data leakage, our final model achieved a strong performance with an R-squared value of $0.768$ on the test set.
+
+The results indicate that while temporal and geographical factors have the highest impact on rankings, specific actionable features like spending per resident and park access are the primary park-based predictors of a higher and better ranks. These findings suggest that urban planners can improve their city's standing by prioritizing investment and optimizing park locations to increase the number of residents within a 10-minute walk.
+
+## Introduction
+
+### Background Information
+
+In today's world, cities are expanding rapidly, while urban green space is declining. According to the Husqvarna Group Urban Green Space Insights (HUGSI) Report 2025, which uses AI and satellite data to measure green spaces in cities worldwide, between 2023 and 2024, the 516 cities analyzed recorded a loss of 95 million m² of green area - a loss equivalent to the size of Paris - primarily due to human activities such as construction and urban expansion. Among the analyzed cities, 73% show a negative development. North America stands at a 37% average urban green space, among the middle of all regions. In contrast, the Nordic region stands out as a green hub, hosting some of the greenest cities globally, with an impressive 49% share of urban green space and an average urban tree canopy cover of 35% (“Urban Green Space”).
+
+Researchers have found that people with greater access to greenspaces are 44% less likely to be diagnosed with an anxiety disorder, and that accessible greenspaces are known to improve cardiovascular health, reduce obesity rates, prevent chronic diseases, reduce stress, and improve mood. Reports from the National Recreation and Park Association also suggest that physical activity in greenspaces has stronger mental health benefits than physical activity in non-greenspaces ("The Fundamentals of Urban Greenspaces"). These facts highlight how essential greenspaces are for both physical and mental well-being, but beyond these benefits are long-term sustainable benefits to the community. Parks also serve as communal hubs where people from all walks of life can meet, socialize, and build relationships. With increased social cohesion comes more engaged and committed communities more likely to take responsibility for maintaining these spaces, making them safer, more welcoming, and better cared for, ensuring the space remains a valuable resource for future generations.
+
+In addition, modern urban lifestyle is associated with chronic stress, insufficient physical activity and exposure to anthropogenic environmental hazards. Urban green spaces, such as parks, playgrounds, and residential greenery, can promote mental and physical health, and reduce morbidity and mortality in urban residents by providing psychological relaxation and stress alleviation, stimulating social cohesion, supporting physical activity, and reducing exposure to air pollutants, noise and excessive heat (World Health Organization). 
+
+However, it's also important to note that not all communities have equal access, and that it's crucial to engage with the community in a way that is both meaningful and equitable. If the park doesn’t reflect the cultural identity of a community, it can become a space that feels alienating, rather than inclusive, and it can actually cause more harm than good to individuals of the surrounding community. Capital Trees' "The Fundamentals of Urban Greenspaces" references an article from the American Planning Association, which asks three fundamental questions when designing parks and public spaces:
+- Who is Helped: engage communities to help address systemic inequities, provide equal access to recreational resources, serve as spaces for cultural expression, healing, and collective action, and prioritize the needs of all groups, so that parks can become tools for social justice, equity, and well-being.
+- Who is Harmed: how a lack of inclusive engagement perpetuates existing inequalities or historical injustices by neglecting the voices of those who are already marginalized or underrepresented financially, physically, culturally, and psychologically. 
+- Who is Missing: actively seek typically underrepresented voices for whom parks might be designed in ways that do not consider safety concerns, such as vulnerable populations, including people with disabilities, children, and seniors. 
+
+Access to greenspaces shouldn’t be a privilege; it should be a right. Because not all communities have equal access, we believe that there is a need for scores, indexes, and metrics like the ParkScore index that allow parks to be ranked on many different metrics, such as such as park amenities, to help improve community experiences. Designing parks and green spaces that are accessible, equitable, meet the environmental needs of the area, and consider community and cultural needs, can bring mental and physical benefits to individuals as well as help reduce health disparaties. When everyone, especially vulnerable populations, has access to high-quality, inclusive greenspaces, the community as a whole thrives. Investing in community engagement through parks and greenspaces is about building healthier, happier, and more equitable communities for the future, and we intend to explore this in our project.
+
+### Research Question
+
+The objective of this project is to investigate whether characteristics of a city's park system can be used to predict its park access ranking and determine the ranks of cities among the top-performing park systems in the United States. Specifically, we ask: **Can features describing park availability, amenities, and investment be used to predict a city’s ranking in the Trust for Public Land’s ParkScore index?**
+
+To answer this question, we developed a regression model that predicts a city's park system rank based on several explanatory variables, including park size, percentage of city land dedicated to parks, access to parks, spending per resident, and availability of amenities such as playgrounds, dog parks, and recreation facilities. By examining how these features relate to park rankings, we aim to identify which characteristics are most strongly associated with higher-performing park systems.
+
+Understanding these relationships and identifying the features that distinguish top-ranked cities may help urban planners and policymakers better understand the factors that contribute to successful park systems and guide decisions about future investments in public green spaces.
+
+Proposed Research Question: Can we predict a city’s park access ranking based on park characteristics and population features such as total park acreage, number of parks, population size, and population density?
+
+### About the Dataset
+
+The dataset used in this analysis contains information about park systems across major cities in the United States up to 2021 and is sourced from the **ParkScore index**, developed by the **Trust for Public Land**, whose mission is to ensure that every American has access to a good quality park within a 10-minute walking distance. The ParkScore index evaluates park systems in the largest U.S. cities based on several metrics, including park access, acreage, investment, and amenities. 
+
+For this project, we use a version of the dataset provided through the **TidyTuesday** repository, which compiles publicly available datasets for data analysis and visualization practice, and can be accessed [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md).
+
+Each observation in the dataset represents a U.S. city in a given year and contains variables describing characteristics of the city’s park system. These include measures such as median park size, percentage of city area dedicated to parks, percentage of residents living near a park, park spending per resident, and availability of park amenities such as playgrounds, dog parks, basketball courts, and recreation or senior centers.
+
+The main goal of collecting the data was to assess if the residents of major US cities had sufficient access to parks, and to measure and rank the quality of each city's parks. The dataset is publicly hosted on GitHub, ensuring maximum reproducibility. You can read more about Trust for Public Land's initiative [here](https://www.tpl.org/parks-and-an-equitable-recovery-parkscore-report). 
+
+## Methods & Results
+
+### Data Wrangling and Cleaning
+
+We load data from the original source on the web. Here, we present the first 5 rows of the raw data.
+
+We can see that the original raw dataset has 713 rows and 28 columns. Then, we will perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
+
+Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we will extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decide to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We will also then remove data from year 2012, 2013, and 2014 because there are so many missing values in those rows, which will not help with building a predictive model.
+
+We noticed that more than 10% of the data in columns `restroom_data`, `restroom_points`, `splashground_data`, `splashground_points`, `total_points`, `total_pct`, `city_dup`, and `park_benches` are missing, with some columns approaching 50%. Therefore, we decided to drop these columns as advanced data imputation methods are also beyond the scope of this course.
+
+There are a total of more than 100 cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We will manually map each city into a state.
+
+Finally, we will convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!
+
+Finally, we can review the processed dataset and export it as a CSV to the `/data/processed` directory, and now we are ready to proceed!
+
+### Exploratory Data Analysis & Visualization
+
+### Regression Analysis 
+
+### Results & Visualizations
+
+## Discussion & Summary of Our Findings
+
+### Interpretation and Expectations
+
+### Impact of Our Findings and Practical Implications
+
+### Limitations and Improvements
+
+## References

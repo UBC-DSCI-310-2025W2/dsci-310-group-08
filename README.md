@@ -122,9 +122,9 @@ After running `make all`:
 - Make sure your Docker is running.
 - Run the following command to start the environment: `docker-compose run --rm --build make`.
 - Wait for the prompt to appear. You should see something like `(base) jovyan@xxxxxxxxxxxx:~/work$`
-- To clean up existing outputs and rendered Quarto reports, type `make clean` and press `ENTER`. 
-- To render the `.qmd` source file into `PDF` and `HTML` formats, type `make all` and press `ENTER`. 
-- After you finish your work, type `exit` and press `ENTER`.
+- To clean up existing outputs and rendered Quarto reports, type `make clean` and press <kbd>ENTER</kbd>. 
+- To render the `.qmd` source file into `PDF` and `HTML` formats, type `make all` and press <kbd>ENTER</kbd>. 
+- After you finish your work, type `exit` and press <kbd>ENTER</kbd>.
 
 ## Dependencies
 - Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).
