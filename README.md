@@ -14,7 +14,7 @@ The `.ipynb` notebook report of this project can be found [here](reports/parks_a
 
 The `.qmd` Quarto report file can be found [here](reports/parks_analysis.qmd).
 
-The rendered `HTML` report can be found [here](docs/index.html), and the rendered `PDF` report can be found [here](docs/index.pdf).
+The rendered `HTML` report can be found [here](https://ubc-dsci-310-2025w2.github.io/dsci-310-group-08/), and the rendered `PDF` report can be found [here](docs/index.pdf).
 
 ## Repository Structure
 Before running `make all`, or after running `make clean`:
@@ -29,6 +29,7 @@ Before running `make all`, or after running `make clean`:
 ├── reports/
 │   ├── parks_analysis.ipynb
 |   ├── parks_analysis.qmd
+|   ├── references.bib
 │   ├── README.md
 │   └── .gitkeep
 │
@@ -67,6 +68,7 @@ After running `make all`:
 ├── reports/
 │   ├── parks_analysis.ipynb
 |   ├── parks_analysis.qmd
+|   ├── references.bib
 │   ├── README.md
 │   └── .gitkeep
 │
