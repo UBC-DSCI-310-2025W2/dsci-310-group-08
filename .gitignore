@@ -210,4 +210,10 @@ __marimo__/
 .DS_Store
 
 # The processed data
+data/raw
 data/processed
+data/splits
+predictions/
+
+# ignore the outputs
+outputs/
