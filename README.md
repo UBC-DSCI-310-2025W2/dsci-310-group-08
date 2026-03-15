@@ -10,10 +10,14 @@ By identifying the features that distinguish top-ranked cities, this model could
 The dataset contains annual park system data for major U.S. cities up to 2021 and is sourced from the Trust for Public Land’s ParkScore index. The data was obtained from the TidyTuesday repository and can be accessed [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md)
 
 ## Report
-The report of this project can be found [here](notebooks/parks_analysis.ipynb).
+The `.ipynb` notebook report of this project can be found [here](reports/parks_analysis.ipynb).
+
+The `.qmd` Quarto report file can be found [here](reports/parks_analysis.qmd).
+
+The rendered `HTML` report can be found [here](docs/index.html), and the rendered `PDF` report can be found [here](docs/index.pdf).
 
 ## Repository Structure
-Before running any scripts or after running script 07:
+Before running `make all`, or after running `make clean`:
 ```
 .
 ├── .github/
@@ -22,8 +26,9 @@ Before running any scripts or after running script 07:
 ├── data/
 │   └── README.md
 │
-├── notebooks/
+├── reports/
 │   ├── parks_analysis.ipynb
+|   ├── parks_analysis.qmd
 │   ├── README.md
 │   └── .gitkeep
 │
@@ -35,7 +40,7 @@ Before running any scripts or after running script 07:
 ├── LICENSE.md
 └── README.md
 ```
-After running scripts 01-06:
+After running `make all`:
 ```
 .
 ├── .github/
@@ -54,8 +59,13 @@ After running scripts 01-06:
 │           ├── y_test.csv
 │           └── y_train.csv
 │
-├── notebooks/
+|── docs/
+│   ├── index.html
+│   └── index.pdf
+|
+├── reports/
 │   ├── parks_analysis.ipynb
+|   ├── parks_analysis.qmd
 │   ├── README.md
 │   └── .gitkeep
 │
