@@ -8,12 +8,12 @@ all: docs/index.html \
 
 # render quarto report in HTML and PDF
 docs/index.html: reports/parks_analysis.qmd
-	quarto render reports/parks_analysis.qmd --to html --output-dir ../docs \
-	--output index.html
+	quarto render reports/parks_analysis.qmd --to html --output-dir ../docs/ 
+	mv docs/parks_analysis.html docs/index.html
 
 docs/index.pdf: reports/parks_analysis.qmd
-	quarto render reports/parks_analysis.qmd --to pdf --output-dir ../docs \
-	--output index.pdf
+	quarto render reports/parks_analysis.qmd --to pdf --output-dir ../docs/ 
+	mv docs/parks_analysis.pdf docs/index.pdf
 
 # clean
 clean:
