@@ -17,6 +17,7 @@ RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.26/
 
 # Install TinyTeX for PDF rendering
 RUN quarto install tinytex --no-prompt
+RUN chown -R ${NB_USER}:users /home/jovyan
 
 # Switch back to the standard user
 USER ${NB_USER}
