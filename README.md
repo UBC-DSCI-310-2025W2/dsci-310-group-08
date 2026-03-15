@@ -38,6 +38,7 @@ Before running `make all`, or after running `make clean`:
 ├── docker-compose.yml
 ├── Dockerfile
 ├── LICENSE.md
+├── MAKEFILE
 └── README.md
 ```
 After running `make all`:
@@ -92,6 +93,7 @@ After running `make all`:
 ├── docker-compose.yml
 ├── Dockerfile
 ├── LICENSE.md
+├── MAKEFILE
 └── README.md
 ```
 
