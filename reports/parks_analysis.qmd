@@ -1,0 +1,25 @@
+---
+title: "Predicting Park Access Rankings Across U.S. Cities"
+subtitle: "DSCI 310 Group 08"
+author: "Shivani Aggarwal, Luna Gulec, Jingyuan Liu, Sarenna Ulman"
+execute: 
+    warning: false
+    echo: false
+# bibliography: references.bib
+format: 
+    html:
+        toc: true
+        toc-depth: 3
+        page-layout: article
+        embed-resources: true
+        format-links: false
+        other-links:
+          - text: PDF Report
+            icon: file-pdf
+            href: index.pdf
+    pdf: 
+        toc: true
+        toc-depth: 3
+        embed-resources: true
+editor: source
+---

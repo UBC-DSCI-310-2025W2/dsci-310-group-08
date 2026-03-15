@@ -15,5 +15,8 @@ RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.26/
     && gdebi --n quarto-1.8.26-linux-amd64.deb \
     && rm quarto-1.8.26-linux-amd64.deb
 
+# Install TinyTeX for PDF rendering
+RUN quarto install tinytex --no-prompt
+
 # Switch back to the standard user
 USER ${NB_USER}

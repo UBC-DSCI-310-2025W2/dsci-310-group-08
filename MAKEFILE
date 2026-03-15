@@ -1,0 +1,21 @@
+# author: Shivani Aggarwal, Luna Gulec, Jingyuan Liu, Sarenna Ulman
+# date: 2026-03-15
+
+.PHONY: all clean
+
+all: docs/index.html \
+	docs/index.pdf
+
+# render quarto report in HTML and PDF
+docs/index.html: reports/parks_analysis.qmd
+	quarto render reports/parks_analysis.qmd --to html --output-dir ../docs \
+	--output index.html
+
+docs/index.pdf: reports/parks_analysis.qmd
+	quarto render reports/parks_analysis.qmd --to pdf --output-dir ../docs \
+	--output index.pdf
+
+# clean
+clean:
+	rm -rf reports/parks_analysis_files
+	rm -rf docs
