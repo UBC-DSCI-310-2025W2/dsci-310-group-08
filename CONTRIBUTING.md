@@ -3,7 +3,7 @@
 
 - We welcome all contributions to this project!
 If you notice a bug, or have a feature request,
-please open up an issue [here](https://github.com/UBC-DSCI-310-2025W2/dsci-310-group-08/issues). We aim to respond to all issues within 7 days. 
+please open up an issue [here](https://github.com/UBC-DSCI-310-2025W2/dsci-310-group-08/issues). We aim to respond to all issues and review pull requests within 7 days. 
 
 - For core group members, you should follow the [GitHub Flow workflow](https://docs.github.com/en/get-started/using-github/github-flow) for all changes. In particular, you should follow the following steps:
     1. Create a new branch from `main` with a descriptive name.
@@ -19,6 +19,5 @@ please open up an issue [here](https://github.com/UBC-DSCI-310-2025W2/dsci-310-g
     2. Clone your forked repository locally and create a new branch with a descriptive name.
     3. Commit and push new changes to your fork.
     4. Submit a Pull Request from your fork's branch back to our main branch.
-We will review pull requests within 7 days.
 
 - All contributors must abide by our [code of conduct](CODE_OF_CONDUCT.md).
