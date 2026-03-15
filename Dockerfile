@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gdebi-core \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install the EXACT Quarto version you have locally
+# Install Quarto
 RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.26/quarto-1.8.26-linux-amd64.deb \
     && gdebi --n quarto-1.8.26-linux-amd64.deb \
     && rm quarto-1.8.26-linux-amd64.deb
