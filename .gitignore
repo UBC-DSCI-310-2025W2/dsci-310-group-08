@@ -215,5 +215,5 @@ data/processed
 data/splits
 predictions/
 
-# ignore the artifacts 
-artifacts/
+# ignore the outputs
+outputs/
