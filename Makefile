@@ -19,3 +19,6 @@ docs/index.pdf: reports/parks_analysis.qmd
 clean:
 	rm -rf reports/parks_analysis_files
 	rm -rf docs
+	rm -rf data/raw
+	rm -rf data/processed
+	rm -rf outputs

@@ -33,13 +33,22 @@ Before running `make all`, or after running `make clean`:
 │   ├── README.md
 │   └── .gitkeep
 │
+├── scripts/
+│   ├── 01_download-data.py
+│   ├── 02_process-data.py
+│   ├── 03_split-data.py
+│   ├── 04_eda.py
+│   ├── 05_regression.py
+│   ├── 06_results.py
+│   └── 07_clean.py
+|
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── docker-compose.yml
 ├── Dockerfile
 ├── LICENSE.md
-├── MAKEFILE
+├── Makefile
 └── README.md
 ```
 After running `make all`:
@@ -49,12 +58,13 @@ After running `make all`:
 │   └── workflows/
 │
 ├── data/
+│   ├── README.md
 │   ├── raw/
 │   │   └── parks_raw.csv
 │   └── processed/
 │       ├── parks_processed.csv
-│       └── predictions/
-│           └── test_predictions.csv
+│       |── predictions/
+│       |   └── test_predictions.csv
 │       └── splits/
 │           ├── X_test.csv
 │           ├── X_train.csv
@@ -95,7 +105,7 @@ After running `make all`:
 ├── docker-compose.yml
 ├── Dockerfile
 ├── LICENSE.md
-├── MAKEFILE
+├── Makefile
 └── README.md
 ```
 
@@ -105,7 +115,7 @@ After running `make all`:
 - You will use Docker to recreate the computational environment for this analysis. For this, you will need a Docker account. You can sign up for a free one [here](https://app.docker.com/accounts/ljy0401).
 - After signing up and signing into the Docker Store, go [here](https://docs.docker.com/desktop/setup/install/windows-install/) and click on the “Get Docker Desktop” button on the right-hand side of the screen. Then follow the installation instructions on that screen to install the stable version.
 
-*If you want to interactively run our `.ipynb` noyebook, and/or edit any files (i.e., `.md` files, `Makefile`, `Dockerfile`, `.qmd` files, and etc.) in our project repositor, you can launch Jupyter Lab by following the instructions below:*
+*If you want to interactively run our `.ipynb` noyebook, and/or edit any files (i.e., `.md` files, `Makefile`, `Dockerfile`, `.qmd` files, and etc.) in our project repository, you can launch Jupyter Lab by following the instructions below:*
 
 - Open your terminal and navigate to the project's root directory using the `cd` command.
 - Make sure your Docker is running.
