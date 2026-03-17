@@ -17,7 +17,7 @@ The `.qmd` Quarto report file can be found [here](reports/parks_analysis.qmd).
 The rendered `HTML` report can be found [here](https://ubc-dsci-310-2025w2.github.io/dsci-310-group-08/), and the rendered `PDF` report can be found [here](docs/index.pdf).
 
 ## Repository Structure
-Before running `make all`, or after running `make clean`:
+Before running `make all` (Windows) or `make` (MacOS), or after running `make clean`:
 ```
 .
 ├── .github/
@@ -51,7 +51,7 @@ Before running `make all`, or after running `make clean`:
 ├── Makefile
 └── README.md
 ```
-After running `make all`:
+After running `make all` (Windows) or `make` (MacOS):
 ```
 .
 ├── .github/
