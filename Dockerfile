@@ -10,11 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gdebi-core \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Quarto
-# RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.26/quarto-1.8.26-linux-amd64.deb \
-#     && gdebi --n quarto-1.8.26-linux-amd64.deb \
-#     && rm quarto-1.8.26-linux-amd64.deb
-
 # Install Quarto (auto-detect architecture: amd64 for Windows/Intel, arm64 for Apple Silicon)
 RUN ARCH=$(dpkg --print-architecture) \
     && curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.26/quarto-1.8.26-linux-${ARCH}.deb \
@@ -22,8 +17,6 @@ RUN ARCH=$(dpkg --print-architecture) \
     && rm quarto-1.8.26-linux-${ARCH}.deb
 
 # Install TinyTeX for PDF rendering
-# RUN quarto install tinytex --no-prompt
-
 RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh \
     && /home/jovyan/.TinyTeX/bin/*/tlmgr path add
 
