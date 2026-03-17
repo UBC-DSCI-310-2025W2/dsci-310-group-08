@@ -210,14 +210,10 @@ __marimo__/
 .DS_Store
 
 # The processed data
-# data/raw/
-# data/processed/
-data/raw/parks_raw.csv
-data/processed/parks_processed.csv
+data/raw/
+data/processed/
 data/processed/splits
 data/processed/predictions/
 
 # ignore the outputs
-# outputs/
-outputs/eda
-outputs/results
+outputs/
