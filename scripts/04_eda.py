@@ -7,29 +7,24 @@ import seaborn as sns
 @click.command()
 @click.option(
     "--splits_path",
-    # default="../data/processed/splits"
     required=True,
     type=click.Path(exists=True)
 )
 @click.option(
     "--outputs_path",
-    # default="../outputs/eda"
     required=True,
     type=click.Path()
 )
 @click.option(
     "--fig1_name",
-    # default="01_rank_frequency.png"
     required=True
 )
 @click.option(
     "--fig2_name",
-    # default="02_rank-last-time_frequency.png"
     required=True
 )
 @click.option(
     "--fig3_name",
-    # default="03_numerical_boxplots.png"
     required=True
 )
 

@@ -6,19 +6,16 @@ from pathlib import Path
 @click.command()
 @click.option(
     "--predictions_path",
-    # default="../data/processed/predictions/test_predictions.csv"
     required=True,
     type=click.Path(exists=True)
 )
 @click.option(
     "--outputs_path",
-    # default="../outputs/results"
     required=True,
     type=click.Path()
 )
 @click.option(
     "--fig_name",
-    # default="04_actual-vs-predicted.png"
     required=True,
     type=click.Path()
 )
