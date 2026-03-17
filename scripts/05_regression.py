@@ -11,11 +11,15 @@ from pathlib import Path
 @click.command()
 @click.option(
     "--splits_path",
-    default="../data/processed/splits"
+    # default="../data/processed/splits"
+    required=True,
+    type=click.Path(exists=True)
 )
 @click.option(
     "--predictions_path",
-    default="../data/processed/predictions/test_predictions.csv"
+    # default="../data/processed/predictions/test_predictions.csv"
+    required=True,
+    type=click.Path()
 )
 
 def regression(splits_path, predictions_path):
