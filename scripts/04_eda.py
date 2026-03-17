@@ -7,23 +7,25 @@ import seaborn as sns
 @click.command()
 @click.option(
     "--splits_path",
-    default="../data/processed/splits"
+    required=True,
+    type=click.Path(exists=True)
 )
 @click.option(
     "--outputs_path",
-    default="../outputs/eda"
+    required=True,
+    type=click.Path()
 )
 @click.option(
     "--fig1_name",
-    default="01_rank_frequency.png"
+    required=True
 )
 @click.option(
     "--fig2_name",
-    default="02_rank-last-time_frequency.png"
+    required=True
 )
 @click.option(
     "--fig3_name",
-    default="03_numerical_boxplots.png.png"
+    required=True
 )
 
 def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
@@ -40,7 +42,7 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
     plt.hist(y_train, bins = 12, edgecolor='black')
     plt.xlabel("Rank")
     plt.ylabel("Frequency")
-    plt.title("Figure 1: Ordinal Rank vs Value Frequency in the Training Set");
+    # plt.title("Figure 1: Ordinal Rank vs Value Frequency in the Training Set");
     plt.savefig(outputs_path / fig1_name)
     # clear plot
     plt.clf()
@@ -68,4 +70,3 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
 
 if __name__ == "__main__":
     eda()
-    

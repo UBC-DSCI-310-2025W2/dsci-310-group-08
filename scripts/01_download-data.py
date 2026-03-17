@@ -7,12 +7,14 @@ from pathlib import Path
 # add option to specify input path
 @click.option(
     "--input_path",
-    default="https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-06-22/parks.csv"
+    required=True,
+    type=click.Path(exists=True)
 )
 # add option to specify output path
 @click.option(
     "--output_path",
-    default="../data/raw/parks_raw.csv"
+    required=True,
+    type=click.Path()
 )
 
 def download_data(input_path, output_path):

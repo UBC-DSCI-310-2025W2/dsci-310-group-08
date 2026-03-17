@@ -5,11 +5,13 @@ from pathlib import Path
 @click.command()
 @click.option(
     "--raw_path",
-    default="../data/raw/parks_raw.csv"
+    required=True,
+    type=click.Path(exists=True)
 )
 @click.option(
     "--processed_path",
-    default="../data/processed/parks_processed.csv"
+    required=True,
+    type=click.Path()
 )
 
 def process_data(raw_path, processed_path):

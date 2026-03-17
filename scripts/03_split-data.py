@@ -6,11 +6,13 @@ from pathlib import Path
 @click.command()
 @click.option(
     "--data_path",
-    default="../data/processed/parks_processed.csv"
+    required=True,
+    type=click.Path(exists=True)
 )
 @click.option(
     "--splits_path",
-    default="../data/processed/splits"
+    required=True,
+    type=click.Path()
 )
 
 def split_data(data_path, splits_path):
