@@ -31,7 +31,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
 # RUN quarto install tinytex --no-prompt
 
 RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh \
-    && /root/.TinyTeX/bin/*/tlmgr path add
+    && /home/jovyan/.TinyTeX/bin/*/tlmgr path add
 
 RUN chown -R ${NB_USER}:users /home/jovyan
 
