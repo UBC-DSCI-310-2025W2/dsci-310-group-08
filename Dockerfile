@@ -21,12 +21,6 @@ RUN ARCH=$(dpkg --print-architecture) \
     && gdebi --non-interactive quarto-1.8.26-linux-${ARCH}.deb \
     && rm quarto-1.8.26-linux-${ARCH}.deb
 
-# Install Quarto (Architecture Aware)
-RUN ARCH=$(dpkg --print-architecture) && \
-    curl -LO "https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.26/quarto-1.8.26-linux-${ARCH}.deb" && \
-    gdebi --n "quarto-1.8.26-linux-${ARCH}.deb" && \
-    rm "quarto-1.8.26-linux-${ARCH}.deb"
-
 # Install TinyTeX for PDF rendering
 # RUN quarto install tinytex --no-prompt
 
