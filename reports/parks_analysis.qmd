@@ -124,6 +124,41 @@ Finally, we can review the processed dataset and export it as a CSV to the `/dat
 
 ### Exploratory Data Analysis & Visualization
 
+Before conducting exploratory analysis, we split the data into training and test sets, so as to avoid touching the test data and accidentally learn its characteristics during analysis. We save `{python} pct_test` of the data as the test set and set it aside.
+
+```{python}
+# percentage of data is test set
+data_processed = pd.read_csv("../data/processed/parks_processed.csv")
+X_train = pd.read_csv("../data/processed/splits/X_train.csv")
+y_train = pd.read_csv("../data/processed/splits/y_train.csv")
+X_test = pd.read_csv("../data/processed/splits/X_test.csv")
+y_test = pd.read_csv("../data/processed/splits/y_test.csv")
+
+data_processed_len = data_processed.shape[0]
+X_test_len = X_test.shape[0]
+
+pct_test = round((X_test_len / data_processed_len) * 100, 0)
+
+# distribution of ranks
+y_train_min = y_train.min()
+y_train_max = y_train.max()
+y_train_mean = round(y_train.mean(), 3)
+y_train_median = y_train.median()
+y_train_mode = statistics.mode(y_train)
+```
+
+Here is the distribution of ranks in the training set:
+- Minimum rank: `{python} y_train_min`
+- Maximum rank: `{python} y_train_max`
+- Average rank: `{python} y_train_mean`
+- Median rank: `{python} y_train_median`
+- Most common rank: `{python} y_train_mode`
+
+![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=30%}
+
+The ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
+
+
 ### Regression Analysis 
 
 ### Results & Visualizations

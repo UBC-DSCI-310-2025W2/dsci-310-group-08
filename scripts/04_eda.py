@@ -42,7 +42,7 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
     plt.hist(y_train, bins = 12, edgecolor='black')
     plt.xlabel("Rank")
     plt.ylabel("Frequency")
-    plt.title("Figure 1: Ordinal Rank vs Value Frequency in the Training Set");
+    # plt.title("Figure 1: Ordinal Rank vs Value Frequency in the Training Set");
     plt.savefig(outputs_path / fig1_name)
     # clear plot
     plt.clf()
@@ -70,4 +70,3 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
 
 if __name__ == "__main__":
     eda()
-    
