@@ -73,7 +73,7 @@ After running `make all`:
 │   │   ├── .gitkeep
 │   │   └── parks_raw.csv
 │   └── processed/
-│   │   ├── .gitkeep
+│       ├── .gitkeep
 │       ├── parks_processed.csv
 │       |── predictions/
 │       |   └── test_predictions.csv
