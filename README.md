@@ -28,8 +28,7 @@ Before running `make all`, or after running `make clean`:
 │   ├── raw/
 │   │   └── .gitkeep
 │   └── processed/
-│       └── splits/
-│           └── .gitkeep
+│       └── .gitkeep
 │
 ├── outputs/
 │   ├── eda/
@@ -71,6 +70,7 @@ After running `make all`:
 │   ├── README.md
 │   ├── raw/
 │   │   ├── .gitkeep
+│   │   ├── data_dict.csv
 │   │   └── parks_raw.csv
 │   └── processed/
 │       ├── .gitkeep

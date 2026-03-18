@@ -11,6 +11,7 @@ format:
         toc: true
         toc-depth: 3
         page-layout: article
+        df-print: paged
         embed-resources: true
         format-links: false
         other-links:
@@ -61,7 +62,7 @@ Proposed Research Question: Can we predict a city’s park access ranking based 
 
 ### About the Dataset
 
-The dataset used in this analysis @jonthegeek_2021_park contains information about park systems across major cities in the United States up to 2021 and is sourced from the **ParkScore index**, developed by the **Trust for Public Land**, whose mission is to ensure that every American has access to a good quality park within a 10-minute walking distance. The ParkScore index evaluates park systems in the largest U.S. cities based on several metrics, including park access, acreage, investment, and amenities. 
+The dataset used in this analysis @jonthegeek_2021_park contains information about park systems across major cities in the United States up to 2021 and is sourced from the **ParkScore index**, developed by the **Trust for Public Land**, whose mission is to ensure that every American has access to a good quality park within a 10-minute walking distance. The ParkScore index evaluates park systems in the largest U.S. cities based on several metrics, including park access, acreage, investment, and amenities. The data dictionary is in @tbl-data_dict. The first 5 rows of the raw data is presented in @tbl-data_raw.
 
 For this project, we use a version of the dataset provided through the **TidyTuesday** repository [@datasciencelearningcommunity_2024_tidy], which compiles publicly available datasets for data analysis and visualization practice, and can be accessed [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md).
 
@@ -72,36 +73,15 @@ The main goal of collecting the data was to assess if the residents of major US 
 ### Data Dictionary
 **Note that "points" are essentially their yearly normalized values (higher points = better).**
 
-|variable                  |class     |description |
-|:-------------------------|:---------|:-----------|
-|year                      |double    | Year of measurement |
-|rank                      |double    | Yearly rank |
-|city                      |character | City Name |
-|med_park_size_data        |double    | Median park size acres |
-|med_park_size_points      |double    | Median park size in points |
-|park_pct_city_data        |character | Parkland as percentage of city area |
-|park_pct_city_points      |double    | Parkland as % of city area points |
-|pct_near_park_data        |character | Percent of residents within a 10 minute walk to park |
-|pct_near_park_points      |double    | Percent of residents within a 10 minute walk to park points |
-|spend_per_resident_data   |character | Spending per resident in USD |
-|spend_per_resident_points |double    | Spending per resident in points |
-|basketball_data           |double    | Basketball hoops per 10,000 residents |
-|basketball_points         |double    | Basketball hoops per 10,000 residents points |
-|dogpark_data              |double    | Dog parks per 100,000 residents|
-|dogpark_points            |double    | Dog parks per 100,000 residents points |
-|playground_data           |double    | Playgrounds per 10,000 residents |
-|playground_points         |double    | Playgrounds per 10,000 residents points |
-|rec_sr_data               |double    | Recreation and senior centers per 20,000 residents |
-|rec_sr_points             |double    | Recreation and senior centers per 20,000 residents points |
-|restroom_data             |double    | Restrooms per 10,000 residents |
-|restroom_points           |double    | Restrooms per 10,000 residents points |
-|splashground_data         |double    | Splashgrounds and splashpads per 100,000 residents |
-|splashground_points       |double    | Splashgrounds and splashpads per 100,000 residents points |
-|amenities_points          |double    | Amenities points total (ie play areas) |
-|total_points              |double    | Total points (varies in denominator per/year) |
-|total_pct                 |double    | Total points as a percentage|
-|city_dup                  |character | City duplicated name |
-|park_benches              |double    | Number of park benches|
+```{python}
+#| label: tbl-data_dict
+#| tbl-cap: This is the data dictionary.
+
+import pandas as pd
+data_dict = pd.read_csv("../data/raw/data_dict.csv")
+data_dict.style.hide(axis="index")
+```
+
 This can also be found at the data website [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md).
 
 ## Methods & Results
@@ -110,7 +90,15 @@ This can also be found at the data website [here](https://github.com/rfordatasci
 
 We load data from the original source on the web. Here, we present the first 5 rows of the raw data.
 
-We can see that the original raw dataset has 713 rows and 28 columns. Then, we will perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
+```{python}
+#| label: tbl-data_raw
+#| tbl-cap: This is the first 5 rows of the raw data.
+
+parks_raw = pd.read_csv("../data/raw/parks_raw.csv")
+parks_raw.head(5).style.hide(axis="index")
+```
+
+We can see that the original raw dataset has `{python} parks_raw.shape[0]` rows and `{python} parks_raw.shape[1]` columns. Then, we will perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
 
 Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we will extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decide to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We will also then remove data from year 2012, 2013, and 2014 because there are so many missing values in those rows, which will not help with building a predictive model.
 
@@ -120,44 +108,53 @@ There are a total of more than 100 cities in this dataset, but each city only ha
 
 Finally, we will convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!
 
-Finally, we can review the processed dataset and export it as a CSV to the `/data/processed` directory, and now we are ready to proceed!
+Finally, we can review the processed dataset and export it as a CSV to the `/data/processed` directory. We present the first 5 rows of the processed data below.
+
+```{python}
+#| label: tbl-data_processed
+#| tbl-cap: This is the first 5 rows of the processed data.
+
+parks_processed = pd.read_csv("../data/processed/parks_processed.csv")
+parks_processed.head(5).style.hide(axis="index")
+```
+
+Now we are ready to proceed! Our analysis is based on the processed data as shown in @tbl-data_processed.
 
 ### Exploratory Data Analysis & Visualization
 
-Before conducting exploratory analysis, we split the data into training and test sets, so as to avoid touching the test data and accidentally learn its characteristics during analysis. We save `{python} pct_test` of the data as the test set and set it aside.
-
 ```{python}
-# percentage of data is test set
-data_processed = pd.read_csv("../data/processed/parks_processed.csv")
-X_train = pd.read_csv("../data/processed/splits/X_train.csv")
-y_train = pd.read_csv("../data/processed/splits/y_train.csv")
-X_test = pd.read_csv("../data/processed/splits/X_test.csv")
-y_test = pd.read_csv("../data/processed/splits/y_test.csv")
+# # percentage of data is test set
+# data_processed = pd.read_csv("../data/processed/parks_processed.csv")
+# X_train = pd.read_csv("../data/processed/splits/X_train.csv")
+# y_train = pd.read_csv("../data/processed/splits/y_train.csv")
+# X_test = pd.read_csv("../data/processed/splits/X_test.csv")
+# y_test = pd.read_csv("../data/processed/splits/y_test.csv")
 
-data_processed_len = data_processed.shape[0]
-X_test_len = X_test.shape[0]
+# data_processed_len = data_processed.shape[0]
+# X_test_len = X_test.shape[0]
 
-pct_test = round((X_test_len / data_processed_len) * 100, 0)
+# pct_test = round((X_test_len / data_processed_len) * 100, 0)
 
-# distribution of ranks
-y_train_min = y_train.min()
-y_train_max = y_train.max()
-y_train_mean = round(y_train.mean(), 3)
-y_train_median = y_train.median()
-y_train_mode = statistics.mode(y_train)
+# # distribution of ranks
+# y_train_min = y_train.min()
+# y_train_max = y_train.max()
+# y_train_mean = round(y_train.mean(), 3)
+# y_train_median = y_train.median()
+# y_train_mode = statistics.mode(y_train)
+
+# Before conducting exploratory analysis, we split the data into training and test sets, so as to avoid touching the test data and accidentally learn its characteristics during analysis. We save `{python} pct_test` of the data as the test set and set it aside.
+
+# Here is the distribution of ranks in the training set:
+# - Minimum rank: `{python} y_train_min`
+# - Maximum rank: `{python} y_train_max`
+# - Average rank: `{python} y_train_mean`
+# - Median rank: `{python} y_train_median`
+# - Most common rank: `{python} y_train_mode`
+
+# ![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=30%}
+
+# The ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
 ```
-
-Here is the distribution of ranks in the training set:
-- Minimum rank: `{python} y_train_min`
-- Maximum rank: `{python} y_train_max`
-- Average rank: `{python} y_train_mean`
-- Median rank: `{python} y_train_median`
-- Most common rank: `{python} y_train_mode`
-
-![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=30%}
-
-The ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
-
 
 ### Regression Analysis 
 
