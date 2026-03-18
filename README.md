@@ -24,14 +24,24 @@ Before running `make all`, or after running `make clean`:
 │   └── workflows/
 │
 ├── data/
-│   └── README.md
+│   ├── README.md
+│   ├── raw/
+│   │   └── .gitkeep
+│   └── processed/
+│       └── splits/
+│           └── .gitkeep
 │
+├── outputs/
+│   ├── eda/
+│   │   └── .gitkeep
+│   └── results/
+│       └── .gitkeep
+|
 ├── reports/
 │   ├── parks_analysis.ipynb
 |   ├── parks_analysis.qmd
-|   ├── references.bib
-│   ├── README.md
-│   └── .gitkeep
+|   ├── README.md
+│   └── references.bib
 │
 ├── scripts/
 │   ├── 01_download-data.py
@@ -60,8 +70,10 @@ After running `make all`:
 ├── data/
 │   ├── README.md
 │   ├── raw/
+│   │   ├── .gitkeep
 │   │   └── parks_raw.csv
 │   └── processed/
+│   │   ├── .gitkeep
 │       ├── parks_processed.csv
 │       |── predictions/
 │       |   └── test_predictions.csv
@@ -74,21 +86,22 @@ After running `make all`:
 |── docs/
 │   ├── index.html
 │   └── index.pdf
-|
-├── reports/
-│   ├── parks_analysis.ipynb
-|   ├── parks_analysis.qmd
-|   ├── references.bib
-│   ├── README.md
-│   └── .gitkeep
 │
 ├── outputs/
 │   ├── eda/
+│   │   ├── .gitkeep
 │   │   ├── 01_rank_frequency.png
 │   │   ├── 02_rank-last-time_frequency.png
 │   │   └── 03_numerical_boxplots.png
 │   └── results/
+│       ├── .gitkeep
 │       └── 04_actual-vs-predicted.png
+|
+├── reports/
+│   ├── parks_analysis.ipynb
+|   ├── parks_analysis.qmd
+|   ├── README.md
+│   └── references.bib
 │
 ├── scripts/
 │   ├── 01_download-data.py
@@ -108,6 +121,8 @@ After running `make all`:
 ├── Makefile
 └── README.md
 ```
+
+*To keep the repository lightweight, processed data and output files are not tracked on GitHub. While the folder architecture remains visible on GitHub to preserve the project structure via `.gitkeep` files, the actual files will be generated locally as demonstrated above after running `make clean` followed by `make all`.*
 
 ## Instructions
 **We use a Docker container image to make the computational environment reproducible for this project.**\
