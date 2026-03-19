@@ -209,11 +209,8 @@ __marimo__/
 # System files
 .DS_Store
 
-# The processed data
-data/raw/
-data/processed/
-data/processed/splits
-data/processed/predictions/
+# The data
+**/*.csv
 
 # ignore the outputs
-outputs/
+**/*.png
