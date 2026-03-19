@@ -209,9 +209,6 @@ __marimo__/
 # System files
 .DS_Store
 
-# The processed data
-data/processed/**/*.csv
-
-# ignore the outputs
-outputs/**/*.csv
-outputs/**/*.png
+# Ignore the outputs and data files
+**/*.csv
+**/*.png

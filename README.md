@@ -122,7 +122,7 @@ After running `make all`:
 └── README.md
 ```
 
-*To keep the repository lightweight, processed data and output files are not tracked on GitHub. While the folder architecture remains visible on GitHub to preserve the project structure via `.gitkeep` files, the actual files will be generated locally as demonstrated above after running `make clean` followed by `make all`.*
+*To keep the repository lightweight, data files and output files are not tracked on GitHub. While the folder architecture remains visible on GitHub to preserve the project structure via `.gitkeep` files, the actual files will be generated locally as demonstrated above after running `make clean` followed by `make all`.*
 
 ## Instructions
 **We use a Docker container image to make the computational environment reproducible for this project.**\
