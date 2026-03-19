@@ -21,8 +21,7 @@ RUN wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh \
     && /home/jovyan/.TinyTeX/bin/*/tlmgr path add
 
 # Pre-install the specific packages causing the error
-RUN tlmgr update --self && \
-    tlmgr install koma-script caption xcolor
+RUN /home/jovyan/.TinyTeX/bin/*/tlmgr install koma-script caption xcolor
 
 RUN chown -R ${NB_USER}:users /home/jovyan
 
