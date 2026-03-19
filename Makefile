@@ -4,9 +4,10 @@
 .PHONY: all clean
 
 all: data/raw/parks_raw.csv \
+	data/processed/parks_processed.csv \
+	data/raw/data_dict.csv \
 	docs/index.html \
 	docs/index.pdf \
-	data/processed/parks_processed.csv \
 # 	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
 # 	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_numerical_boxplots.png \
 # 	data/processed/predictions/test_predictions.csv \
@@ -71,6 +72,6 @@ clean:
 	rm -rf data/processed/predictions
 	rm -rf data/processed/splits
 	rm -f data/raw/*.csv
-	rm -f data/processed/**/*.csv
+	rm -f data/processed/*.csv
 	rm -f outputs/**/*.csv
 	rm -f outputs/**/*.png
