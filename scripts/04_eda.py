@@ -27,8 +27,12 @@ import seaborn as sns
     "--fig3_name",
     required=True
 )
+@click.option(
+    "--fig4_name",
+    required=True
+)
 
-def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
+def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name, fig4_name):
     # import split data
     splits_path = Path(splits_path)
     X_train = pd.read_csv(splits_path / "X_train.csv")
@@ -42,7 +46,6 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
     plt.hist(y_train, bins = 12, edgecolor='black')
     plt.xlabel("Rank")
     plt.ylabel("Frequency")
-    # plt.title("Figure 1: Ordinal Rank vs Value Frequency in the Training Set");
     plt.savefig(outputs_path / fig1_name)
     # clear plot
     plt.clf()
@@ -51,22 +54,31 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name):
     plt.hist(X_train['rank_last_time'], bins = 12, edgecolor='black', color = 'green')
     plt.xlabel("Rank")
     plt.ylabel("Frequency")
-    plt.title("Figure 2: Previous Rank Value vs Frequency it Appears in the Training Set");
     plt.savefig(outputs_path / fig2_name)
     plt.clf()
     
-    # third plot - boxplot of point-based features
+    # third plot - scatterplot of current and previous ranks
+    plt.scatter(X_train['rank_last_time'], y_train['rank'], edgecolor='black')
+    plt.xlabel("Previous Rank")
+    plt.ylabel("Current Rank")
+    plt.savefig(outputs_path / fig3_name)
+    plt.clf()
+    
+    # fourth plot - boxplot of point-based features
     columns_to_plot = ['med_park_size_points', 'park_pct_city_points',
            'pct_near_park_points', 'spend_per_resident_points',
            'basketball_points', 'dogpark_points', 'playground_points',
            'rec_sr_points', 'amenities_points']
     
-    plt.figure(figsize=(10,9))
+    plt.figure(figsize=(10,6))
     sns.boxplot(data=X_train[columns_to_plot])
-    plt.title("Figure 3: Boxplots of the Point-based Features")
     plt.xticks(rotation=45, ha='right')
-    plt.subplots_adjust(bottom=0.5, left = 0.2)
-    plt.savefig((outputs_path / fig3_name), pad_inches=10)
+    plt.tight_layout()
+    plt.savefig(outputs_path / fig4_name)
+    
+    # training data summary table
+    train_summary = X_train.describe()
+    train_summary.to_csv(outputs_path / "X_train_summary.csv", index=True)
 
 if __name__ == "__main__":
     eda()
