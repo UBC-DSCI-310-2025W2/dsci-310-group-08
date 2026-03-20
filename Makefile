@@ -3,15 +3,16 @@
 
 .PHONY: all clean
 
-all: data/raw/parks_raw.csv \
+all: data/raw/parks_raw.csv data/raw/data_dict.csv \
 	data/processed/parks_processed.csv \
 	data/raw/data_dict.csv \
+	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
+	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv\
 	docs/index.html \
 	docs/index.pdf \
-# 	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
-# 	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_numerical_boxplots.png \
 # 	data/processed/predictions/test_predictions.csv \
-# 	outputs/results/04_actual-vs-predicted.png 
+# 	outputs/results/04_actual-vs-predicted.png
+
 
 # run scripts
 
@@ -29,20 +30,21 @@ data/processed/parks_processed.csv: data/raw/parks_raw.csv scripts/02_process-da
 		--raw_path=data/raw/parks_raw.csv \
 		--processed_path=data/processed/parks_processed.csv
 
-# # script 03
-# data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv: data/processed/parks_processed.csv scripts/03_split-data.py
-# 	python scripts/03_split-data.py \
-# 		--data_path=data/processed/parks_processed.csv \
-# 		--splits_path=data/processed/splits
+# script 03
+data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv: data/processed/parks_processed.csv scripts/03_split-data.py
+	python scripts/03_split-data.py \
+		--data_path=data/processed/parks_processed.csv \
+		--splits_path=data/processed/splits
 
 # # script 04
-# outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_numerical_boxplots.png: data/processed/splits/X_train.csv data/processed/splits/y_train.csv scripts/04_eda.py
-# 	python scripts/04_eda.py \
-# 		--splits_path=data/processed/splits \
-# 		--outputs_path=outputs/eda \
-# 		--fig1_name=01_rank_frequency.png \
-# 		--fig2_name=02_rank-last-time_frequency.png \
-# 		--fig3_name=03_numerical_boxplots.png
+outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv: data/processed/splits/X_train.csv data/processed/splits/y_train.csv scripts/04_eda.py
+	python scripts/04_eda.py \
+		--splits_path=data/processed/splits \
+		--outputs_path=outputs/eda \
+		--fig1_name=01_rank_frequency.png \
+		--fig2_name=02_rank-last-time_frequency.png \
+		--fig3_name=03_rank_rank-last-time_scatter.png \
+		--fig4_name=04_numerical_boxplots.png
 
 # # script 05
 # data/processed/predictions/test_predictions.csv: data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv scripts/05_regression.py
@@ -69,9 +71,9 @@ docs/index.pdf: reports/parks_analysis.qmd data outputs
 # clean
 clean:
 	rm -rf docs
-	rm -rf data/processed/predictions
-	rm -rf data/processed/splits
 	rm -f data/raw/*.csv
 	rm -f data/processed/*.csv
+	rm -f data/processed/**/*.csv
 	rm -f outputs/**/*.csv
 	rm -f outputs/**/*.png
+	rm -rf reports/parks_analysis_files
