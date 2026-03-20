@@ -183,12 +183,13 @@ X_train_summary
 ```{python}
 # stats from summary table
 n_rows = int(X_train_summary.loc['count', 'med_park_size_points'])
-max_points = int(X_train_summary.loc['max', 'park_pct_city_points'])
+max_points_1 = int(X_train_summary.loc['max', 'park_pct_city_points'])
+max_points_2 = int(X_train_summary.loc['max', 'pct_near_park_points'])
 mean_min = round(X_train_summary.loc['mean'].min(), 1)
-mean_max = round(X_train_summary.loc['mean'].max(), 1)
+mean_max = round(X_train_summary.loc['mean'].drop('year').max(), 1)
 ```
 
-The first thing to note is that every column has `{python} n_rows` values, meaning all of the NA values were successfully removed. Most of the point scales are out of `{python} max_points`, and the average number of points hovers between `{python} mean_min`-`{python} mean_max` points in all categories.
+The first thing to note is that every column has `{python} n_rows` values, meaning all of the NA values were successfully removed. Most of the point scales are out of `{python} max_points_1` or `{python} max_points_2`, and the average number of points hovers between `{python} mean_min`-`{python} mean_max` points in all categories.
 
 Since we expect previous ranks to be quite important in predicting the current rank, we will look at the distribution of the feature `rank_last_time`.
 

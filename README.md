@@ -92,7 +92,9 @@ After running `make all`:
 │   │   ├── .gitkeep
 │   │   ├── 01_rank_frequency.png
 │   │   ├── 02_rank-last-time_frequency.png
-│   │   └── 03_numerical_boxplots.png
+│   │   ├── 03_rank_rank-last-time_scatter.png
+│   │   ├── 04_numerical_boxplots.png
+│   │   └── X_train_summary.csv
 │   └── results/
 │       ├── .gitkeep
 │       └── 04_actual-vs-predicted.png

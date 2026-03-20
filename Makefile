@@ -5,7 +5,6 @@
 
 all: data/raw/parks_raw.csv data/raw/data_dict.csv \
 	data/processed/parks_processed.csv \
-	data/raw/data_dict.csv \
 	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
 	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv\
 	docs/index.html \
@@ -73,7 +72,8 @@ clean:
 	rm -rf docs
 	rm -f data/raw/*.csv
 	rm -f data/processed/*.csv
-	rm -f data/processed/**/*.csv
+	rm -rf data/processed/splits
+	rm -rf data/processed/predictions
 	rm -f outputs/**/*.csv
 	rm -f outputs/**/*.png
 	rm -rf reports/parks_analysis_files
