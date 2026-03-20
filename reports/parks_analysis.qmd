@@ -75,7 +75,7 @@ The main goal of collecting the data was to assess if the residents of major US 
 
 ```{python}
 #| label: tbl-data_dict
-#| tbl-cap: This is the data dictionary.
+#| tbl-cap: Parks Ranking Data Dictionary.
 
 import pandas as pd
 data_dict = pd.read_csv("../data/raw/data_dict.csv")
@@ -92,7 +92,7 @@ We load data from the original source on the web. Here, we present the first 5 r
 
 ```{python}
 #| label: tbl-data_raw
-#| tbl-cap: This is the first 5 rows of the raw data.
+#| tbl-cap: Raw Data Sample
 
 parks_raw = pd.read_csv("../data/raw/parks_raw.csv")
 parks_raw.head(5).style.hide(axis="index")
@@ -100,19 +100,34 @@ parks_raw.head(5).style.hide(axis="index")
 
 We can see that the original raw dataset has `{python} parks_raw.shape[0]` rows and `{python} parks_raw.shape[1]` columns. Then, we will perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
 
-Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we will extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decide to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We will also then remove data from year 2012, 2013, and 2014 because there are so many missing values in those rows, which will not help with building a predictive model.
+```{python}
+# quantifying NaN values
+missing_year_data = parks_raw[parks_raw['year'].isin([2012, 2013, 2014])].isna().sum().max()
+missing_year_data_pct = missing_year_data / parks_raw.shape[0]
 
-We noticed that more than 10% of the data in columns `restroom_data`, `restroom_points`, `splashground_data`, `splashground_points`, `total_points`, `total_pct`, `city_dup`, and `park_benches` are missing, with some columns approaching 50%. Therefore, we decided to drop these columns as advanced data imputation methods are also beyond the scope of this course.
+cols = ['restroom_data', 'restroom_points', 'splashground_data', 'splashground_points', 
+        'total_points', 'total_pct', 'city_dup', 'park_benches']
+missing_cols_data = parks_raw[cols].isna().sum()
+max_missing_cols_data = missing_cols_data.max() / parks_raw.shape[0]
+min_missing_cols_data = missing_cols_data.min() / parks_raw.shape[0]
 
-There are a total of more than 100 cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We will manually map each city into a state.
+# quantifying cities
+n_city = parks_raw.city.nunique()
+```
 
-Finally, we will convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!
+Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we will extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decide to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We also then remove data from year 2012, 2013, and 2014 because `{python} round(missing_year_data_pct * 100, 1)`% of values are missing in those rows, which will not help with building a predictive model.
 
-Finally, we can review the processed dataset and export it as a CSV to the `/data/processed` directory. We present the first 5 rows of the processed data below.
+We noticed that more than `{python} round(min_missing_cols_data*100, 1)`% of the data in columns `restroom_data`, `restroom_points`, `splashground_data`, `splashground_points`, `total_points`, `total_pct`, `city_dup`, and `park_benches` is missing, with some columns approaching `{python} round(max_missing_cols_data*100, 1)`%. Therefore, we decided to drop these columns as advanced data imputation methods are also beyond the scope of this course.
+
+There are a total of more than `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state.
+
+Finally, we convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!
+
+Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 
 ```{python}
 #| label: tbl-data_processed
-#| tbl-cap: This is the first 5 rows of the processed data.
+#| tbl-cap: Processed Data Sample
 
 parks_processed = pd.read_csv("../data/processed/parks_processed.csv")
 parks_processed.head(5).style.hide(axis="index")
@@ -123,38 +138,77 @@ Now we are ready to proceed! Our analysis is based on the processed data as show
 ### Exploratory Data Analysis & Visualization
 
 ```{python}
-# # percentage of data is test set
-# data_processed = pd.read_csv("../data/processed/parks_processed.csv")
-# X_train = pd.read_csv("../data/processed/splits/X_train.csv")
-# y_train = pd.read_csv("../data/processed/splits/y_train.csv")
-# X_test = pd.read_csv("../data/processed/splits/X_test.csv")
-# y_test = pd.read_csv("../data/processed/splits/y_test.csv")
+# splitting data
+X_train = pd.read_csv("../data/processed/splits/X_train.csv")
+y_train = pd.read_csv("../data/processed/splits/y_train.csv")
+X_test = pd.read_csv("../data/processed/splits/X_test.csv")
+y_test = pd.read_csv("../data/processed/splits/y_test.csv")
 
-# data_processed_len = data_processed.shape[0]
-# X_test_len = X_test.shape[0]
+# percentage of data in test set
+pct_test = X_test.shape[0] / parks_processed.shape[0]
 
-# pct_test = round((X_test_len / data_processed_len) * 100, 0)
+# distribution of ranks
+y_train_min = y_train.min().item()
+y_train_max = y_train.max().item()
+y_train_mean = round(y_train.mean().item(), 3)
+y_train_median = y_train.median().item()
+y_train_mode = y_train.mode().iloc[0].item()
 
-# # distribution of ranks
-# y_train_min = y_train.min()
-# y_train_max = y_train.max()
-# y_train_mean = round(y_train.mean(), 3)
-# y_train_median = y_train.median()
-# y_train_mode = statistics.mode(y_train)
-
-# Before conducting exploratory analysis, we split the data into training and test sets, so as to avoid touching the test data and accidentally learn its characteristics during analysis. We save `{python} pct_test` of the data as the test set and set it aside.
-
-# Here is the distribution of ranks in the training set:
-# - Minimum rank: `{python} y_train_min`
-# - Maximum rank: `{python} y_train_max`
-# - Average rank: `{python} y_train_mean`
-# - Median rank: `{python} y_train_median`
-# - Most common rank: `{python} y_train_mode`
-
-# ![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=30%}
-
-# The ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
 ```
+
+Before conducting exploratory analysis, we split the data into training and test sets, so as to avoid touching the test data and accidentally learn its characteristics during analysis. We save `{python} round(pct_test*100, 0)`% of the data as the test set and set it aside.
+
+Here is the distribution of ranks (our target variable) in the training set:
+
+- Minimum rank: `{python} y_train_min`
+- Maximum rank: `{python} y_train_max`
+- Average rank: `{python} y_train_mean`
+- Median rank: `{python} y_train_median`
+- Most common rank: `{python} y_train_mode`
+
+![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=70%}
+
+From @fig-rank_freq, we can see that the ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
+
+Here, we have the summary of the featuring in the training data in @tbl-training_summary.
+
+```{python}
+#| label: tbl-training_summary
+#| tbl-cap: Summary of the Training Features
+
+X_train_summary = pd.read_csv("../outputs/eda/X_train_summary.csv", index_col=0)
+X_train_summary
+```
+
+```{python}
+# stats from summary table
+n_rows = int(X_train_summary.loc['count', 'med_park_size_points'])
+max_points = int(X_train_summary.loc['max', 'park_pct_city_points'])
+mean_min = round(X_train_summary.loc['mean'].min(), 1)
+mean_max = round(X_train_summary.loc['mean'].max(), 1)
+```
+
+The first thing to note is that every column has `{python} n_rows` values, meaning all of the NA values were successfully removed. Most of the point scales are out of `{python} max_points`, and the average number of points hovers between `{python} mean_min`-`{python} mean_max` points in all categories.
+
+Since we expect previous ranks to be quite important in predicting the current rank, we will look at the distribution of the feature `rank_last_time`.
+
+![Previous Rank Value vs Frequency it Appears in the Training Set](../outputs/eda/02_rank-last-time_frequency.png){#fig-rank_last_freq width=70%}
+
+In @fig-rank_last_freq, we see a similar distribution as the target variable, with a decent majority of the ranks being on the lower half of the spectrum. Due to its similarity to the target variable, it is important to check the correlation between `rank_last_time` and `rank`.
+
+![Previous Rank vs Current Rank](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=70%}
+
+```{python}
+rank_corr = X_train['rank_last_time'].corr(y_train['rank']).item()
+```
+
+We can see it in the scatterplot in @fig-rank_scatter that the two variables are almost perfectly correlated with a correlation of `{python} round(rank_corr*100, 0)`%. This either means that `rank_last_time` is a strong predictor for `rank` or that it presents data leakage by acting as a proxy for `rank`. To prevent the potential data leakage problem, we will remove `rank_last_time` as a feature before setting up the predictive model.
+
+Lastly, let's inspect the distributions of the point-based features in a more visually interpretable boxplot. We are also be able to check for outliers this way.
+
+![Boxplots of the Point-based Features](../outputs/eda/04_numerical_boxplots.png){#fig-num_boxplot}
+
+@fig-num_boxplot shows that the medians are relatively similar, except for `pct_near_park_points`, and that most columns have similar standard deviations. Something to note is every feature, with the exception for `amenities_points`, has several outliers. Additionally, the features `med_park_size_points` and `park_pct_city_points` have nearly identical distributions.
 
 ### Regression Analysis 
 
