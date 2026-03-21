@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import Ridge
-from sklearn.model_selection import cross_validate, RandomizedSearchCV
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.preprocessing import OneHotEncoder
 from scipy.stats import loguniform
 import click
 from pathlib import Path
@@ -30,17 +30,17 @@ def regression(splits_path, predictions_path):
     
     # manually recoding the year feature as a category since it did not persist from storing the data as a csv
     X_train['year'] = X_train['year'].astype('category')
+    X_test['year'] = X_test['year'].astype('category')
     
     # isolating different types of features
     categorical_features = X_train.select_dtypes(include=["object", "string", "category"]).drop(columns=['city']).columns.tolist()
-    numerical_features = X_train.select_dtypes(include=['int', 'float']).columns.tolist()
-    numerical_features.remove('rank_last_time')
+    numerical_features = X_train.select_dtypes(include=['int', 'float']).drop(columns=['rank_last_time']).columns.tolist()
     drop_features = ['city', 'rank_last_time']
     
     # preprocessor
     preprocessor = make_column_transformer(
         (OneHotEncoder(handle_unknown='ignore'), categorical_features),
-        (StandardScaler(), numerical_features),
+        ("passthrough", numerical_features),
         ("drop", drop_features)
     )
     
@@ -50,24 +50,28 @@ def regression(splits_path, predictions_path):
     # hyperparameter tuning
     param_grid = {'ridge__alpha': loguniform(1e-3, 1e3)}
     
-    grid_search = RandomizedSearchCV(pipe, param_distributions=param_grid, random_state=123,
-                                     n_iter=100, n_jobs=-1, return_train_score=True)
+    grid_search = RandomizedSearchCV(
+        pipe, param_distributions=param_grid, random_state=73, n_iter=100, n_jobs=-1, return_train_score=True
+        )
     grid_search.fit(X_train, y_train)
+        
+    # new model pipeline using tuned alpha
+    final_pipe = make_pipeline(preprocessor, Ridge(alpha=grid_search.best_params_['ridge__alpha']))
+    final_pipe.fit(X_train, y_train)
     
     # get feature names after preprocessing
-    feature_names = grid_search.best_estimator_.named_steps['columntransformer'].get_feature_names_out()
+    feature_names = final_pipe.named_steps['columntransformer'].get_feature_names_out()
     
     # zip into a dataframe
     train_coef_df = pd.DataFrame({
         'feature': feature_names,
-        'coefficient': grid_search.best_estimator_.named_steps['ridge'].coef_
+        'coefficient': final_pipe.named_steps['ridge'].coef_
     }).sort_values('coefficient', key=abs, ascending=False)
     
-    train_coef_df['feature'] = train_coef_df['feature'].str.replace('onehotencoder__', '').str.replace('standardscaler__', '')
+    train_coef_df['feature'] = train_coef_df['feature'].str.replace('onehotencoder__', '').str.replace('passthrough__', '')
     
-    pipe.fit(X_train, y_train)
-    
-    y_pred = pipe.predict(X_test)
+    # predict on test data
+    y_pred = final_pipe.predict(X_test)
     
     # store predictions to be called by script 6 - results
     y_preds_df = pd.DataFrame({
@@ -77,9 +81,19 @@ def regression(splits_path, predictions_path):
 
     # create directory for predictions and write predictions to directory
     predictions_path = Path(predictions_path)
-    predictions_path.parent.mkdir(parents=True, exist_ok=True)
+    predictions_path.mkdir(parents=True, exist_ok=True)
+    
+    # save best alpha and the corresponding accuracy score from grid search to csv
+    pd.DataFrame({
+        'best_alpha': [grid_search.best_params_['ridge__alpha']],
+        'best_score': [grid_search.best_score_]
+        }).to_csv(predictions_path / "grid_search_results.csv", index=False)
+    
+    # save coefficients learned by the model
+    train_coef_df.to_csv(predictions_path / "model_coef.csv", index=False)
+    
     # export processed data to csv in the processed folder
-    y_preds_df.to_csv(predictions_path, index=False)
+    y_preds_df.to_csv(predictions_path / "y_predictions.csv", index=False)
 
 if __name__ == "__main__":
     regression()
