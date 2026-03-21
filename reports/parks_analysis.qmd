@@ -336,7 +336,7 @@ Second, the dataset contains relative competitive rankings rather than absolute 
 
 Third, some variables that we believe are still important in this context and that may influence park rankings are not included in this dataset, such as park maintenance quality, safety, user satisfaction, or environmental conditions. Including such variables might improve predictive accuracy and provide deeper insights into the factors that determine park system performance. 
 
-Finally, we decided to remove the `rank_last_year`feature, because the previous ranking may not always be available when we try to predict the new ranking, and because of data leakage. We wanted our model to rely more on temporal and geographical features and be able to produce an accurate prediction without the proxy feature of the previous ranking. So, while removing `rank_last_year` improved the fairness of the model and allowed us to focus more on the other features, it also removed a feature that potentially contained strong predictive information. As a result, the model may not capture some missing context that naturally exists in park rankings, which may have been an interesting addition to have.
+Finally, we decided to remove the `rank_last_year` feature, because the previous ranking may not always be available when we try to predict the new ranking, and because of data leakage. We wanted our model to rely more on temporal and geographical features and be able to produce an accurate prediction without the proxy feature of the previous ranking. So, while removing `rank_last_year` improved the fairness of the model and allowed us to focus more on the other features, it also removed a feature that potentially contained strong predictive information. As a result, the model may not capture some missing context that naturally exists in park rankings, which may have been an interesting addition to have.
 provements
 
 ### Future Work and Further Questions
@@ -351,7 +351,7 @@ Investigating equity in park access would also be interesting. While this analys
 
 Finally, sustainability would also be an important feature to incorporate, adding a sustainability ranking among the other features, as sustainability for future generations is important in this context.
 
-Some follow up questions we have include:
+Some follow up questions we have include: <br>
 - How do we ensure that every person has access to a quality park? <br>
 - Out of the features that are both important in predicting rank and can be changed, which ones are the easiest and cheapest to improve in a park? <br>
 - What would the coefficients of the features look like if every park was ranked on a scale of 1 to 10 instead of being ranked competitively? Would the coefficients change significantly? <br>
