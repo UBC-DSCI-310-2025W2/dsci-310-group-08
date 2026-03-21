@@ -22,7 +22,7 @@ from pathlib import Path
 
 def results(predictions_path, outputs_path, fig_name):
     # import predictions for plot visualization
-    y_preds_df = pd.read_csv(predictions_path / "test_predictions.csv")
+    y_preds_df = pd.read_csv(predictions_path)
     y_pred = y_preds_df["y_pred"]
     y_test = y_preds_df["y_true"]
     

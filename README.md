@@ -9,7 +9,7 @@ By identifying the features that distinguish top-ranked cities, this model could
 
 The dataset contains annual park system data for major U.S. cities up to 2021 and is sourced from the Trust for Public Land’s ParkScore index. The data was obtained from the TidyTuesday repository and can be accessed [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md)
 
-## Report
+## Reports
 The `.ipynb` notebook report of this project can be found [here](reports/parks_analysis.ipynb).
 
 The `.qmd` Quarto report file can be found [here](reports/parks_analysis.qmd).
@@ -97,7 +97,9 @@ After running `make all`:
 │   │   └── X_train_summary.csv
 │   └── results/
 │       ├── .gitkeep
-│       └── 04_actual-vs-predicted.png
+│       ├── 05_actual-vs-predicted.png
+│       ├── grid_search_results.csv
+│       └── model_coef.csv
 |
 ├── reports/
 │   ├── parks_analysis.ipynb

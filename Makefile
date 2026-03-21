@@ -7,7 +7,7 @@ all: data/raw/parks_raw.csv data/raw/data_dict.csv \
 	data/processed/parks_processed.csv \
 	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
 	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv\
-	data/processed/predictions/grid_search_results.csv data/processed/predictions/model_coef.csv data/processed/predictions/test_predictions.csv \
+	outputs/results/grid_search_results.csv outputs/results/model_coef.csv data/processed/predictions/test_predictions.csv \
 	outputs/results/05_actual-vs-predicted.png \
 	docs/index.html \
 	docs/index.pdf
@@ -45,10 +45,11 @@ outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png ou
 		--fig4_name=04_numerical_boxplots.png
 
 # script 05
-data/processed/predictions/grid_search_results.csv data/processed/predictions/model_coef.csv data/processed/predictions/test_predictions.csv: data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv scripts/05_regression.py
+outputs/results/grid_search_results.csv outputs/results/model_coef.csv data/processed/predictions/test_predictions.csv: data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv scripts/05_regression.py
 	python scripts/05_regression.py \
 		--splits_path=data/processed/splits \
-		--predictions_path=data/processed/predictions
+		--predictions_path=data/processed/predictions \
+		--predictions_result_path=outputs/results
 
 # script 06
 outputs/results/05_actual-vs-predicted.png: data/processed/predictions/test_predictions.csv scripts/06_results.py

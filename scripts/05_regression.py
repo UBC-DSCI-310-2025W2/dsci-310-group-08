@@ -20,7 +20,13 @@ from pathlib import Path
     type=click.Path()
 )
 
-def regression(splits_path, predictions_path):
+@click.option(
+    "--predictions_result_path",
+    required=True,
+    type=click.Path()
+)
+
+def regression(splits_path, predictions_path, predictions_result_path):
     # import split datasets
     splits_path = Path(splits_path)
     X_train = pd.read_csv(splits_path / "X_train.csv")
@@ -83,14 +89,17 @@ def regression(splits_path, predictions_path):
     predictions_path = Path(predictions_path)
     predictions_path.mkdir(parents=True, exist_ok=True)
     
+    predictions_result_path = Path(predictions_result_path)
+    predictions_result_path.mkdir(parents=True, exist_ok=True)
+    
     # save best alpha and the corresponding accuracy score from grid search to csv
     pd.DataFrame({
         'best_alpha': [grid_search.best_params_['ridge__alpha']],
         'best_score': [grid_search.best_score_]
-        }).to_csv(predictions_path / "grid_search_results.csv", index=False)
+        }).to_csv(predictions_result_path / "grid_search_results.csv", index=False)
     
     # save coefficients learned by the model
-    train_coef_df.to_csv(predictions_path / "model_coef.csv", index=False)
+    train_coef_df.to_csv(predictions_result_path / "model_coef.csv", index=False)
     
     # export processed data to csv in the processed folder
     y_preds_df.to_csv(predictions_path / "test_predictions.csv", index=False)
