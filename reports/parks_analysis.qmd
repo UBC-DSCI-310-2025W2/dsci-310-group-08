@@ -294,11 +294,11 @@ Checking the coefficient values of the features that do not involve the year or 
 #| label: tbl-coef_no_year_state
 #| tbl-cap: Coefficients excluding year and state features
 
-coef_year_state = coef_df[~coef_df["feature"].str.contains("year|state", case=False)]
+coef_year_state = model_coef[~model_coef["feature"].str.contains("year|state", case=False)]
 coef_year_state
 ```
 
-Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. After removing the feature `rank_last_time`, which introduced data leakage, the model achieved a test score of approximately $0.77$ and showed no signs of underfitting or overfitting, indicating that the available park system characteristics still explain a significant portion ($77%$) of the variation in rankings. Also, the residual terms are well distributed and don't show a clear pattern, indicating that our model fits the data well and caputes a reasonable amount of underlying structure in the data. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities do contribute meaningfully to how cities are ranked in the ParkScore system. 
+Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. After removing the feature `rank_last_time`, which introduced data leakage, the model achieved a test score of approximately `{python} round(test_r2*100, 1)`% and showed no signs of underfitting or overfitting, indicating that the available park system characteristics still explain a significant portion (`{python} round(test_r2*100, 1)`%) of the variation in rankings. Also, the residual terms are well distributed and don't show a clear pattern, indicating that our model fits the data well and caputes a reasonable amount of underlying structure in the data. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities do contribute meaningfully to how cities are ranked in the ParkScore system. 
 
 Among the predictor variables, it is interesting to see that the `year` and `state` features had such a large impact on the prediction, with the highest magnitude coefficients. Intuitively, the rankings should not depend that much simply on the year in which the measurements were taken. However, this is somewhat to be expected, and it suggests that park rankings vary significantly across time and location. 
 
@@ -318,11 +318,11 @@ Additionally, several `state` indicators had relatively large coefficients, whic
 
 ### Impact of Our Findings and Practical Implications
 
-Since the most important features corresponded to immutable attributes, our results don't suggest many actionable changes. However, if we only look at the point-based features, we were able to uncover some meaningful relationships between point-based park characteristics and rankings. The results particularly suggest that cities seeking to improve their park rankings may benefit from focusing on: 
-- Increasing the total size of your park within city boundaries 
-- Increasing the percentage of residents within a 10 minute walking distance
-- Increasing public spending on park systems
-- Improving park amenties and recreational facilities. 
+Since the most important features corresponded to immutable attributes, our results don't suggest many actionable changes. However, if we only look at the point-based features, we were able to uncover some meaningful relationships between point-based park characteristics and rankings. The results particularly suggest that cities seeking to improve their park rankings may benefit from focusing on:  <br>
+- Increasing the total size of your park within city boundaries  <br>
+- Increasing the percentage of residents within a 10 minute walking distance <br>
+- Increasing public spending on park systems <br>
+- Improving park amenties and recreational facilities. <br>
 
 These factors are directly tied to park accessibility and quality, which are key components of urban livability. Urban planners and policymakers could use insights from models like this to better understand which aspects of park infrastructure contribute most strongly to overall system performance. Improving park accessibility and investment may also support public health, environmental sustainability, and social equity, since access to green space has been associated with improved physical activity, mental health, and community well-being.
 
@@ -330,7 +330,7 @@ These factors are directly tied to park accessibility and quality, which are key
 
 Despite its usefulness, our analysis has several limitations.
 
-First, ridge regression produces continuous predictions, which means that predicted rankings can fall outside of the valid range of rankings. In our final scatterplot visualization of *Actual vs. Predicted Ranks* in **Figure 4**, we can see that some predicted values were negative, which is not possible for real park rankings. This occurs because linear models like ridge regression can theoretically produce prediction values ranging from −∞ to +∞. To address this, we could explore alternative modelling approaches that may be better suited for ranking or count-based outcomes, such as ordinal regression or Poisson regression, which are commonly used to model count data, and which may produce predictions that better reflect the discrete nature of rankings. However, this is beyond the scope of this course, so we will state it as a limitation of our selected model.
+First, ridge regression produces continuous predictions, which means that predicted rankings can fall outside of the valid range of rankings. In our final scatterplot visualization of *Actual vs. Predicted Ranks* in @fig-actual_vs_predicted, we can see that some predicted values were negative, which is not possible for real park rankings. This occurs because linear models like ridge regression can theoretically produce prediction values ranging from −∞ to +∞. To address this, we could explore alternative modelling approaches that may be better suited for ranking or count-based outcomes, such as ordinal regression or Poisson regression, which are commonly used to model count data, and which may produce predictions that better reflect the discrete nature of rankings. However, this is beyond the scope of this course, so we will state it as a limitation of our selected model.
 
 Second, the dataset contains relative competitive rankings rather than absolute scores. For instance, a city's rank may change even if its park system remains unchanged, simply because other cities improved or worsened, which introduces additional variability that is not able to be captured by the available features. One possible way around this could be using absolute scoring rather than competitive rankings, which might better reflect improvements in park systems over time and allow models to focus directly on park characteristics rather than relative comparisons between cities.
 
@@ -352,7 +352,7 @@ Investigating equity in park access would also be interesting. While this analys
 Finally, sustainability would also be an important feature to incorporate, adding a sustainability ranking among the other features, as sustainability for future generations is important in this context.
 
 Some follow up questions we have include:
-- How do we ensure that every person has access to a quality park? 
-- Out of the features that are both important in predicting rank and can be changed, which ones are the easiest and cheapest to improve in a park?
-- What would the coefficients of the features look like if every park was ranked on a scale of 1 to 10 instead of being ranked competitively? Would the coefficients change significantly? 
+- How do we ensure that every person has access to a quality park? <br>
+- Out of the features that are both important in predicting rank and can be changed, which ones are the easiest and cheapest to improve in a park? <br>
+- What would the coefficients of the features look like if every park was ranked on a scale of 1 to 10 instead of being ranked competitively? Would the coefficients change significantly? <br>
 - How would the results change if we added a sustainability ranking?
