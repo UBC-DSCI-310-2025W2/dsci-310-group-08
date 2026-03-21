@@ -225,148 +225,7 @@ Before implementing the model on the data, we optimize the regularization hyperp
 
 Now, we fit the model on the training data using *alpha =* `{python} round(best_alpha, 4)` and evaluate its performance on the test set.
 
-Since our target variable `rank` is a discrete numerical variable ranging from 1 to `{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We process the categorical variables `state` and `year` using one hot encoding to convert them into numerical data. We drop `city` as a feature as it perfectly correlates with `state`. We also scale all numerical features to a standardized scale.
-
-```{python}
-# isolating different types of features
-categorical_features = X_train.select_dtypes(include=['category']).drop(columns=['city']).columns.tolist()
-numerical_features = X_train.select_dtypes(include=['int', 'float']).columns.tolist()
-drop_features = ['city']
-
-# preprocessor
-preprocessor = make_column_transformer(
-    (OneHotEncoder(handle_unknown='ignore'), categorical_features),
-    (StandardScaler(), numerical_features),
-    ("drop", drop_features)
-)
-
-# model pipeline
-pipe = make_pipeline(preprocessor, Ridge())
-```
-
-Before implementing the model on the data, we optimize the regularization hyperparameter $alpha$ through randomized grid search. This tests the model performance using different values of $alpha$ and selects the one that results in the best performance.
-
-```{python}
-# hyperparameter tuning
-param_grid = {'ridge__alpha': loguniform(1e-3, 1e3)}
-
-grid_search = RandomizedSearchCV(pipe, param_distributions=param_grid, random_state=123,
-                                n_iter=100, n_jobs=-1, return_train_score=True)
-grid_search.fit(X_train, y_train)
-
-# results
-print(f"Best alpha: {grid_search.best_params_['ridge__alpha']:.4f}")
-print(f"Best performance: {grid_search.best_score_:.4f}")
-```
-
-This model can predict `rank` with an almost perfect accuracy of `{python} round(grid_search.best_score_, 4)`. This seems a bit unrealistic so let's take a look at the coefficients to see if there are any unexpected relationships.
-
-```{python}
-# get feature names after preprocessing
-feature_names = grid_search.best_estimator_.named_steps['columntransformer'].get_feature_names_out()
-
-# zip into a dataframe
-train_coef_df = pd.DataFrame({
-    'feature': feature_names,
-    'coefficient': grid_search.best_estimator_.named_steps['ridge'].coef_
-}).sort_values('coefficient', key=abs, ascending=False)
-
-train_coef_df['feature'] = train_coef_df['feature'].str.replace('onehotencoder__', '').str.replace('standardscaler__', '')
-
-train_coef_df.head(10)
-```
-
-We can see that `rank_last_time` was skewing the results. This is expected as it technically serves as a proxy to `rank`. Since park quality within a city is unlikely to change dramatically from year to year, including the previous year’s ranking introduced data leakage and led the model to rely too heavily on past rankings rather than learning relationships between park characteristics and ParkScore rank. 
-
-Therefore, we will build another model without `rank_last_time` to evaluate its effectiveness. After dropping `rank_last_time`, we would be left with perfectly standardized numerical features, and therefore, they would not require any scaling anymore.
-
-```{python}
-# removing rank_last_time
-numerical_features.remove('rank_last_time')
-drop_features.append('rank_last_time')
-
-# preprocessor
-preprocessor_new = make_column_transformer(
-    (OneHotEncoder(handle_unknown='ignore'), categorical_features),
-    ("passthrough", numerical_features),
-    ("drop", drop_features)
-)
-
-# model pipeline
-pipe_new = make_pipeline(preprocessor, Ridge())
-```
-
-```{python}
-# hyperparameter tuning
-grid_search_new = RandomizedSearchCV(pipe_new, param_distributions=param_grid, random_state=123,
-                                    n_iter=100, n_jobs=-1, return_train_score=True)
-grid_search_new.fit(X_train, y_train)
-# results
-print(f"Best alpha: {grid_search_new.best_params_['ridge__alpha']:.4f}")
-print(f"Best performance: {grid_search_new.best_score_:.4f}")
-```
-
-The optimized value of $alpha$ for the final model is `{python} round(grid_search_new.best_params_['ridge__alpha'], 4)`, with a performance score of `{python} round(grid_search_new.best_score_, 4)`.
-
-This looks like a much more realistic result. Now we will fit the model on the training data using `{python} round(grid_search_new.best_params_['ridge__alpha'], 4)` and evaluate its performance on the test set.
-
-```{python}
-# predictions
-final_pipe = make_pipeline(preprocessor, Ridge(alpha=grid_search_new.best_params_['ridge__alpha']))
-final_pipe.fit(X_train, y_train)
-
-round(final_pipe.score(X_test, y_test), 4)
-```
-
-Finally, the model achieved a test score of `{python} round(final_pipe.score(X_test, y_test), 4)` on the test set.
-
 ### Results & Visualizations
-The model performed well on the testing data. To better understand the relationships between predictor variables and the target, we examine the model coefficients.
-
-```{python}
-# get feature names after preprocessing
-feature_names = final_pipe.named_steps['columntransformer'].get_feature_names_out()
-
-# zip into a dataframe
-coef_df = pd.DataFrame({
-    'feature': feature_names,
-    'coefficient': final_pipe.named_steps['ridge'].coef_
-}).sort_values('coefficient', key=abs, ascending=False)
-
-coef_df['feature'] = coef_df['feature'].str.replace('onehotencoder__', '').str.replace('standardscaler__', '')
-```
-
-```{python}
-#| label: tbl-top10-features
-#| tbl-cap: Top 10 Features
-
-coef_df = pd.read_csv("../outputs/results/coefficients.csv")
-coef_df.head(10)
-```
-
-```{python}
-#| label: tbl-bottom5-features
-#| tbl-cap: Bottom 5 Features
-
-coef_df = pd.read_csv("../outputs/results/coefficients.csv")
-coef_df.tail(5)
-```
-
-Since a lower rank is better, a positive coefficient predicts a worse rank whereas a negative coefficient predicts a better rank.
-- We can see that cities in 2020 and 2019 tend to receive much worse predicted ranks compared to the baseline year, 2021, whereas from 2015-2018, cities tend to rank better. These shifts in ranking across years possibly reflect changes in the ranking methodology or shifts in overall park system scores across years rather than true differences in park quality.
-- Cities in Indiana tend to rank worse versus cities in Washington DC, Wisconsin, and Washington tend to rank better than the baseline.
-
-Since the largest coefficients correspond primarily to year and state indicators, we can say that temporal and geographic variation plays a significant role in predicting `rank`.
-
-![Actual vs Predicted Ranks](../outputs/results/04_actual-vs-predicted.png){#fig-actual_pred width=70%}
-
-
-
-Since a lower rank is better, a positive coefficient predicts a worse rank whereas as a negative coefficient predicts a better rank. 
-- We can see that cities in 2020 and 2019 tend to receive much worse predicted ranks compared to the baseline year, 2021, whereas from 2015-2018, cities tend to rank better. These shifts in ranking across years possibly reflects changes in the ranking methodology or shifts in overall park system scores across years rather than true differences in park quality.
-- Cities in Indiana tend to rank worse versus cities in Washington DC, Wisconsin, and Washington tend to rank better than the baseline.
-
-Since the largest coefficients correspond primarily to year and state indicators, we can say that temporal and geographic variation plays a significant role in predicting `rank`. 
 
 ```{python}
 import numpy as np
@@ -429,11 +288,71 @@ We can better visualize the model performance using the scatterplot of Actual vs
 ![Actual vs Predicted Ranks](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
 
 ## Discussion & Summary of Our Findings
+Checking the coefficient values of the features that do not involve the year or state features.
+
+```{python}
+#| label: tbl-coef_no_year_state
+#| tbl-cap: Coefficients excluding year and state features
+
+coef_year_state = coef_df[~coef_df["feature"].str.contains("year|state", case=False)]
+coef_year_state
+```
+
+Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. After removing the feature `rank_last_time`, which introduced data leakage, the model achieved a test score of approximately $0.77$ and showed no signs of underfitting or overfitting, indicating that the available park system characteristics still explain a significant portion ($77%$) of the variation in rankings. Also, the residual terms are well distributed and don't show a clear pattern, indicating that our model fits the data well and caputes a reasonable amount of underlying structure in the data. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities do contribute meaningfully to how cities are ranked in the ParkScore system. 
+
+Among the predictor variables, it is interesting to see that the `year` and `state` features had such a large impact on the prediction, with the highest magnitude coefficients. Intuitively, the rankings should not depend that much simply on the year in which the measurements were taken. However, this is somewhat to be expected, and it suggests that park rankings vary significantly across time and location. 
+
+The features `year` and `state` are also categorical variables, as opposed to the numeric and ordered point based features. When examining only the point-based park features, several variables showed meaningful relationships with park rankings, particularly `spend_per_resident_points` (spending per resident), `pct_near_park_points` (percentage of residents living near a park), and `park_pct_city_points` (percentage of city land dedicated to parks), associated with better predicted rankings. These findngs align with the idea that park accessibility, funding, and land allocation are the key components of high-quality park systems. 
+
+Overall, the model captured meaningful relationships between park characteristics and ranking outcomes, even without relying on previous rankings.
 
 ### Interpretation and Expectations
 
+Many of the observed relationships are consistent with our expectations. For example, features related to park accessibility (`pct_near_park_points`) and park coverage (`park_pct_city_points`) were associated with improved rankings. This is intuitive because cities where more residents live near parks and where parks occupy a greater portion of urban land are likely to provide better recreational opportunities and public access to green space.
+
+Similarly, spending per resident on parks (`spend_per_resident_points`) also showed a meaningful relationship with improved rankings, which makes sense because higher funding may enable cities to maintain parks more effectively, build new facilities, and improve park amenities, all of which can contribute to stronger performance in the ParkScore evaluation.
+
+One unexpected result was the strong influence of the year feature; while we were expecting an association, we didn't expect one of this magnitude. Ideally, park rankings should primarily reflect park quality rather than the year in which the data was collected. However, this effect may be explained by changes in ParkScore evaluation methodology or shifts in national benchmarks over time. If scoring criteria evolve, the same park characteristics could produce different rankings across different years. 
+
+Additionally, several `state` indicators had relatively large coefficients, which may reflect regional differences in urban planning priorities, climate, population density, or historical investment in public green spaces.
+
 ### Impact of Our Findings and Practical Implications
+
+Since the most important features corresponded to immutable attributes, our results don't suggest many actionable changes. However, if we only look at the point-based features, we were able to uncover some meaningful relationships between point-based park characteristics and rankings. The results particularly suggest that cities seeking to improve their park rankings may benefit from focusing on: 
+- Increasing the total size of your park within city boundaries 
+- Increasing the percentage of residents within a 10 minute walking distance
+- Increasing public spending on park systems
+- Improving park amenties and recreational facilities. 
+
+These factors are directly tied to park accessibility and quality, which are key components of urban livability. Urban planners and policymakers could use insights from models like this to better understand which aspects of park infrastructure contribute most strongly to overall system performance. Improving park accessibility and investment may also support public health, environmental sustainability, and social equity, since access to green space has been associated with improved physical activity, mental health, and community well-being.
 
 ### Limitations and Improvements
 
-## References
+Despite its usefulness, our analysis has several limitations.
+
+First, ridge regression produces continuous predictions, which means that predicted rankings can fall outside of the valid range of rankings. In our final scatterplot visualization of *Actual vs. Predicted Ranks* in **Figure 4**, we can see that some predicted values were negative, which is not possible for real park rankings. This occurs because linear models like ridge regression can theoretically produce prediction values ranging from −∞ to +∞. To address this, we could explore alternative modelling approaches that may be better suited for ranking or count-based outcomes, such as ordinal regression or Poisson regression, which are commonly used to model count data, and which may produce predictions that better reflect the discrete nature of rankings. However, this is beyond the scope of this course, so we will state it as a limitation of our selected model.
+
+Second, the dataset contains relative competitive rankings rather than absolute scores. For instance, a city's rank may change even if its park system remains unchanged, simply because other cities improved or worsened, which introduces additional variability that is not able to be captured by the available features. One possible way around this could be using absolute scoring rather than competitive rankings, which might better reflect improvements in park systems over time and allow models to focus directly on park characteristics rather than relative comparisons between cities.
+
+Third, some variables that we believe are still important in this context and that may influence park rankings are not included in this dataset, such as park maintenance quality, safety, user satisfaction, or environmental conditions. Including such variables might improve predictive accuracy and provide deeper insights into the factors that determine park system performance. 
+
+Finally, we decided to remove the `rank_last_year`feature, because the previous ranking may not always be available when we try to predict the new ranking, and because of data leakage. We wanted our model to rely more on temporal and geographical features and be able to produce an accurate prediction without the proxy feature of the previous ranking. So, while removing `rank_last_year` improved the fairness of the model and allowed us to focus more on the other features, it also removed a feature that potentially contained strong predictive information. As a result, the model may not capture some missing context that naturally exists in park rankings, which may have been an interesting addition to have.
+provements
+
+### Future Work and Further Questions
+
+This project gave us lots of insights regarding this topic, but it also raised several interesting directions for future research.
+
+We previously mentioned that our model could potentially be improved by exploring alternative approaches, such as Poisson, to better reflect the discrete ranking or count-based features, and that evaluating absolute scoring rather than relative competitive rankings could allow models to focus more on park characteristics.
+
+Another interesting direction would be to examine which park improvements are most cost-effective. For example, policymakers may want to know whether expanding park acreage, increasing spending, or adding certain amenities provides the greatest improvement in ranking per dollar invested, rather than just seeing which features provide the overall greatest improvement in ranking. 
+
+Investigating equity in park access would also be interesting. While this analysis focuses on overall city rankings, an important question to ask is whether all residents within a city have equal access to parks. Understanding such disparaties in park accessibility across neighbourhoods could help cities create more equitable urban environments so that the benefits can be experiences among all citizens, rather than only the select ones who are not as disadvantaged.
+
+Finally, sustainability would also be an important feature to incorporate, adding a sustainability ranking among the other features, as sustainability for future generations is important in this context.
+
+Some follow up questions we have include:
+- How do we ensure that every person has access to a quality park? 
+- Out of the features that are both important in predicting rank and can be changed, which ones are the easiest and cheapest to improve in a park?
+- What would the coefficients of the features look like if every park was ranked on a scale of 1 to 10 instead of being ranked competitively? Would the coefficients change significantly? 
+- How would the results change if we added a sustainability ranking?
