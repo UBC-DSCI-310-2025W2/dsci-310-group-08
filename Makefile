@@ -7,9 +7,9 @@ all: data/raw/parks_raw.csv data/raw/data_dict.csv \
 	data/processed/parks_processed.csv \
 	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
 	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv\
+	data/processed/predictions/grid_search_results.csv data/processed/predictions/model_coef.csv data/processed/predictions/test_predictions.csv \
 	docs/index.html \
 	docs/index.pdf \
-# 	data/processed/predictions/test_predictions.csv \
 # 	outputs/results/04_actual-vs-predicted.png
 
 
@@ -35,7 +35,7 @@ data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/process
 		--data_path=data/processed/parks_processed.csv \
 		--splits_path=data/processed/splits
 
-# # script 04
+# script 04
 outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv: data/processed/splits/X_train.csv data/processed/splits/y_train.csv scripts/04_eda.py
 	python scripts/04_eda.py \
 		--splits_path=data/processed/splits \
@@ -45,11 +45,11 @@ outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png ou
 		--fig3_name=03_rank_rank-last-time_scatter.png \
 		--fig4_name=04_numerical_boxplots.png
 
-# # script 05
-# data/processed/predictions/test_predictions.csv: data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv scripts/05_regression.py
-# 	python scripts/05_regression.py \
-# 		--splits_path=data/processed/splits \
-# 		--predictions_path=data/processed/predictions/test_predictions.csv
+# script 05
+data/processed/predictions/grid_search_results.csv data/processed/predictions/model_coef.csv data/processed/predictions/test_predictions.csv: data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv scripts/05_regression.py
+	python scripts/05_regression.py \
+		--splits_path=data/processed/splits \
+		--predictions_path=data/processed/predictions
 
 # # script 06
 # outputs/results/04_actual-vs-predicted.png: data/processed/predictions/test_predictions.csv scripts/06_results.py
