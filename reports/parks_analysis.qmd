@@ -75,7 +75,7 @@ The main goal of collecting the data was to assess if the residents of major US 
 
 ```{python}
 #| label: tbl-data_dict
-#| tbl-cap: Parks Ranking Data Dictionary.
+#| tbl-cap: Parks Ranking Data Dictionary
 
 import pandas as pd
 data_dict = pd.read_csv("../data/raw/data_dict.csv")
@@ -211,9 +211,81 @@ Lastly, let's inspect the distributions of the point-based features in a more vi
 
 @fig-num_boxplot shows that the medians are relatively similar, except for `pct_near_park_points`, and that most columns have similar standard deviations. Something to note is every feature, with the exception for `amenities_points`, has several outliers. Additionally, the features `med_park_size_points` and `park_pct_city_points` have nearly identical distributions.
 
-### Regression Analysis 
+### Regression Analysis
+
+Since our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We will drop `city` as a feature as it perfectly correlates with `state`. We will drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
+
+```{python}
+grid_search_results = pd.read_csv("../data/processed/predictions/grid_search_results.csv")
+best_alpha = grid_search_results['best_alpha'][0].item()
+best_score = grid_search_results['best_score'][0].item()
+```
+
+Before implementing the model on the data, we optimize the regularization hyperparameter *alpha* through randomized grid search. This tests the model performance using different values of *alpha* and picks the one that results in the best performance. The grid search results in an *alpha* of `{python} round(best_alpha, 4)` that produces an accuracy of `{python} round(best_score*100, 1)`%.
+
+Now, we fit the model on the training data using *alpha =* `{python} round(best_alpha, 4)` and evaluate its performance on the test set.
 
 ### Results & Visualizations
+
+```{python}
+import numpy as np
+from scipy import stats
+
+# predictions
+preds = pd.read_csv("../data/processed/predictions/test_predictions.csv")
+
+# RMSE
+rmse = np.sqrt(np.mean((preds['y_true'] - preds['y_pred'])**2)).item()
+
+# Spearman rank correlation
+spearman_corr, spearman_p = stats.spearmanr(preds['y_true'], preds['y_pred'])
+spearman_corr = spearman_corr.item()
+spearman_p = spearman_p.item()
+
+# R² on test set
+from sklearn.metrics import r2_score
+test_r2 = r2_score(preds['y_true'], preds['y_pred'])
+
+```
+
+The model performed exceptionally well on the testing data. It explains `{python} round(test_r2*100, 1)`% of the variance in park rankings on the test set. The model has a **RMSE** (Root Mean-Squared Error) score of `{python} round(rmse, 2)`. This means that on average, predictions are off by about `{python} round(rmse, 0)` ranks. This is reasonable given the ranks range from `{python} y_train_min` to `{python} y_train_max`.
+
+Since our target is rank, an ordinal variable, we also calculate the **Spearman's Rank Correlation**. We use this measure to evaluate the correlation between the predicted and actual ranks. The Spearman correlation on the test data is `{python} round(spearman_corr*100, 1)`%. This means that the predicted rankings are very strongly correlated with the actual rankings in terms of order. If the exact rank is off by ~`{python} round(rmse, 0)` positions, the model is very good at getting the relative ordering of cities correct (i.e. high-ranked cities are predicted high, low-ranked cities predicted low). The Spearman p-value is essentially `{python} round(spearman_p, 0)`, meaning the correlation is highly statistically significant.
+
+Let's take a look at the model coefficients and understand the relationships between the predictor variables and the target.
+
+```{python}
+#| label: tbl-coef
+#| tbl-cap: Ridge Model Coefficients (Top 15)
+
+model_coef = pd.read_csv("../data/processed/predictions/model_coef.csv")
+model_coef.head(15).style.hide(axis="index")
+```
+
+Since a lower rank is better, a positive coefficient predicts a worse rank whereas as a negative coefficient predicts a better rank.
+
+- From @tbl-coef, we can see that cities in 2020 and 2019 tend to receive much worse predicted ranks compared to the baseline year, 2021, whereas from 2015-2018, cities tend to rank better. These shifts in ranking across years possibly reflects changes in the ranking methodology or shifts in overall park system scores across years rather than true differences in park quality.
+- Cities in Indiana and Michigan tend to rank worse versus cities in Illinois and Wisconsin tend to rank better than the baseline.
+
+Since the largest coefficients correspond primarily to year and state indicators, we can say that temporal and geographic variation plays a significant role in predicting rank
+
+Let's look at coefficients after removing features `state` and `year`.
+
+```{python}
+#| label: tbl-coef_wo_state_year
+#| tbl-cap: Ridge Model Coefficients after Removing State and Year
+
+coef_year_state = model_coef[~model_coef["feature"].str.contains("year|state", case=False)]
+coef_year_state.style.hide(axis="index")
+```
+
+When examining only the point-based park features in @tbl-coef_wo_state_year, several variables showed meaningful relationships with park rankings. The features that predict a higher rank with the largest magnitude are `park_pct_city_points` (percentage of city land dedicated to parks), `med_park_size_points` (median park size), `spend_per_resident_points` (spending per resident), `pct_near_park_points` (percentage of residents living near a park), and `amenities_points` (overall amenity score).
+
+These findings align with the idea that park accessibility, funding, land allocation, and park size are the key components of high-quality park systems. Amenity-specific features such as `playground_points`, `dogpark_points`, `rec_sr_points`, and `basketball_points` had near-zero coefficients, suggesting that individual amenities contribute less to overall ranking compared to broader measures of park access and investment.
+
+We can better visualize the model performance using the scatterplot of Actual vs Predicted Ranks.
+
+![Actual vs Predicted Ranks](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
 
 ## Discussion & Summary of Our Findings
 

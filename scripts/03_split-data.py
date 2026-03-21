@@ -21,7 +21,7 @@ def split_data(data_path, splits_path):
     # split data into train and test set
     X = data_processed.drop(['rank'], axis = 1)
     y = data_processed['rank']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=8) 
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=73) 
     
     # create directory to store the data splits
     splits_path = Path(splits_path)
