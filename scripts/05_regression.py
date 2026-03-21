@@ -93,7 +93,7 @@ def regression(splits_path, predictions_path):
     train_coef_df.to_csv(predictions_path / "model_coef.csv", index=False)
     
     # export processed data to csv in the processed folder
-    y_preds_df.to_csv(predictions_path / "y_predictions.csv", index=False)
+    y_preds_df.to_csv(predictions_path / "test_predictions.csv", index=False)
 
 if __name__ == "__main__":
     regression()
