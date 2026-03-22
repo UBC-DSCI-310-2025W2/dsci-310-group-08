@@ -29,7 +29,11 @@ editor: source
 
 Urban parks play a crucial role in promoting health, well-being, and social cohesion within cities. Recognizing the importance of equitable access to high-quality parks, this project aims to analyze the characteristics of urban park systems in the United States, identify the factors most strongly associated with top-performing park systems, and predict a city's park access ranking, using a dataset from the **Trust for Public Land**’s ParkScore index up to 2021. 
 
-Our exploratory analysis revealed that while some metrics, like park size and land percentage, have consistent distributions across cities, others, like the percentage of the population living near a park, vary significantly. We developed a Ridge Regression model to predict a city's rank. After identifying and removing the `rank_last_time` feature to prevent data leakage, our final model achieved a strong performance with an R-squared value of $0.768$ on the test set.
+```{python}
+test_r2_summary = 0.803
+```
+
+Our exploratory analysis revealed that while some metrics, like park size and land percentage, have consistent distributions across cities, others, like the percentage of the population living near a park, vary significantly. We developed a Ridge Regression model to predict a city's rank. After identifying and removing the `rank_last_time` feature to prevent data leakage, our final model achieved a strong performance with an $R^2$ value of `{python} test_r2_summary` on the test set.
 
 The results indicate that while temporal and geographical factors have the highest impact on rankings, specific actionable features like spending per resident and park access are the primary park-based predictors of a higher and better ranks. These findings suggest that urban planners can improve their city's standing by prioritizing investment and optimizing park locations to increase the number of residents within a 10-minute walk.
 
@@ -37,18 +41,19 @@ The results indicate that while temporal and geographical factors have the highe
 
 ### Background Information
 
-In today's world, cities are expanding rapidly, while urban green space is declining. According to the Husqvarna Group Urban Green Space Insights (HUGSI) Report @_2025_urban, which uses AI and satellite data to measure green spaces in cities worldwide, between 2023 and 2024, the 516 cities analyzed recorded a loss of 95 million m² of green area - a loss equivalent to the size of Paris - primarily due to human activities such as construction and urban expansion. Among the analyzed cities, 73% show a negative development. North America stands at a 37% average urban green space, among the middle of all regions. In contrast, the Nordic region stands out as a green hub, hosting some of the greenest cities globally, with an impressive 49% share of urban green space and an average urban tree canopy cover of 35% [@_2025_urban].
+In today's world, cities are expanding rapidly, while urban green space is declining. According to the Husqvarna Group Urban Green Space Insights (HUGSI) Report [@_2025_urban], which uses AI and satellite data to measure green spaces in cities worldwide, between 2023 and 2024, the 516 cities analyzed recorded a loss of 95 million m² of green area - a loss equivalent to the size of Paris - primarily due to human activities such as construction and urban expansion. Among the analyzed cities, 73% show a negative development. North America stands at a 37% average urban green space, among the middle of all regions. In contrast, the Nordic region stands out as a green hub, hosting some of the greenest cities globally, with an impressive 49% share of urban green space and an average urban tree canopy cover of 35% [@_2025_urban].
 
 Researchers have found that people with greater access to greenspaces are 44% less likely to be diagnosed with an anxiety disorder, and that accessible greenspaces are known to improve cardiovascular health, reduce obesity rates, prevent chronic diseases, reduce stress, and improve mood. Reports from the National Recreation and Park Association also suggest that physical activity in greenspaces has stronger mental health benefits than physical activity in non-greenspaces [@a2025_march]. These facts highlight how essential greenspaces are for both physical and mental well-being, but beyond these benefits are long-term sustainable benefits to the community. Parks also serve as communal hubs where people from all walks of life can meet, socialize, and build relationships. With increased social cohesion comes more engaged and committed communities more likely to take responsibility for maintaining these spaces, making them safer, more welcoming, and better cared for, ensuring the space remains a valuable resource for future generations.
 
 In addition, modern urban lifestyle is associated with chronic stress, insufficient physical activity and exposure to anthropogenic environmental hazards. Urban green spaces, such as parks, playgrounds, and residential greenery, can promote mental and physical health, and reduce morbidity and mortality in urban residents by providing psychological relaxation and stress alleviation, stimulating social cohesion, supporting physical activity, and reducing exposure to air pollutants, noise and excessive heat [@worldhealthorganizationregionalofficeforeurope_2016_urban]. 
 
-However, it's also important to note that not all communities have equal access, and that it's crucial to engage with the community in a way that is both meaningful and equitable. If the park doesn’t reflect the cultural identity of a community, it can become a space that feels alienating, rather than inclusive, and it can actually cause more harm than good to individuals of the surrounding community. Capital Trees' "The Fundamentals of Urban Greenspaces" @a2025_march references an article from the American Planning Association, which asks three fundamental questions when designing parks and public spaces:
-- Who is Helped: engage communities to help address systemic inequities, provide equal access to recreational resources, serve as spaces for cultural expression, healing, and collective action, and prioritize the needs of all groups, so that parks can become tools for social justice, equity, and well-being.
-- Who is Harmed: how a lack of inclusive engagement perpetuates existing inequalities or historical injustices by neglecting the voices of those who are already marginalized or underrepresented financially, physically, culturally, and psychologically. 
-- Who is Missing: actively seek typically underrepresented voices for whom parks might be designed in ways that do not consider safety concerns, such as vulnerable populations, including people with disabilities, children, and seniors. 
+However, it's also important to note that not all communities have equal access, and that it's crucial to engage with the community in a way that is both meaningful and equitable. If the park doesn’t reflect the cultural identity of a community, it can become a space that feels alienating, rather than inclusive, and it can actually cause more harm than good to individuals of the surrounding community. Capital Trees' [@a2025_march] references an article from the American Planning Association, which asks three fundamental questions when designing parks and public spaces:
 
-Access to greenspaces shouldn’t be a privilege; it should be a right. Because not all communities have equal access, we believe that there is a need for scores, indexes, and metrics like the ParkScore index that allow parks to be ranked on many different metrics, such as such as park amenities, to help improve community experiences. Designing parks and green spaces that are accessible, equitable, meet the environmental needs of the area, and consider community and cultural needs, can bring mental and physical benefits to individuals as well as help reduce health disparaties. When everyone, especially vulnerable populations, has access to high-quality, inclusive greenspaces, the community as a whole thrives. Investing in community engagement through parks and greenspaces is about building healthier, happier, and more equitable communities for the future, and we intend to explore this in our project.
+- *Who is Helped: engage communities to help address systemic inequities, provide equal access to recreational resources, serve as spaces for cultural expression, healing, and collective action, and prioritize the needs of all groups, so that parks can become tools for social justice, equity, and well-being.*
+- *Who is Harmed: how a lack of inclusive engagement perpetuates existing inequalities or historical injustices by neglecting the voices of those who are already marginalized or underrepresented financially, physically, culturally, and psychologically.* 
+- *Who is Missing: actively seek typically underrepresented voices for whom parks might be designed in ways that do not consider safety concerns, such as vulnerable populations, including people with disabilities, children, and seniors.* 
+
+Access to greenspaces shouldn’t be a privilege; it should be a right. Because not all communities have equal access, we believe that there is a need for scores, indexes, and metrics like the ParkScore index that allow parks to be ranked on many different metrics, such as such as park amenities, to help improve community experiences. Designing parks and green spaces that are accessible, equitable, meet the environmental needs of the area, and consider community and cultural needs, can bring mental and physical benefits to individuals as well as help reduce health disparities. When everyone, especially vulnerable populations, has access to high-quality, inclusive greenspaces, the community as a whole thrives. Investing in community engagement through parks and greenspaces is about building healthier, happier, and more equitable communities for the future, and we intend to explore this in our project.
 
 ### Research Question
 
@@ -58,11 +63,11 @@ To answer this question, we developed a regression model that predicts a city's 
 
 Understanding these relationships and identifying the features that distinguish top-ranked cities may help urban planners and policymakers better understand the factors that contribute to successful park systems and guide decisions about future investments in public green spaces.
 
-Proposed Research Question: Can we predict a city’s park access ranking based on park characteristics and population features such as total park acreage, number of parks, population size, and population density?
+*Proposed Research Question: Can we predict a city’s park access ranking based on park characteristics and population features such as total park acreage, number of parks, population size, and population density?*
 
 ### About the Dataset
 
-The dataset used in this analysis @jonthegeek_2021_park contains information about park systems across major cities in the United States up to 2021 and is sourced from the **ParkScore index**, developed by the **Trust for Public Land**, whose mission is to ensure that every American has access to a good quality park within a 10-minute walking distance. The ParkScore index evaluates park systems in the largest U.S. cities based on several metrics, including park access, acreage, investment, and amenities. The data dictionary is in @tbl-data_dict. The first 5 rows of the raw data is presented in @tbl-data_raw.
+The dataset used in this analysis [@jonthegeek_2021_park] contains information about park systems across major cities in the United States up to 2021 and is sourced from the **ParkScore index**, developed by the **Trust for Public Land**, whose mission is to ensure that every American has access to a good quality park within a 10-minute walking distance. The ParkScore index evaluates park systems in the largest U.S. cities based on several metrics, including park access, acreage, investment, and amenities. The data dictionary is in @tbl-data_dict. The first 5 rows of the raw data is presented in @tbl-data_raw.
 
 For this project, we use a version of the dataset provided through the **TidyTuesday** repository [@datasciencelearningcommunity_2024_tidy], which compiles publicly available datasets for data analysis and visualization practice, and can be accessed [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md).
 
@@ -98,7 +103,7 @@ parks_raw = pd.read_csv("../data/raw/parks_raw.csv")
 parks_raw.head(5).style.hide(axis="index")
 ```
 
-We can see that the original raw dataset has `{python} parks_raw.shape[0]` rows and `{python} parks_raw.shape[1]` columns. Then, we will perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
+We can see that the original raw dataset has `{python} parks_raw.shape[0]` rows and `{python} parks_raw.shape[1]` columns. Then, we perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
 
 ```{python}
 # quantifying NaN values
@@ -115,11 +120,11 @@ min_missing_cols_data = missing_cols_data.min() / parks_raw.shape[0]
 n_city = parks_raw.city.nunique()
 ```
 
-Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we will extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decide to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We also then remove data from year 2012, 2013, and 2014 because `{python} round(missing_year_data_pct * 100, 1)`% of values are missing in those rows, which will not help with building a predictive model.
+Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decide to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We also then remove data from year 2012, 2013, and 2014 because `{python} round(missing_year_data_pct * 100, 1)`% of values are missing in those rows, which does not help with building a predictive model.
 
-We noticed that more than `{python} round(min_missing_cols_data*100, 1)`% of the data in columns `restroom_data`, `restroom_points`, `splashground_data`, `splashground_points`, `total_points`, `total_pct`, `city_dup`, and `park_benches` is missing, with some columns approaching `{python} round(max_missing_cols_data*100, 1)`%. Therefore, we decided to drop these columns as advanced data imputation methods are also beyond the scope of this course.
+We noticed that more than `{python} round(min_missing_cols_data*100, 1)`% of the data in columns `restroom_data`, `restroom_points`, `splashground_data`, `splashground_points`, `total_points`, `total_pct`, `city_dup`, and `park_benches` is missing, with some columns approaching `{python} round(max_missing_cols_data*100, 1)`% of missing data. Therefore, we decided to drop these columns as advanced data imputation methods are also beyond the scope of this course.
 
-There are a total of more than `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state.
+There are a total of `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state.
 
 Finally, we convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!
 
@@ -170,7 +175,7 @@ Here is the distribution of ranks (our target variable) in the training set:
 
 From @fig-rank_freq, we can see that the ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
 
-Here, we have the summary of the featuring in the training data in @tbl-training_summary.
+Here, we have the summary of the features in the training data in @tbl-training_summary.
 
 ```{python}
 #| label: tbl-training_summary
@@ -191,7 +196,7 @@ mean_max = round(X_train_summary.loc['mean'].drop('year').max(), 1)
 
 The first thing to note is that every column has `{python} n_rows` values, meaning all of the NA values were successfully removed. Most of the point scales are out of `{python} max_points_1` or `{python} max_points_2`, and the average number of points hovers between `{python} mean_min`-`{python} mean_max` points in all categories.
 
-Since we expect previous ranks to be quite important in predicting the current rank, we will look at the distribution of the feature `rank_last_time`.
+Since we expect previous ranks to be quite important in predicting the current rank, we look at the distribution of the feature `rank_last_time`.
 
 ![Previous Rank Value vs Frequency it Appears in the Training Set](../outputs/eda/02_rank-last-time_frequency.png){#fig-rank_last_freq width=70%}
 
@@ -203,7 +208,7 @@ In @fig-rank_last_freq, we see a similar distribution as the target variable, wi
 rank_corr = X_train['rank_last_time'].corr(y_train['rank']).item()
 ```
 
-We can see it in the scatterplot in @fig-rank_scatter that the two variables are almost perfectly correlated with a correlation of `{python} round(rank_corr*100, 0)`%. This either means that `rank_last_time` is a strong predictor for `rank` or that it presents data leakage by acting as a proxy for `rank`. To prevent the potential data leakage problem, we will remove `rank_last_time` as a feature before setting up the predictive model.
+We can see it in the scatterplot in @fig-rank_scatter that the two variables are almost perfectly correlated with a correlation of `{python} round(rank_corr*100, 0)`%. This either means that `rank_last_time` is a strong predictor for `rank` or that it presents data leakage by acting as a proxy for `rank`. To prevent the potential data leakage problem, we remove `rank_last_time` as a feature before setting up the predictive model.
 
 Lastly, let's inspect the distributions of the point-based features in a more visually interpretable boxplot. We are also be able to check for outliers this way.
 
@@ -213,7 +218,7 @@ Lastly, let's inspect the distributions of the point-based features in a more vi
 
 ### Regression Analysis
 
-Since our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We will drop `city` as a feature as it is represented by `state`. We will drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
+Since our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We drop `city` as a feature as it is represented by `state`. We drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
 
 ```{python}
 grid_search_results = pd.read_csv("../outputs/results/grid_search_results.csv")
@@ -250,7 +255,7 @@ test_r2 = r2_score(preds['y_true'], preds['y_pred'])
 
 The model performed exceptionally well on the testing data. It explains `{python} round(test_r2*100, 1)`% of the variance in park rankings on the test set. The model has a **RMSE** (Root Mean-Squared Error) score of `{python} round(rmse, 2)`. This means that on average, predictions are off by about `{python} round(rmse, 0)` ranks. This is reasonable given the ranks range from `{python} y_train_min` to `{python} y_train_max`.
 
-Since our target is rank, an ordinal variable, we also calculate the **Spearman's Rank Correlation**. We use this measure to evaluate the correlation between the predicted and actual ranks. The Spearman correlation on the test data is `{python} round(spearman_corr*100, 1)`%. This means that the predicted rankings are very strongly correlated with the actual rankings in terms of order. If the exact rank is off by ~`{python} round(rmse, 0)` positions, the model is very good at getting the relative ordering of cities correct (i.e. high-ranked cities are predicted high, low-ranked cities predicted low). The Spearman p-value is essentially `{python} round(spearman_p, 0)`, meaning the correlation is highly statistically significant.
+Since our target is rank, an ordinal variable, we also calculate the **Spearman's Rank Correlation**. We use this measure to evaluate the correlation between the predicted and actual ranks. The Spearman correlation on the test data is `{python} round(spearman_corr*100, 1)`%. This means that the predicted rankings are very strongly correlated with the actual rankings in terms of order. Even if the exact rank is off by ~`{python} round(rmse, 0)` positions, the model is still very good at getting the relative ordering of cities correct (i.e. high-ranked cities are predicted high, low-ranked cities predicted low). The Spearman p-value is essentially `{python} round(spearman_p, 0)`, meaning the correlation is highly statistically significant.
 
 Let's take a look at the model coefficients and understand the relationships between the predictor variables and the target.
 
@@ -288,21 +293,9 @@ We can better visualize the model performance using the scatterplot of Actual vs
 ![Actual vs Predicted Ranks](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
 
 ## Discussion & Summary of Our Findings
-Checking the coefficient values of the features that do not involve the year or state features.
+Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. After removing the feature `rank_last_time`, which could've potentially introduced data leakage, the model achieved a test score of approximately `{python} round(test_r2*100, 1)`% and showed no signs of underfitting or overfitting, indicating that the available park system characteristics still explain a significant portion (`{python} round(test_r2*100, 1)`%) of the variation in rankings. Looking at @fig-actual_vs_predicted, we can see that the predicted ranks regression line is very close to the 45-degree line $y=x$. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities do contribute meaningfully to how cities are ranked in the ParkScore system. 
 
-```{python}
-#| label: tbl-coef_no_year_state
-#| tbl-cap: Coefficients excluding year and state features
-
-coef_year_state = model_coef[~model_coef["feature"].str.contains("year|state", case=False)]
-coef_year_state
-```
-
-Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. After removing the feature `rank_last_time`, which introduced data leakage, the model achieved a test score of approximately `{python} round(test_r2*100, 1)`% and showed no signs of underfitting or overfitting, indicating that the available park system characteristics still explain a significant portion (`{python} round(test_r2*100, 1)`%) of the variation in rankings. Also, the residual terms are well distributed and don't show a clear pattern, indicating that our model fits the data well and caputes a reasonable amount of underlying structure in the data. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities do contribute meaningfully to how cities are ranked in the ParkScore system. 
-
-Among the predictor variables, it is interesting to see that the `year` and `state` features had such a large impact on the prediction, with the highest magnitude coefficients. Intuitively, the rankings should not depend that much simply on the year in which the measurements were taken. However, this is somewhat to be expected, and it suggests that park rankings vary significantly across time and location. 
-
-The features `year` and `state` are also categorical variables, as opposed to the numeric and ordered point based features. When examining only the point-based park features, several variables showed meaningful relationships with park rankings, particularly `spend_per_resident_points` (spending per resident), `pct_near_park_points` (percentage of residents living near a park), and `park_pct_city_points` (percentage of city land dedicated to parks), associated with better predicted rankings. These findngs align with the idea that park accessibility, funding, and land allocation are the key components of high-quality park systems. 
+Among the predictor variables as listed in @tbl-coef and @tbl-coef_wo_state_year, it is interesting to see that the `year` and `state` features had such a large impact on the prediction, with the highest magnitude coefficients. Intuitively, the rankings should not depend that much simply on the year in which the measurements were taken. However, this is somewhat to be expected, and it suggests that park rankings vary significantly across time and location. 
 
 Overall, the model captured meaningful relationships between park characteristics and ranking outcomes, even without relying on previous rankings.
 
@@ -318,11 +311,12 @@ Additionally, several `state` indicators had relatively large coefficients, whic
 
 ### Impact of Our Findings and Practical Implications
 
-Since the most important features corresponded to immutable attributes, our results don't suggest many actionable changes. However, if we only look at the point-based features, we were able to uncover some meaningful relationships between point-based park characteristics and rankings. The results particularly suggest that cities seeking to improve their park rankings may benefit from focusing on:  <br>
-- Increasing the total size of your park within city boundaries  <br>
-- Increasing the percentage of residents within a 10 minute walking distance <br>
-- Increasing public spending on park systems <br>
-- Improving park amenties and recreational facilities. <br>
+Since the most important features corresponded to immutable attributes, our results don't suggest many actionable changes. However, if we only look at the point-based features, we were able to uncover some meaningful relationships between point-based park characteristics and rankings. The results particularly suggest that cities seeking to improve their park rankings may benefit from focusing on: 
+
+- Increasing the total size of your park within city boundaries  
+- Increasing the percentage of residents within a 10 minute walking distance 
+- Increasing public spending on park systems 
+- Improving park amenties and recreational facilities. 
 
 These factors are directly tied to park accessibility and quality, which are key components of urban livability. Urban planners and policymakers could use insights from models like this to better understand which aspects of park infrastructure contribute most strongly to overall system performance. Improving park accessibility and investment may also support public health, environmental sustainability, and social equity, since access to green space has been associated with improved physical activity, mental health, and community well-being.
 
@@ -330,29 +324,31 @@ These factors are directly tied to park accessibility and quality, which are key
 
 Despite its usefulness, our analysis has several limitations.
 
-First, ridge regression produces continuous predictions, which means that predicted rankings can fall outside of the valid range of rankings. In our final scatterplot visualization of *Actual vs. Predicted Ranks* in @fig-actual_vs_predicted, we can see that some predicted values were negative, which is not possible for real park rankings. This occurs because linear models like ridge regression can theoretically produce prediction values ranging from −∞ to +∞. To address this, we could explore alternative modelling approaches that may be better suited for ranking or count-based outcomes, such as ordinal regression or Poisson regression, which are commonly used to model count data, and which may produce predictions that better reflect the discrete nature of rankings. However, this is beyond the scope of this course, so we will state it as a limitation of our selected model.
+First, ridge regression produces continuous predictions, which means that predicted rankings can fall outside of the valid range of rankings. In our final scatterplot visualization of *Actual vs. Predicted Ranks* in @fig-actual_vs_predicted, we can see that some predicted values were negative, which is not possible for real park rankings. This occurs because linear models like ridge regression can theoretically produce prediction values ranging from −∞ to +∞. To address this, we could explore alternative modelling approaches that may be better suited for ranking or count-based outcomes, such as ordinal regression or Poisson regression, which are commonly used to model count data, and which may produce predictions that better reflect the discrete nature of rankings. However, this is beyond the scope of this course, so we state it as a limitation of our selected model.
 
 Second, the dataset contains relative competitive rankings rather than absolute scores. For instance, a city's rank may change even if its park system remains unchanged, simply because other cities improved or worsened, which introduces additional variability that is not able to be captured by the available features. One possible way around this could be using absolute scoring rather than competitive rankings, which might better reflect improvements in park systems over time and allow models to focus directly on park characteristics rather than relative comparisons between cities.
 
 Third, some variables that we believe are still important in this context and that may influence park rankings are not included in this dataset, such as park maintenance quality, safety, user satisfaction, or environmental conditions. Including such variables might improve predictive accuracy and provide deeper insights into the factors that determine park system performance. 
 
 Finally, we decided to remove the `rank_last_year` feature, because the previous ranking may not always be available when we try to predict the new ranking, and because of data leakage. We wanted our model to rely more on temporal and geographical features and be able to produce an accurate prediction without the proxy feature of the previous ranking. So, while removing `rank_last_year` improved the fairness of the model and allowed us to focus more on the other features, it also removed a feature that potentially contained strong predictive information. As a result, the model may not capture some missing context that naturally exists in park rankings, which may have been an interesting addition to have.
-provements
 
 ### Future Work and Further Questions
 
 This project gave us lots of insights regarding this topic, but it also raised several interesting directions for future research.
 
-We previously mentioned that our model could potentially be improved by exploring alternative approaches, such as Poisson, to better reflect the discrete ranking or count-based features, and that evaluating absolute scoring rather than relative competitive rankings could allow models to focus more on park characteristics.
+We previously mentioned that our model could potentially be improved by exploring alternative approaches, such as LightGBM Ranker, to better reflect the discrete ranking, and that evaluating absolute scoring rather than relative competitive rankings could allow models to focus more on park characteristics.
 
 Another interesting direction would be to examine which park improvements are most cost-effective. For example, policymakers may want to know whether expanding park acreage, increasing spending, or adding certain amenities provides the greatest improvement in ranking per dollar invested, rather than just seeing which features provide the overall greatest improvement in ranking. 
 
-Investigating equity in park access would also be interesting. While this analysis focuses on overall city rankings, an important question to ask is whether all residents within a city have equal access to parks. Understanding such disparaties in park accessibility across neighbourhoods could help cities create more equitable urban environments so that the benefits can be experiences among all citizens, rather than only the select ones who are not as disadvantaged.
+Investigating equity in park access would also be interesting. While this analysis focuses on overall city rankings, an important question to ask is whether all residents within a city have equal access to parks. Understanding such disparities in park accessibility across neighbourhoods could help cities create more equitable urban environments so that the benefits can be experienced among all citizens, rather than only the select ones who are not as disadvantaged.
 
-Finally, sustainability would also be an important feature to incorporate, adding a sustainability ranking among the other features, as sustainability for future generations is important in this context.
+Finally, sustainability would also be an important feature to incorporate, adding a sustainability ranking, as sustainability for future generations is important in this context.
 
-Some follow up questions we have include: <br>
-- How do we ensure that every person has access to a quality park? <br>
-- Out of the features that are both important in predicting rank and can be changed, which ones are the easiest and cheapest to improve in a park? <br>
-- What would the coefficients of the features look like if every park was ranked on a scale of 1 to 10 instead of being ranked competitively? Would the coefficients change significantly? <br>
+Some follow up questions we have included: 
+
+- How do we ensure that every person has access to a quality park? 
+- Out of the features that are both important in predicting rank and can be changed, which ones are the easiest and cheapest to improve in a park?
+- What would the coefficients of the features look like if every park was ranked on a scale of 1 to 10 instead of being ranked competitively? Would the coefficients change significantly?
 - How would the results change if we added a sustainability ranking?
+
+## References
