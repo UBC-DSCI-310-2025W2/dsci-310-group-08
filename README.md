@@ -112,8 +112,7 @@ After running `make all`:
 │   ├── 03_split-data.py
 │   ├── 04_eda.py
 │   ├── 05_regression.py
-│   ├── 06_results.py
-│   └── 07_clean.py
+│   └── 06_results.py
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
