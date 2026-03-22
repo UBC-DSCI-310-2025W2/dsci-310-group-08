@@ -3,11 +3,11 @@
 **Authors**: Shivani Aggarwal, Luna Gulec, Jingyuan Liu, Sarenna Ulman
 
 ## About
-In this project, we intend to use the Parks dataset to build a regression model to predict a city’s park access ranking in the United States. Using characteristics of each city's park system, demographic information, and population features, such as total park acreage, number of parks, population size, and population density, we aim to determine which factors are most strongly associated with high park access rankings and to build predictive models to accurately predict rankings of cities given those features. 
-
-By identifying the features that distinguish top-ranked cities, this model could help city urban planners and policymakers understand why certain parks may be preferred over others and how to improve park accessibility, equity, and overall system performance.
+In this project, we intend to use the Parks dataset to build a ridge regression model to predict a city’s park access ranking in the United States. Using characteristics of each city's park system, demographic information, and population features, such as total park acreage, number of parks, population size, and population density, we aim to determine which factors are most strongly associated with high park access rankings and to build predictive models to accurately predict rankings of cities given those features. 
 
 The dataset contains annual park system data for major U.S. cities up to 2021 and is sourced from the Trust for Public Land’s ParkScore index. The data was obtained from the TidyTuesday repository and can be accessed [here](https://github.com/rfordatascience/tidytuesday/blob/main/data/2021/2021-06-22/readme.md)
+
+By identifying the features that distinguish top-ranked cities, our ridge regression model was able to predict city park system rankings with relatively strong performance with a test $R^2$ of approximately 0.803. The results suggest that measurable park attributes, such as park size, accessibility, and amenities, contribute meaningfully to `ParkScore` rankings. While categorical features like `year` and `state` had a large influence, point-based features including `spend_per_resident_points`, `pct_near_park_points`, and `park_pct_city_points` were associated with better predicted rankings. These findings indicate which aspects of park systems urban planners could prioritize to improve accessibility, equity, and overall park quality.
 
 ## Reports
 The `.ipynb` notebook report of this project can be found [here](reports/parks_analysis.ipynb).
