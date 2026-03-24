@@ -157,6 +157,7 @@ After running `make all`:
 - Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).
 - [Quarto v1.8.26](https://quarto.org/docs/blog/posts/2025-10-13-1.8-release/).
 - [TinyTeX v2026.03.02](https://github.com/rstudio/tinytex-releases/releases)
+- [pytest 9.0.2](https://pypi.org/project/pytest/)
 
 ## Licenses
 This project report is offered under 
