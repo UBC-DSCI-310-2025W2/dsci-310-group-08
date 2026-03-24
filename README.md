@@ -51,7 +51,10 @@ Before running `make all`, or after running `make clean`:
 │   └── 06_results.py
 |
 ├── src/
-│   ├── .gitkeep
+│   └── .gitkeep
+|
+├── tests/
+│   └── .gitkeep
 |
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
@@ -118,7 +121,10 @@ After running `make all`:
 │   └── 06_results.py
 |
 ├── src/
-│   ├── .gitkeep
+│   └── .gitkeep
+|
+├── tests/
+│   └── .gitkeep
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
