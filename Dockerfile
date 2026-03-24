@@ -27,3 +27,6 @@ RUN chown -R ${NB_USER}:users /home/jovyan
 
 # Switch back to the standard user
 USER ${NB_USER}
+
+# Install pytest 9.0.2
+RUN pip install --no-cache-dir pytest==9.0.2
