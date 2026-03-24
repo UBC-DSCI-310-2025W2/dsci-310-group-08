@@ -50,6 +50,12 @@ Before running `make all`, or after running `make clean`:
 │   ├── 05_regression.py
 │   └── 06_results.py
 |
+├── src/
+│   └── .gitkeep
+|
+├── tests/
+│   └── .gitkeep
+|
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
@@ -113,6 +119,12 @@ After running `make all`:
 │   ├── 04_eda.py
 │   ├── 05_regression.py
 │   └── 06_results.py
+|
+├── src/
+│   └── .gitkeep
+|
+├── tests/
+│   └── .gitkeep
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
