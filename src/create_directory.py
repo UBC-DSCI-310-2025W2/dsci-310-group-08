@@ -1,9 +1,9 @@
 from pathlib import Path
 import re
 
-invalid_characters = r'[<>:"/\|*?]'
+invalid_characters = r'[<>:"\|*?]'
 
-def create_directory(name, parent):
+def create_directory(path: str):
     """
     Creates a directory with the given name, located inside the given parent directory.
 
@@ -12,15 +12,16 @@ def create_directory(name, parent):
     Returns an error if the specified parent directory does not exist.
 
     Arguments:
-    Name: desired name of directory.
-    Parent: string of desired parent directory of directory to be created.
+    Path: a string representation of the desired path to be created. 
     Returns:
-    Path to the newly created directory
+    Path object to the newly created directory.
     """
     # validating arguments passed in
-    if name == "":
-        raise ValueError("Name of directory cannot be empty")
-    if re.search(invalid_characters, name):
+    if not isinstance(path, str):
+        raise TypeError("path must be a string")
+    if path == "":
+        raise ValueError("Path of directory cannot be empty")
+    if re.search(invalid_characters, path):
         raise ValueError("Directory name contains at least one illegal character")
-    
+
     return None

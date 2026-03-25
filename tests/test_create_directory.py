@@ -14,7 +14,7 @@ def test_create_dir_from_root_dir():
     """
     # catch exceptions
     try:
-        testdir = create_directory("testdir", "")
+        testdir = create_directory("testdir")
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
     # check directory was actually created 
@@ -28,7 +28,7 @@ def test_create_dir_two_deep():
     Expected outcome: directory created successfully.
     """
     try:
-        testdir = create_directory("testdir", "tests")
+        testdir = create_directory("tests/testdir")
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
     # check directory was actually created 
@@ -44,8 +44,8 @@ def test_create_2_dirs_at_once():
     Expected outcome: both directories created successfully, with one being a subdirectory of the other.
     """
     try:
-        onedeep = create_directory("onedeep", "")
-        twodeep = create_directory("twodeep", "onedeep")
+        onedeep = create_directory("onedeep")
+        twodeep = create_directory("onedeep/twodeep")
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
     # check directories were actually created 
@@ -62,7 +62,7 @@ def test_create_already_existing_dir():
     Expected outcome:  an error is raised alerting the user that directory already exists.
     """
     try:
-        testdir = create_directory("tests", "")
+        testdir = create_directory("tests")
         assert False, "FileExistsError should have been raised"
     except FileExistsError:
         pass # expected behaviour
@@ -77,7 +77,7 @@ def test_empty_directory_name():
     Expected outcome: an error is raised alerting the user that a directory with no name cannot be created.
     """
     try:
-        empty_name_dir = create_directory("", "tests")
+        empty_name_dir = create_directory("")
         assert False, "ValueError should have been raised"
     except ValueError:
         pass # expected behaviour
@@ -90,7 +90,7 @@ def test_parent_directory_does_not_exist():
     Expected outcome: an error is raised, alerting the user that the parent directory they used does not exist.
     """
     try:
-        parent_nonexist_dir = create_directory("testdir", "testz")
+        parent_nonexist_dir = create_directory("testz/testdir")
         assert False, "FileNotFoundError should have been raised"
     except FileNotFoundError:
         pass # expected behaviour
@@ -99,11 +99,11 @@ def test_parent_directory_does_not_exist():
 
 def test_illegal_char_in_name():
     """
-    Test the use case where the user tries to pass in a name that contains an illegal character such as " or /.
+    Test the use case where the user tries to pass in a name that contains an illegal character such as " or ?.
     Expected outcome: an error is raised alerting the user their intended directory name contains an illegal character.
     """
     try:
-        parent_nonexist_dir = create_directory("illegal/directory", "tests")
+        parent_nonexist_dir = create_directory("illegal?directory")
         assert False, "ValueError should have been raised"
     except ValueError:
         pass # expected behaviour
