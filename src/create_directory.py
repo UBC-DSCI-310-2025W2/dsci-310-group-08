@@ -7,7 +7,7 @@ def create_directory(name, parent):
 
     Arguments:
     Name:  desired name of directory.
-    Parent:  desired parent directory of directory to be created.
+    Parent:  string of desired parent directory of directory to be created.
     Returns:
     Path to the newly created directory
     """
