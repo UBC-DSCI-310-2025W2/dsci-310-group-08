@@ -10,7 +10,7 @@ from src.create_directory import create_directory
 def test_create_dir_from_root_dir():
     """
     Tests the use case of creating a directory from the root directory.
-    Expected outcome:  directory created successfully.
+    Expected outcome: directory created successfully.
     """
     # catch exceptions
     try:
@@ -21,12 +21,11 @@ def test_create_dir_from_root_dir():
     assert testdir.exists(), "Directory was not created"
     assert testdir.is_dir(), "Output is not a directory"
         
-
 def test_create_dir_two_deep():
     """
     Tests the use case of creating a subdirectory of an already existing parent directory.  
     This parent directory should live at the root directory.
-    Expected outcome:  directory created successfully.
+    Expected outcome: directory created successfully.
     """
     try:
         testdir = create_directory("testdir", "tests")
@@ -42,7 +41,7 @@ def test_create_2_dirs_at_once():
     """
     Tests the use case of creating a directory located at the root, and then creating a subdirectory of that directory.  
     Specifically, testing the ability to do both actions within the same test.
-    Expected outcome:  both directories created successfully, with one being a subdirectory of the other.
+    Expected outcome: both directories created successfully, with one being a subdirectory of the other.
     """
     try:
         onedeep = create_directory("onedeep", "")
@@ -57,7 +56,6 @@ def test_create_2_dirs_at_once():
     # check second directory has parent of first directory
     assert twodeep.parent == onedeep
     
-
 def test_create_already_existing_dir():
     """
     Tests the use case of attempting to create a directory that has already been created.
@@ -73,3 +71,23 @@ def test_create_already_existing_dir():
 
         
 # error use cases test
+def test_empty_directory_name():
+    """
+    Tests the use case of attempting to create a directory with no name, ie, the empty string is passed to the name argument.
+    Expected outcome: an error is raised alerting the user that a directory with no name cannot be created.
+    """
+    assert False, "Test has not been implemented yet"
+
+def test_parent_directory_does_not_exist():
+    """
+    Tests the use case of attempting to create a directory with the argument passed to parent being a directory that does not exist.
+    Expected outcome: an error is raised, alerting the user that the parent directory they used does not exist.
+    """
+    assert False, "Test has not been implemented yet"
+
+def test_illegal_char_in_name():
+    """
+    Test the use case where the user tries to pass in a name that contains an illegal character such as " or /.
+    Expected outcome: an error is raised alerting the user their intended directory name contains an illegal character.
+    """
+    assert False, "Test has not been implemented yet"
