@@ -65,7 +65,7 @@ def test_create_already_existing_dir():
         testdir = create_directory("tests", "")
         assert False, "FileExistsError should have been raised"
     except FileExistsError:
-        pass # expected behavior
+        pass # expected behaviour
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
 
@@ -76,18 +76,36 @@ def test_empty_directory_name():
     Tests the use case of attempting to create a directory with no name, ie, the empty string is passed to the name argument.
     Expected outcome: an error is raised alerting the user that a directory with no name cannot be created.
     """
-    assert False, "Test has not been implemented yet"
+    try:
+        empty_name_dir = create_directory("", "tests")
+        assert False, "EmptyNameError should have been raised"
+    except EmptyNameError:
+        pass # expected behaviour
+    except Exception as e:
+        assert False, f"Test failed due to unexpected error: {e}"
 
 def test_parent_directory_does_not_exist():
     """
     Tests the use case of attempting to create a directory with the argument passed to parent being a directory that does not exist.
     Expected outcome: an error is raised, alerting the user that the parent directory they used does not exist.
     """
-    assert False, "Test has not been implemented yet"
+    try:
+        parent_nonexist_dir = create_directory("testdir", "testz")
+        assert False, "FileNotFoundError should have been raised"
+    except FileNotFoundError:
+        pass # expected behaviour
+    except Exception as e:
+        assert False, f"Test failed due to unexpected error: {e}"
 
 def test_illegal_char_in_name():
     """
     Test the use case where the user tries to pass in a name that contains an illegal character such as " or /.
     Expected outcome: an error is raised alerting the user their intended directory name contains an illegal character.
     """
-    assert False, "Test has not been implemented yet"
+    try:
+        parent_nonexist_dir = create_directory("illegal/directory", "tests")
+        assert False, "ValueError should have been raised"
+    except ValueError:
+        pass # expected behaviour
+    except Exception as e:
+        assert False, f"Test failed due to unexpected error: {e}"
