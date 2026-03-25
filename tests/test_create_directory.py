@@ -6,10 +6,14 @@ def test_create_dir_from_root_dir():
     Tests the use case of creating a directory from the root directory.
     Expected outcome:  directory created successfully.
     """
+    # catch exceptions
     try:
-        create_directory("testdir", "")
+        testdir = create_directory("testdir", "")
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
+    # check directory was actually created 
+    assert testdir.exists(), "Directory was not created"
+    assert testdir.is_dir(), "Output is not a directory"
         
 
 def test_create_dir_two_deep():
@@ -19,9 +23,12 @@ def test_create_dir_two_deep():
     Expected outcome:  directory created successfully.
     """
     try:
-        create_directory("testdir", "tests")
+        testdir = create_directory("testdir", "tests")
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
+    # check directory was actually created 
+    assert testdir.exists(), "Directory was not created"
+    assert testdir.is_dir(), "Output is not a directory"
 
 # edge use case test
 
