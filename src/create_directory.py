@@ -5,7 +5,8 @@ invalid_characters = r'[<>:"\|*?]'
 
 def create_directory(path: str):
     """
-    Creates a directory with the given name, located inside the given parent directory.
+    Creates the directory given by the specified path.
+    Purpose: If the directory where the user wants to store their data/file does not exist, this function will create it for them.
 
     Returns an error if the specified directory name is empty.
     Returns an error if the specified directory name is illegal.
@@ -23,5 +24,5 @@ def create_directory(path: str):
         raise ValueError("Path of directory cannot be empty")
     if re.search(invalid_characters, path):
         raise ValueError("Directory name contains at least one illegal character")
-
+    
     return None
