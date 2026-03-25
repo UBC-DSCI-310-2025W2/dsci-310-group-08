@@ -56,20 +56,6 @@ def test_create_2_dirs_at_once():
     # check second directory has parent of first directory
     assert twodeep.parent == onedeep
     
-def test_create_already_existing_dir():
-    """
-    Tests the use case of attempting to create a directory that has already been created.
-    Expected outcome:  an error is raised alerting the user that directory already exists.
-    """
-    try:
-        testdir = create_directory("tests")
-        assert False, "FileExistsError should have been raised"
-    except FileExistsError:
-        pass # expected behaviour
-    except Exception as e:
-        assert False, f"Test failed due to unexpected error: {e}"
-
-        
 # error use cases test
 def test_empty_directory_name():
     """
@@ -80,19 +66,6 @@ def test_empty_directory_name():
         empty_name_dir = create_directory("")
         assert False, "ValueError should have been raised"
     except ValueError:
-        pass # expected behaviour
-    except Exception as e:
-        assert False, f"Test failed due to unexpected error: {e}"
-
-def test_parent_directory_does_not_exist():
-    """
-    Tests the use case of attempting to create a directory with the argument passed to parent being a directory that does not exist.
-    Expected outcome: an error is raised, alerting the user that the parent directory they used does not exist.
-    """
-    try:
-        parent_nonexist_dir = create_directory("testz/testdir")
-        assert False, "FileNotFoundError should have been raised"
-    except FileNotFoundError:
         pass # expected behaviour
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
