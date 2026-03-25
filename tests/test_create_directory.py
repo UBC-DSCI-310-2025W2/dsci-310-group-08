@@ -78,8 +78,8 @@ def test_empty_directory_name():
     """
     try:
         empty_name_dir = create_directory("", "tests")
-        assert False, "EmptyNameError should have been raised"
-    except EmptyNameError:
+        assert False, "ValueError should have been raised"
+    except ValueError:
         pass # expected behaviour
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"

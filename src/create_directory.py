@@ -1,3 +1,5 @@
+from pathlib import Path
+
 def create_directory(name, parent):
     """
     Creates a directory with the given name, located inside the given parent directory.
@@ -12,4 +14,8 @@ def create_directory(name, parent):
     Returns:
     Path to the newly created directory
     """
+    # validating arguments passed in
+    if name == "":
+        raise ValueError("Name of directory cannot be empty")
+    
     return None
