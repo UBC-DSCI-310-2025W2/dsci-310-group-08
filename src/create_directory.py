@@ -1,4 +1,7 @@
 from pathlib import Path
+import re
+
+invalid_characters = r'[<>:"/\|*?]'
 
 def create_directory(name, parent):
     """
@@ -17,5 +20,7 @@ def create_directory(name, parent):
     # validating arguments passed in
     if name == "":
         raise ValueError("Name of directory cannot be empty")
+    if re.search(invalid_characters, name):
+        raise ValueError("Directory name contains at least one illegal character")
     
     return None
