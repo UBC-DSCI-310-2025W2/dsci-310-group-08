@@ -1,4 +1,9 @@
 import pytest 
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+from src.create_directory import create_directory 
 
 # simple use case tests
 def test_create_dir_from_root_dir():
