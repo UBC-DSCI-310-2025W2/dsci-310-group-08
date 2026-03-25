@@ -35,6 +35,23 @@ def test_create_dir_two_deep():
     assert testdir.exists(), "Directory was not created"
     assert testdir.is_dir(), "Output is not a directory"
 
-# edge use case test
+
+# edge use cases test
+def test_create_2_dirs_at_once():
+    """
+    Tests the use case of creating a directory located at the root, and then creating a subdirectory of that directory.  
+    Specifically, testing the ability to do both actions within the same test.
+    Expected outcome:  both directories created successfully, with one being a subdirectory of the other.
+    """
+    assert False, "test not implemented yet"
+
+def test_create_already_existing_dir():
+    """
+    Tests the use case of attempting to create a directory that has already been created.
+    Expected outcome:  an error is raised alerting the user that directory already exists.
+    """
+    assert False, "test not implemented yet"
+
+
 
 # error use cases test
