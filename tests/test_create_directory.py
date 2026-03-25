@@ -1,4 +1,5 @@
 import pytest 
+from pathlib import Path
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -43,15 +44,32 @@ def test_create_2_dirs_at_once():
     Specifically, testing the ability to do both actions within the same test.
     Expected outcome:  both directories created successfully, with one being a subdirectory of the other.
     """
-    assert False, "test not implemented yet"
+    try:
+        onedeep = create_directory("onedeep", "")
+        twodeep = create_directory("twodeep", "onedeep")
+    except Exception as e:
+        assert False, f"Test failed due to unexpected error: {e}"
+    # check directories were actually created 
+    assert onedeep.exists(), "First directory was not created"
+    assert onedeep.is_dir(), "Output is not a directory"
+    assert twodeep.exists(), "Second level directory was not created"
+    assert twodeep.is_dir(), "Output is not a directory"
+    # check second directory has parent of first directory
+    assert twodeep.parent == onedeep
+    
 
 def test_create_already_existing_dir():
     """
     Tests the use case of attempting to create a directory that has already been created.
     Expected outcome:  an error is raised alerting the user that directory already exists.
     """
-    assert False, "test not implemented yet"
+    try:
+        testdir = create_directory("tests", "")
+        assert False, "FileExistsError should have been raised"
+    except FileExistsError:
+        pass # expected behavior
+    except Exception as e:
+        assert False, f"Test failed due to unexpected error: {e}"
 
-
-
+        
 # error use cases test
