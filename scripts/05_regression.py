@@ -7,6 +7,11 @@ from sklearn.preprocessing import OneHotEncoder
 from scipy.stats import loguniform
 import click
 from pathlib import Path
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+from src.create_directory import create_directory 
 
 @click.command()
 @click.option(
@@ -86,11 +91,9 @@ def regression(splits_path, predictions_path, predictions_result_path):
     })
 
     # create directory for predictions and write predictions to directory
-    predictions_path = Path(predictions_path)
-    predictions_path.mkdir(parents=True, exist_ok=True)
+    predictions_path = create_directory(predictions_path)
     
     predictions_result_path = Path(predictions_result_path)
-    predictions_result_path.mkdir(parents=True, exist_ok=True)
     
     # save best alpha and the corresponding accuracy score from grid search to csv
     pd.DataFrame({
