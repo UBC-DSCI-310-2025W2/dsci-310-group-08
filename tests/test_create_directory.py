@@ -1,5 +1,6 @@
 import pytest 
 from pathlib import Path
+import shutil
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -7,45 +8,56 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.create_directory import create_directory 
 
 # simple use case tests
-def test_create_dir_from_root_dir():
+
+# using tmp_path to create temporary directories that are deleted after testing
+def test_create_dir_from_root_dir(tmp_path):
     """
     Tests the use case of creating a directory from the root directory.
     Expected outcome: directory created successfully.
     """
     # catch exceptions
     try:
-        testdir = create_directory("testdir")
+        testdir = create_directory(str(tmp_path))
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
     # check directory was actually created 
     assert testdir.exists(), "Directory was not created"
     assert testdir.is_dir(), "Output is not a directory"
-        
+
+# cannot use tmp_path on this test, since we are testing the behaviour of creating a subdirectory from an existing directory
 def test_create_dir_two_deep():
     """
     Tests the use case of creating a subdirectory of an already existing parent directory.  
     This parent directory should live at the root directory.
     Expected outcome: directory created successfully.
     """
+    subdir = Path("tests") / "testdir"
+    # make sure directory doesn't already exist for testing purposes
+    if subdir.exists():
+        shutil.rmtree(subdir)
     try:
-        testdir = create_directory("tests/testdir")
+        testdir = create_directory(str(subdir))
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
     # check directory was actually created 
     assert testdir.exists(), "Directory was not created"
     assert testdir.is_dir(), "Output is not a directory"
+    # remove the directory
+    if subdir.exists():
+        shutil.rmtree(subdir)
 
 
 # edge use cases test
-def test_create_2_dirs_at_once():
+
+def test_create_2_dirs_at_once(tmp_path):
     """
     Tests the use case of creating a directory located at the root, and then creating a subdirectory of that directory.  
     Specifically, testing the ability to do both actions within the same test.
     Expected outcome: both directories created successfully, with one being a subdirectory of the other.
     """
     try:
-        onedeep = create_directory("onedeep")
-        twodeep = create_directory("onedeep/twodeep")
+        onedeep = create_directory(str(tmp_path))
+        twodeep = create_directory(str(tmp_path / "twodeep"))
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
     # check directories were actually created 
@@ -56,8 +68,9 @@ def test_create_2_dirs_at_once():
     # check second directory has parent of first directory
     assert twodeep.parent == onedeep
     
-# error use cases test
-def test_empty_directory_name():
+# error use cases tests
+
+def test_empty_directory_name(tmp_path):
     """
     Tests the use case of attempting to create a directory with no name, ie, the empty string is passed to the name argument.
     Expected outcome: an error is raised alerting the user that a directory with no name cannot be created.
@@ -70,13 +83,13 @@ def test_empty_directory_name():
     except Exception as e:
         assert False, f"Test failed due to unexpected error: {e}"
 
-def test_illegal_char_in_name():
+def test_illegal_char_in_name(tmp_path):
     """
     Test the use case where the user tries to pass in a name that contains an illegal character such as " or ?.
     Expected outcome: an error is raised alerting the user their intended directory name contains an illegal character.
     """
     try:
-        parent_nonexist_dir = create_directory("illegal?directory")
+        parent_nonexist_dir = create_directory(str(tmp_path / "illegal?directory"))
         assert False, "ValueError should have been raised"
     except ValueError:
         pass # expected behaviour
