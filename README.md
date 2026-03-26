@@ -51,10 +51,10 @@ Before running `make all`, or after running `make clean`:
 │   └── 06_results.py
 |
 ├── src/
-│   └── .gitkeep
+│   └── find_measurement_last_time.py
 |
 ├── tests/
-│   └── .gitkeep
+│   └── test_find_measurement_last_time.py
 |
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
