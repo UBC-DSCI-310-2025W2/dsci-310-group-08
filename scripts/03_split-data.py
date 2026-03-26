@@ -1,7 +1,11 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import click
-from pathlib import Path
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+from src.create_directory import create_directory 
 
 @click.command()
 @click.option(
@@ -24,9 +28,8 @@ def split_data(data_path, splits_path):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=73) 
     
     # create directory to store the data splits
-    splits_path = Path(splits_path)
-    splits_path.mkdir(parents=True, exist_ok=True)
-
+    splits_path = create_directory(splits_path)
+    
     # save splits to files
     X_train.to_csv(splits_path / "X_train.csv", index=False)
     X_test.to_csv(splits_path / "X_test.csv", index=False)
