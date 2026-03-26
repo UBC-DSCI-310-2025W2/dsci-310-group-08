@@ -1,6 +1,12 @@
 import pandas as pd
 import click
 from pathlib import Path
+import sys
+import os
+
+# Import the find_measurement_last_time function from the src folder
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from src.find_measurement_last_time import find_measurement_last_time
 
 @click.command()
 @click.option(
@@ -17,9 +23,7 @@ from pathlib import Path
 def process_data(raw_path, processed_path):
     data_raw = pd.read_csv(raw_path)
     
-    data_processed = data_raw.sort_values(["city", "year"])
-    data_processed["rank_last_time"] = data_processed.groupby("city")["rank"].shift(1)
-    data_processed['rank_last_time'] = data_processed['rank_last_time'].fillna(data_processed['rank'])
+    data_processed = find_measurement_last_time(data_raw, 'year', 'city', 'rank')
     data_processed = data_processed[~data_processed["year"].isin([2012,2013,2014])]
     data_processed = data_processed.drop(columns=['restroom_data','restroom_points','splashground_data',
                                                   'splashground_points','total_points','total_pct',

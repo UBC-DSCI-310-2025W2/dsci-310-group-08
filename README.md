@@ -121,10 +121,10 @@ After running `make all`:
 │   └── 06_results.py
 |
 ├── src/
-│   └── .gitkeep
+│   └── find_measurement_last_time.py
 |
 ├── tests/
-│   └── .gitkeep
+│   └── test_find_measurement_last_time.py
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
@@ -155,14 +155,17 @@ After running `make all`:
 - Once you are done, <kbd>CTRL</kbd>+<kbd>C</kbd> to stop and clean up the launched container.
 - Then type `docker-compose down` in the terminal.
 
-*If you want to use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats, please follow the instructions below:*
+*If you want to use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats.<br>*
+*Or if you want to execute **unit tests** for our **abstracted functions** using `pytest`.*<br>
+*You can achieve these all via simple command-line arguments. Please follow the instructions below:*
 
 - Open your terminal and navigate to the project's root directory using the `cd` command.
 - Make sure your Docker is running.
-- Run the following command to start the environment: `docker-compose run --rm --build make`.
+- Run the following command to start the environment: `docker-compose run --rm --build command`.
 - Wait for the prompt to appear. You should see something like `(base) jovyan@xxxxxxxxxxxx:~/work$`
 - To clean up existing outputs and rendered Quarto reports, type `make clean` and press <kbd>ENTER</kbd>. 
 - To render the `.qmd` source file into `PDF` and `HTML` formats, type `make all` and press <kbd>ENTER</kbd>. 
+- To execute unit tests for the abstracted functions, type `pytest tests/` and press <kbd>ENTER</kbd>, then wait for all tests to be eexcuted.
 - After you finish your work, type `exit` and press <kbd>ENTER</kbd>.
 
 ## Dependencies
