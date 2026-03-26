@@ -10,7 +10,6 @@ def create_directory(path: str):
 
     Returns an error if the specified directory name is empty.
     Returns an error if the specified directory name is illegal.
-    Returns an error if the specified parent directory does not exist.
 
     Arguments:
     Path: a string representation of the desired path to be created. 
@@ -24,5 +23,9 @@ def create_directory(path: str):
         raise ValueError("Path of directory cannot be empty")
     if re.search(invalid_characters, path):
         raise ValueError("Directory name contains at least one illegal character")
+
+    # create directory
+    path = Path(path)
+    path.mkdir(parents=True, exist_ok=True)
     
-    return None
+    return path
