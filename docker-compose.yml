@@ -12,7 +12,7 @@ services:
         environment:
             - JUPYTER_TOKEN=dsci310_group_08
 
-    make:
+    command:
         build: .
         image: ljy0401/dsci310-project-group-08:latest
         stdin_open: true
