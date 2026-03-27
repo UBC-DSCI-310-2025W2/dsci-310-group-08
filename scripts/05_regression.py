@@ -9,9 +9,10 @@ import click
 from pathlib import Path
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.create_directory import create_directory 
+from src.get_model_coefficients import get_model_coefficients
 
 @click.command()
 @click.option(
@@ -71,15 +72,7 @@ def regression(splits_path, predictions_path, predictions_result_path):
     final_pipe.fit(X_train, y_train)
     
     # get feature names after preprocessing
-    feature_names = final_pipe.named_steps['columntransformer'].get_feature_names_out()
-    
-    # zip into a dataframe
-    train_coef_df = pd.DataFrame({
-        'feature': feature_names,
-        'coefficient': final_pipe.named_steps['ridge'].coef_
-    }).sort_values('coefficient', key=abs, ascending=False)
-    
-    train_coef_df['feature'] = train_coef_df['feature'].str.replace('onehotencoder__', '').str.replace('passthrough__', '')
+    train_coef_df = get_model_coefficients(final_pipe)
     
     # predict on test data
     y_pred = final_pipe.predict(X_test)
