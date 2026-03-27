@@ -51,10 +51,16 @@ Before running `make all`, or after running `make clean`:
 │   └── 06_results.py
 |
 ├── src/
-│   └── find_measurement_last_time.py
+│   ├── create_directory.py
+│   ├── find_measurement_last_time.py
+│   ├── get_model_coefficients.py
+│   └── split_dataset.py
 |
 ├── tests/
-│   └── test_find_measurement_last_time.py
+│   ├── test_create_directory.py
+│   ├── test_find_measurement_last_time.py
+│   ├── test_get_model_coefficients.py
+│   └── test_split_dataset.py
 |
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
@@ -121,10 +127,16 @@ After running `make all`:
 │   └── 06_results.py
 |
 ├── src/
-│   └── find_measurement_last_time.py
+│   ├── create_directory.py
+│   ├── find_measurement_last_time.py
+│   ├── get_model_coefficients.py
+│   └── split_dataset.py
 |
 ├── tests/
-│   └── test_find_measurement_last_time.py
+│   ├── test_create_directory.py
+│   ├── test_find_measurement_last_time.py
+│   ├── test_get_model_coefficients.py
+│   └── test_split_dataset.py
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
