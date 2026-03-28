@@ -25,15 +25,104 @@ format:
 editor: source
 ---
 
+```{python}
+# Data Dictionary
+import pandas as pd
+data_dict = pd.read_csv("../data/raw/data_dict.csv")
+```
+
+```{python}
+# Data Wrangling and Cleaning
+# raw data
+parks_raw = pd.read_csv("../data/raw/parks_raw.csv")
+
+# quantifying NaN values
+missing_year_data = parks_raw[parks_raw['year'].isin([2012, 2013, 2014])].isna().sum().max()
+missing_year_data_pct = missing_year_data / parks_raw.shape[0]
+
+cols = ['restroom_data', 'restroom_points', 'splashground_data', 'splashground_points', 
+        'total_points', 'total_pct', 'city_dup', 'park_benches']
+missing_cols_data = parks_raw[cols].isna().sum()
+max_missing_cols_data = missing_cols_data.max() / parks_raw.shape[0]
+min_missing_cols_data = missing_cols_data.min() / parks_raw.shape[0]
+
+# quantifying cities
+n_city = parks_raw.city.nunique()
+
+# processed data
+parks_processed = pd.read_csv("../data/processed/parks_processed.csv")
+```
+
+```{python}
+# Exploratory Data Analysis and Visualization
+# splitting data
+X_train = pd.read_csv("../data/processed/splits/X_train.csv")
+y_train = pd.read_csv("../data/processed/splits/y_train.csv")
+X_test = pd.read_csv("../data/processed/splits/X_test.csv")
+y_test = pd.read_csv("../data/processed/splits/y_test.csv")
+
+# percentage of data in test set
+pct_test = X_test.shape[0] / parks_processed.shape[0]
+
+# distribution of ranks
+y_train_min = y_train.min().item()
+y_train_max = y_train.max().item()
+y_train_mean = round(y_train.mean().item(), 3)
+y_train_median = y_train.median().item()
+y_train_mode = y_train.mode().iloc[0].item()
+
+# training data summary stats
+X_train_summary = pd.read_csv("../outputs/eda/X_train_summary.csv", index_col=0)
+
+# stats from summary table
+n_rows = int(X_train_summary.loc['count', 'med_park_size_points'])
+max_points_1 = int(X_train_summary.loc['max', 'park_pct_city_points'])
+max_points_2 = int(X_train_summary.loc['max', 'pct_near_park_points'])
+mean_min = round(X_train_summary.loc['mean'].min(), 1)
+mean_max = round(X_train_summary.loc['mean'].drop('year').max(), 1)
+
+# correlation between current and past rank
+rank_corr = X_train['rank_last_time'].corr(y_train['rank']).item()
+```
+
+```{python}
+# Regression Analysis
+# grid search results
+grid_search_results = pd.read_csv("../outputs/results/grid_search_results.csv")
+best_alpha = grid_search_results['best_alpha'][0].item()
+best_score = grid_search_results['best_score'][0].item()
+```
+
+```{python}
+# Results and Visualizations
+import numpy as np
+from scipy import stats
+
+# predictions
+preds = pd.read_csv("../data/processed/predictions/test_predictions.csv")
+
+# RMSE
+rmse = np.sqrt(np.mean((preds['y_true'] - preds['y_pred'])**2)).item()
+
+# Spearman rank correlation
+spearman_corr, spearman_p = stats.spearmanr(preds['y_true'], preds['y_pred'])
+spearman_corr = spearman_corr.item()
+spearman_p = spearman_p.item()
+
+# R² on test set
+from sklearn.metrics import r2_score
+test_r2 = r2_score(preds['y_true'], preds['y_pred'])
+
+# model coefficients
+model_coef = pd.read_csv("../outputs/results/model_coef.csv")
+coef_year_state = model_coef[~model_coef["feature"].str.contains("year|state", case=False)]
+```
+
 ## Summary
 
 Urban parks play a crucial role in promoting health, well-being, and social cohesion within cities. Recognizing the importance of equitable access to high-quality parks, this project aims to analyze the characteristics of urban park systems in the United States, identify the factors most strongly associated with top-performing park systems, and predict a city's park access ranking, using a dataset from the **Trust for Public Land**’s ParkScore index up to 2021. 
 
-```{python}
-test_r2_summary = 0.803
-```
-
-Our exploratory analysis revealed that while some metrics, like park size and land percentage, have consistent distributions across cities, others, like the percentage of the population living near a park, vary significantly. We developed a Ridge Regression model to predict a city's rank. After identifying and removing the `rank_last_time` feature to prevent data leakage, our final model achieved a strong performance with an $R^2$ value of `{python} round(test_r2_summary*100, 1)`% on the test set.
+Our exploratory analysis revealed that while some metrics, like park size and land percentage, have consistent distributions across cities, others, like the percentage of the population living near a park, vary significantly. We developed a Ridge Regression model to predict a city's rank. After identifying and removing the `rank_last_time` feature to prevent data leakage, our final model achieved a strong performance with an $R^2$ value of `{python} round(test_r2*100, 1)`% on the test set.
 
 The results indicate that while temporal and geographical factors have the highest impact on rankings, specific actionable features like spending per resident and park access are the primary park-based predictors of a higher and better ranks. These findings suggest that urban planners can improve their city's standing by prioritizing investment and optimizing park locations to increase the number of residents within a 10-minute walk.
 
@@ -84,8 +173,6 @@ The main goal of collecting the data was to assess if the residents of major US 
 #| label: tbl-data_dict
 #| tbl-cap: Parks Ranking Data Dictionary
 
-import pandas as pd
-data_dict = pd.read_csv("../data/raw/data_dict.csv")
 data_dict.style.hide(axis="index")
 ```
 
@@ -101,26 +188,10 @@ We load data from the original source on the web. Here, we present the first 5 r
 #| label: tbl-data_raw
 #| tbl-cap: Raw Data Sample
 
-parks_raw = pd.read_csv("../data/raw/parks_raw.csv")
 parks_raw.head(5).style.hide(axis="index")
 ```
 
 We can see that the original raw dataset has `{python} parks_raw.shape[0]` rows and `{python} parks_raw.shape[1]` columns. Then, we perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
-
-```{python}
-# quantifying NaN values
-missing_year_data = parks_raw[parks_raw['year'].isin([2012, 2013, 2014])].isna().sum().max()
-missing_year_data_pct = missing_year_data / parks_raw.shape[0]
-
-cols = ['restroom_data', 'restroom_points', 'splashground_data', 'splashground_points', 
-        'total_points', 'total_pct', 'city_dup', 'park_benches']
-missing_cols_data = parks_raw[cols].isna().sum()
-max_missing_cols_data = missing_cols_data.max() / parks_raw.shape[0]
-min_missing_cols_data = missing_cols_data.min() / parks_raw.shape[0]
-
-# quantifying cities
-n_city = parks_raw.city.nunique()
-```
 
 Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decided to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We also then remove data from year 2012, 2013, and 2014 because `{python} round(missing_year_data_pct * 100, 1)`% of values are missing in those rows, which would not help with building a predictive model.
 
@@ -136,32 +207,12 @@ Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 #| label: tbl-data_processed
 #| tbl-cap: Processed Data Sample
 
-parks_processed = pd.read_csv("../data/processed/parks_processed.csv")
 parks_processed.head(5).style.hide(axis="index")
 ```
 
 Now we are ready to proceed! Our analysis is based on the processed data as shown in @tbl-data_processed.
 
 ### Exploratory Data Analysis & Visualization
-
-```{python}
-# splitting data
-X_train = pd.read_csv("../data/processed/splits/X_train.csv")
-y_train = pd.read_csv("../data/processed/splits/y_train.csv")
-X_test = pd.read_csv("../data/processed/splits/X_test.csv")
-y_test = pd.read_csv("../data/processed/splits/y_test.csv")
-
-# percentage of data in test set
-pct_test = X_test.shape[0] / parks_processed.shape[0]
-
-# distribution of ranks
-y_train_min = y_train.min().item()
-y_train_max = y_train.max().item()
-y_train_mean = round(y_train.mean().item(), 3)
-y_train_median = y_train.median().item()
-y_train_mode = y_train.mode().iloc[0].item()
-
-```
 
 Before conducting exploratory analysis, we split the data into training and test sets, so as to avoid touching the test data and accidentally learn its characteristics during analysis. We save `{python} round(pct_test*100, 0)`% of the data as the test set and set it aside.
 
@@ -183,17 +234,7 @@ Here, we have the summary of the features in the training data in @tbl-training_
 #| label: tbl-training_summary
 #| tbl-cap: Summary of the Training Features
 
-X_train_summary = pd.read_csv("../outputs/eda/X_train_summary.csv", index_col=0)
 X_train_summary
-```
-
-```{python}
-# stats from summary table
-n_rows = int(X_train_summary.loc['count', 'med_park_size_points'])
-max_points_1 = int(X_train_summary.loc['max', 'park_pct_city_points'])
-max_points_2 = int(X_train_summary.loc['max', 'pct_near_park_points'])
-mean_min = round(X_train_summary.loc['mean'].min(), 1)
-mean_max = round(X_train_summary.loc['mean'].drop('year').max(), 1)
 ```
 
 The first thing to note is that every column has `{python} n_rows` values, meaning all of the NA values were successfully removed. Most of the point scales are out of `{python} max_points_1` or `{python} max_points_2`, and the average number of points hovers between `{python} mean_min`-`{python} mean_max` points in all categories.
@@ -205,10 +246,6 @@ Since we expect previous ranks to be quite important in predicting the current r
 In @fig-rank_last_freq, we see a similar distribution as the target variable, with a decent majority of the ranks being on the lower half of the spectrum. Due to its similarity to the target variable, it is important to check the correlation between `rank_last_time` and `rank`.
 
 ![Previous Rank vs Current Rank](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=70%}
-
-```{python}
-rank_corr = X_train['rank_last_time'].corr(y_train['rank']).item()
-```
 
 We can see it in the scatterplot in @fig-rank_scatter that the two variables are almost perfectly correlated with a correlation of `{python} round(rank_corr*100, 0)`%. This either means that `rank_last_time` is a strong predictor for `rank` or that it presents data leakage by acting as a proxy for `rank`. To prevent the potential data leakage problem, we remove `rank_last_time` as a feature before setting up the predictive model.
 
@@ -222,42 +259,15 @@ Lastly, let's inspect the distributions of the point-based features in a more vi
 
 Since our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We drop `city` as a feature as it is represented by `state`. We drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
 
-```{python}
-grid_search_results = pd.read_csv("../outputs/results/grid_search_results.csv")
-best_alpha = grid_search_results['best_alpha'][0].item()
-best_score = grid_search_results['best_score'][0].item()
-```
-
 Before implementing the model on the data, we optimize the regularization hyperparameter *alpha* through randomized grid search. This tests the model performance using different values of *alpha* and picks the one that results in the best performance. The grid search results in an *alpha* of `{python} round(best_alpha, 4)` that produces a mean cross-validated $R^2$ of `{python} round(best_score*100, 1)`%.
 
 Now, we fit the model on the training data using *alpha =* `{python} round(best_alpha, 4)` and evaluate its performance on the test set.
 
 ### Results & Visualizations
 
-```{python}
-import numpy as np
-from scipy import stats
-
-# predictions
-preds = pd.read_csv("../data/processed/predictions/test_predictions.csv")
-
-# RMSE
-rmse = np.sqrt(np.mean((preds['y_true'] - preds['y_pred'])**2)).item()
-
-# Spearman rank correlation
-spearman_corr, spearman_p = stats.spearmanr(preds['y_true'], preds['y_pred'])
-spearman_corr = spearman_corr.item()
-spearman_p = spearman_p.item()
-
-# R² on test set
-from sklearn.metrics import r2_score
-test_r2 = r2_score(preds['y_true'], preds['y_pred'])
-
-```
-
 The model performed exceptionally well on the testing data. It explains `{python} round(test_r2*100, 1)`% of the variance in park rankings on the test set. The model has a **RMSE** (Root Mean-Squared Error) score of `{python} round(rmse, 2)`. This means that on average, predictions are off by about `{python} round(rmse, 0)` ranks. This is reasonable given the ranks range from `{python} y_train_min` to `{python} y_train_max`.
 
-Since our target is rank, an ordinal variable, we also calculate the **Spearman's Rank Correlation**. We use this measure to evaluate the correlation between the predicted and actual ranks. The Spearman correlation on the test data is `{python} round(spearman_corr*100, 1)`%. This means that the predicted rankings are very strongly correlated with the actual rankings in terms of order. Even if the exact rank is off by ~`{python} round(rmse, 0)` positions, the model is still very good at getting the relative ordering of cities correct (i.e. high-ranked cities are predicted high, low-ranked cities predicted low). The Spearman p-value is essentially `{python} round(spearman_p, 0)`, meaning the correlation is highly statistically significant.
+Since our target is rank, an ordinal variable, we also calculate the **Spearman's Rank Correlation**. We use this measure to evaluate the correlation between the predicted and actual ranks. The Spearman correlation on the test data is `{python} round(spearman_corr, 3)`%. This means that the predicted rankings are very strongly correlated with the actual rankings in terms of order. Even if the exact rank is off by ~`{python} round(rmse, 0)` positions, the model is still very good at getting the relative ordering of cities correct (i.e. high-ranked cities are predicted high, low-ranked cities predicted low). The Spearman p-value is essentially `{python} round(spearman_p, 0)`, meaning the correlation is highly statistically significant.
 
 Let's take a look at the model coefficients and understand the relationships between the predictor variables and the target.
 
@@ -265,7 +275,6 @@ Let's take a look at the model coefficients and understand the relationships bet
 #| label: tbl-coef
 #| tbl-cap: Ridge Model Coefficients (Top 15)
 
-model_coef = pd.read_csv("../outputs/results/model_coef.csv")
 model_coef.head(15).style.hide(axis="index")
 ```
 
@@ -282,7 +291,6 @@ Let's look at coefficients after removing features `state` and `year`.
 #| label: tbl-coef_wo_state_year
 #| tbl-cap: Ridge Model Coefficients after Removing State and Year
 
-coef_year_state = model_coef[~model_coef["feature"].str.contains("year|state", case=False)]
 coef_year_state.style.hide(axis="index")
 ```
 
@@ -296,7 +304,7 @@ We can better visualize the model performance using the scatterplot of Actual vs
 
 ## Discussion & Summary of Our Findings
 
-Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. The model achieved an RMSE score of approximately `{python} round(rmse, 0)` and a Spearman's rank correlation of `{python} round(spearman_corr*100, 1)`%, meaning that the predictions are roughly off by only ~`{python} round(rmse, 0)` ranks while still capturing the relative order of cities very accurately. Overall, the model is explaining `{python} round(test_r2*100, 1)`% of the variation in rankings on the test set. Looking at @fig-actual_vs_predicted, we can see that the predicted ranks follow the actual ranks closely, with the regression line passing through the bulk of the data points, indicating that the model captures the overall trend in rankings well. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities, as well as year of ranking and the state in which the park is located do contribute meaningfully to how cities are ranked in the ParkScore system. 
+Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. The model achieved an RMSE score of approximately `{python} round(rmse, 0)` and a Spearman's rank correlation of `{python} round(spearman_corr, 3)`%, meaning that the predictions are roughly off by only ~`{python} round(rmse, 0)` ranks while still capturing the relative order of cities very accurately. Overall, the model is explaining `{python} round(test_r2*100, 1)`% of the variation in rankings on the test set. Looking at @fig-actual_vs_predicted, we can see that the predicted ranks follow the actual ranks closely, with the regression line passing through the bulk of the data points, indicating that the model captures the overall trend in rankings well. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities, as well as year of ranking and the state in which the park is located do contribute meaningfully to how cities are ranked in the ParkScore system. 
 
 Among the predictor variables as listed in @tbl-coef and @tbl-coef_wo_state_year, it is interesting to see that the `year` and `state` features had such a large impact on the prediction, with the highest magnitude coefficients. Intuitively, the rankings should not depend that much simply on the year in which the measurements were taken. However, this is somewhat to be expected, and it suggests that park rankings vary significantly across time and location. 
 
