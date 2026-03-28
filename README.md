@@ -155,7 +155,7 @@ After running `make all`:
 - You will use Docker to recreate the computational environment for this analysis. For this, you will need a Docker account. You can sign up for a free one [here](https://app.docker.com/accounts/ljy0401).
 - After signing up and signing into the Docker Store, go [here](https://docs.docker.com/desktop/setup/install/windows-install/) and click on the “Get Docker Desktop” button on the right-hand side of the screen. Then follow the installation instructions on that screen to install the stable version.
 
-*Please ignore the first two steps above if you already have Docker set up.*
+*Please ignore the above two steps if you already have Docker set up.*
 
 - Open `Terminal` on your local machine and navigate to the project's root directory using the `cd` command.
 - Make sure your Docker is running.
@@ -164,13 +164,13 @@ After running `make all`:
 - Enter `dsci310_group_08` as the token/password to log into Jupyter Lab.
 - Next, in Jupyter Lab, you should be able to see all files and folders in our project repo there.
 
-*To use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats. Or to execute **unit tests** for our **abstracted functions** using `pytest`. You can achieve all of these via simple command-line arguments. Please follow the instructions below:*
+*We recommend you to use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats or to execute **unit tests** for our **abstracted functions** using `pytest`. You can achieve all of these via simple command-line arguments. Please follow the instructions below:*
 
-- Launch a new Terminal **inside Jupyter Lab**. You should see something like `(base) jovyan@xxxxxxxxxxxx:~/work$`
+- Launch a new Terminal **inside Jupyter Lab** (If you cannot find where to launch a Terminal inside Jupyter Lab, please watch this very short [video](https://www.youtube.com/watch?v=ynMjz1tiq9o)). You should see something like `(base) jovyan@xxxxxxxxxxxx:~/work$` in the terminal.
 - To clean up existing outputs and rendered Quarto reports, type `make clean` and press <kbd>ENTER</kbd>. 
 - To render the `.qmd` source file into `PDF` and `HTML` formats, type `make all` and press <kbd>ENTER</kbd>. 
 - To execute unit tests for the abstracted functions, type `pytest tests/` and press <kbd>ENTER</kbd>, then wait for all tests to be executed.
-- Once you are done, press <kbd>CTRL</kbd>+<kbd>C</kbd> in your **local Terminal** to close Jupyter Lab.
+- Once you are done, press <kbd>CTRL</kbd>+<kbd>C</kbd> in your **local Terminal (outside the Jupyter Lab container)** to close Jupyter Lab.
 - Then type `docker-compose down` in the **local Terminal** to stop and clean up the launched container.
 
 ## Dependencies
