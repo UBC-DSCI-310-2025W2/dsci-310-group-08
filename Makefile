@@ -1,15 +1,9 @@
-# author: Shivani Aggarwal, Luna Gulec, Jingyuan Liu, Sarenna Ulman
+# author: Shivani Aggarwal, Luna Gulec, Jingyuan Liu, Sarenna Ulman (DSCI_V 310 101 2025W2 Group 08)
 # date: 2026-03-15
 
 .PHONY: all clean
 
-all: data/raw/parks_raw.csv data/raw/data_dict.csv \
-	data/processed/parks_processed.csv \
-	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
-	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv\
-	outputs/results/grid_search_results.csv outputs/results/model_coef.csv data/processed/predictions/test_predictions.csv \
-	outputs/results/05_actual-vs-predicted.png \
-	docs/index.html \
+all: docs/index.html \
 	docs/index.pdf
 
 # run scripts
@@ -59,11 +53,21 @@ outputs/results/05_actual-vs-predicted.png: data/processed/predictions/test_pred
 		--fig_name=05_actual-vs-predicted.png
 
 # render quarto report in HTML and PDF
-docs/index.html: reports/parks_analysis.qmd data outputs
+docs/index.html: reports/parks_analysis.qmd data/raw/parks_raw.csv data/raw/data_dict.csv \
+	data/processed/parks_processed.csv \
+	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
+	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv\
+	outputs/results/grid_search_results.csv outputs/results/model_coef.csv data/processed/predictions/test_predictions.csv \
+	outputs/results/05_actual-vs-predicted.png 
 	quarto render reports/parks_analysis.qmd --to html --output-dir ../docs/ 
 	mv docs/parks_analysis.html docs/index.html
 
-docs/index.pdf: reports/parks_analysis.qmd data outputs
+docs/index.pdf: reports/parks_analysis.qmd data/raw/parks_raw.csv data/raw/data_dict.csv \
+	data/processed/parks_processed.csv \
+	data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv \
+	outputs/eda/01_rank_frequency.png outputs/eda/02_rank-last-time_frequency.png outputs/eda/03_rank_rank-last-time_scatter.png outputs/eda/04_numerical_boxplots.png outputs/eda/X_train_summary.csv\
+	outputs/results/grid_search_results.csv outputs/results/model_coef.csv data/processed/predictions/test_predictions.csv \
+	outputs/results/05_actual-vs-predicted.png 
 	quarto render reports/parks_analysis.qmd --to pdf --output-dir ../docs/ 
 	mv docs/parks_analysis.pdf docs/index.pdf
 
