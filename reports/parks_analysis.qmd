@@ -182,16 +182,18 @@ This can also be found at the data website [here](https://github.com/rfordatasci
 
 ### Data Wrangling and Cleaning
 
-We load data from the original source on the web. Here, we present the first 5 rows of the raw data.
+We load data from the original source on the web. Here, we present the first 5 rows of the raw data in @tbl-data_raw.
+
+*Note: @tbl-data_raw, @tbl-data_processed, and @tbl-training_summary only display a subset of key features to make sure that the tables do not run off the page in the report for clarity. The excluded columns are consistent with the characteristics of the displayed data.*
 
 ```{python}
 #| label: tbl-data_raw
 #| tbl-cap: Raw Data Sample
 
-parks_raw.head(5).style.hide(axis="index")
+parks_raw.iloc[0:5, 0:6].style.hide(axis="index")
 ```
 
-We can see that the original raw dataset has `{python} parks_raw.shape[0]` rows and `{python} parks_raw.shape[1]` columns. Then, we perform data wrangling to clean the data from it’s original format to the format necessary for the purpose of this analysis.
+The original raw dataset has `{python} parks_raw.shape[0]` rows and `{python} parks_raw.shape[1]` columns. Then, we perform data wrangling to clean the data from its original format to the format necessary for the purpose of this analysis.
 
 Since this dataset records the yearly rankings of park access across U.S. cities, it is inherently time-series data. However, advanced time-series methods are beyond the scope of this course. Instead, we extract each city's rank from the last time, denoted as `rank_last_time`, to capture basic year-to-year trends. For the first observation year of a city, we decided to impute its `rank_last_time` with its ranking in the current year (i.e., `rank`). We also then remove data from year 2012, 2013, and 2014 because `{python} round(missing_year_data_pct * 100, 1)`% of values are missing in those rows, which would not help with building a predictive model.
 
@@ -207,7 +209,7 @@ Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 #| label: tbl-data_processed
 #| tbl-cap: Processed Data Sample
 
-parks_processed.head(5).style.hide(axis="index")
+parks_processed.iloc[0:5, 0:6].style.hide(axis="index")
 ```
 
 Now we are ready to proceed! Our analysis is based on the processed data as shown in @tbl-data_processed.
@@ -234,7 +236,7 @@ Here, we have the summary of the features in the training data in @tbl-training_
 #| label: tbl-training_summary
 #| tbl-cap: Summary of the Training Features
 
-X_train_summary
+X_train_summary.iloc[:, 0:4]
 ```
 
 The first thing to note is that every column has `{python} n_rows` values, meaning all of the NA values were successfully removed. Most of the point scales are out of `{python} max_points_1` or `{python} max_points_2`, and the average number of points hovers between `{python} mean_min`-`{python} mean_max` points in all categories.
