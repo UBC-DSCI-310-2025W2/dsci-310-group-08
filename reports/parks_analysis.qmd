@@ -226,6 +226,8 @@ Here is the distribution of ranks (our target variable) in the training set:
 - Median rank: `{python} y_train_median`
 - Most common rank: `{python} y_train_mode`
 
+{{< pagebreak >}}
+
 ![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=70%}
 
 From @fig-rank_freq, we can see that the ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
@@ -241,13 +243,15 @@ X_train_summary.iloc[:, 0:4]
 
 The first thing to note is that every column has `{python} n_rows` values, meaning all of the NA values were successfully removed. Most of the point scales are out of `{python} max_points_1` or `{python} max_points_2`, and the average number of points hovers between `{python} mean_min`-`{python} mean_max` points in all categories.
 
+{{< pagebreak >}}
+
 Since we expect previous ranks to be quite important in predicting the current rank, we look at the distribution of the feature `rank_last_time`.
 
 ![Previous Rank Value vs Frequency it Appears in the Training Set](../outputs/eda/02_rank-last-time_frequency.png){#fig-rank_last_freq width=70%}
 
 In @fig-rank_last_freq, we see a similar distribution as the target variable, with a decent majority of the ranks being on the lower half of the spectrum. Due to its similarity to the target variable, it is important to check the correlation between `rank_last_time` and `rank`.
 
-![Previous Rank vs Current Rank](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=70%}
+![Previous Rank vs Current Rank](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=80%}
 
 We can see it in the scatterplot in @fig-rank_scatter that the two variables are almost perfectly correlated with a correlation of `{python} round(rank_corr*100, 0)`%. This either means that `rank_last_time` is a strong predictor for `rank` or that it presents data leakage by acting as a proxy for `rank`. To prevent the potential data leakage problem, we remove `rank_last_time` as a feature before setting up the predictive model.
 
@@ -256,6 +260,8 @@ Lastly, let's inspect the distributions of the point-based features in a more vi
 ![Boxplots of the Point-based Features](../outputs/eda/04_numerical_boxplots.png){#fig-num_boxplot}
 
 @fig-num_boxplot shows that the medians are relatively similar, except for `pct_near_park_points`, and that most columns have similar standard deviations. Something to note is every feature, with the exception for `amenities_points`, has several outliers. Additionally, the features `med_park_size_points` and `park_pct_city_points` have nearly identical distributions.
+
+{{< pagebreak >}}
 
 ### Regression Analysis
 
