@@ -23,7 +23,13 @@ def create_directory(path: str):
 
     Examples
     --------
+    >>> create_directory("example")
+    >>> cd example
+    >>> touch example_file.txt
 
+    >>> path = create_directory("data/processed")
+    >>> processed_data_frame.to_csv(path)
+    
     Notes
     -----
     This function uses the base libraries pathlib and re to perform the task.
