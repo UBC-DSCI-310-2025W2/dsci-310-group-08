@@ -199,9 +199,9 @@ Since this dataset records the yearly rankings of park access across U.S. cities
 
 We noticed that more than `{python} round(min_missing_cols_data*100, 1)`% of the data in columns `restroom_data`, `restroom_points`, `splashground_data`, `splashground_points`, `total_points`, `total_pct`, `city_dup`, and `park_benches` is missing, with some columns approaching `{python} round(max_missing_cols_data*100, 1)`%. Therefore, we decided to drop these columns as advanced data imputation methods are also beyond the scope of this course.
 
-There are a total of `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state.
+There are a total of `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state. Since `city` will now be perfectly correlated with `state`, we can remove that column. 
 
-Finally, we convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!
+Finally, we convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!  
 
 Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 
@@ -265,7 +265,7 @@ Lastly, let's inspect the distributions of the point-based features in a more vi
 
 ### Regression Analysis
 
-Since our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We drop `city` as a feature as it is represented by `state`. We drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
+Since our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
 
 Before implementing the model on the data, we optimize the regularization hyperparameter *alpha* through randomized grid search. This tests the model performance using different values of *alpha* and picks the one that results in the best performance. The grid search results in an *alpha* of `{python} round(best_alpha, 4)` that produces a mean cross-validated $R^2$ of `{python} round(best_score*100, 1)`%.
 
