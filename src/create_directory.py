@@ -11,10 +11,22 @@ def create_directory(path: str):
     Returns an error if the specified directory name is empty.
     Returns an error if the specified directory name is illegal.
 
-    Arguments:
-    Path: a string representation of the desired path to be created. 
-    Returns:
-    Path object to the newly created directory.
+    Parameters
+    ----------
+    path: String
+        A string representation of the desired path to be created. 
+
+    Returns
+    --------
+    path: Path
+        A path object pointing to the newly created directory.
+
+    Examples
+    --------
+
+    Notes
+    -----
+    This function uses the base libraries pathlib and re to perform the task.
     """
     # validating arguments passed in
     if not isinstance(path, str):
