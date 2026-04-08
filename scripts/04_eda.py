@@ -45,6 +45,7 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name, fig4_name):
     plt.hist(y_train, bins = 12, edgecolor='black')
     plt.xlabel("Rank")
     plt.ylabel("Frequency")
+    plt.title("Training Set Ordinal Rank vs Value Frequency")
     plt.savefig(outputs_path / fig1_name)
     # clear plot
     plt.clf()
@@ -53,6 +54,7 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name, fig4_name):
     plt.hist(X_train['rank_last_time'], bins = 12, edgecolor='black', color = 'green')
     plt.xlabel("Rank")
     plt.ylabel("Frequency")
+    plt.title("Training Set Previous Rank Value vs Frequency")
     plt.savefig(outputs_path / fig2_name)
     plt.clf()
     
@@ -62,6 +64,7 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name, fig4_name):
     plt.gca().set_axisbelow(True)
     plt.xlabel("Previous Rank")
     plt.ylabel("Current Rank")
+    plt.title("Previous Rank vs Current Rank")
     plt.savefig(outputs_path / fig3_name)
     plt.clf()
     
@@ -74,6 +77,7 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name, fig4_name):
     plt.figure(figsize=(10,6))
     sns.boxplot(data=X_train[columns_to_plot])
     plt.xticks(rotation=45, ha='right')
+    plt.title("Boxplots of Point-based Features")
     plt.tight_layout()
     plt.savefig(outputs_path / fig4_name)
     

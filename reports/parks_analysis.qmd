@@ -226,7 +226,7 @@ Here is the distribution of ranks (our target variable) in the training set:
 
 {{< pagebreak >}}
 
-![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=70%}
+![Frequency of ordinal ranks in the training split.](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=70%}
 
 From @fig-rank_freq, we can see that the ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
 
@@ -245,17 +245,17 @@ The first thing to note is that every column has `{python} n_rows` values, meani
 
 Since we expect previous ranks to be quite important in predicting the current rank, we look at the distribution of the feature `rank_last_time`.
 
-![Previous Rank Value vs Frequency it Appears in the Training Set](../outputs/eda/02_rank-last-time_frequency.png){#fig-rank_last_freq width=70%}
+![Frequency of previous rank values in the training data.](../outputs/eda/02_rank-last-time_frequency.png){#fig-rank_last_freq width=70%}
 
 In @fig-rank_last_freq, we see a similar distribution as the target variable, with a decent majority of the ranks being on the lower half of the spectrum. Due to its similarity to the target variable, it is important to check the correlation between `rank_last_time` and `rank`.
 
-![Previous Rank vs Current Rank](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=80%}
+![Scatter plot illustrating the relationship between the lagged feature (Previous Rank) and the target variable (Current Rank) within the training dataset.](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=80%}
 
 We can see it in the scatterplot in @fig-rank_scatter that the two variables are almost perfectly correlated with a correlation of `{python} round(rank_corr*100, 0)`%. This either means that `rank_last_time` is a strong predictor for `rank` or that it presents data leakage by acting as a proxy for `rank`. To prevent the potential data leakage problem, we remove `rank_last_time` as a feature before setting up the predictive model.
 
 Lastly, let's inspect the distributions of the point-based features in a more visually interpretable boxplot. We are also be able to check for outliers this way.
 
-![Boxplots of the Point-based Features](../outputs/eda/04_numerical_boxplots.png){#fig-num_boxplot}
+![The frequency distribution of park's point-based metrics.](../outputs/eda/04_numerical_boxplots.png){#fig-num_boxplot}
 
 @fig-num_boxplot shows that the medians are relatively similar, except for `pct_near_park_points`, and that most columns have similar standard deviations. Something to note is every feature, with the exception for `amenities_points`, has several outliers. Additionally, the features `med_park_size_points` and `park_pct_city_points` have nearly identical distributions.
 
@@ -306,7 +306,7 @@ These findings align with the idea that park accessibility, funding, land alloca
 
 We can better visualize the model performance using the scatterplot of Actual vs Predicted Ranks.
 
-![](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
+![Scatter plot comparing observed park ranks against the predicted values.](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
 
 ## Discussion & Summary of Our Findings
 
