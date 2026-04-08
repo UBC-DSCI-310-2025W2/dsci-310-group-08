@@ -48,7 +48,8 @@ Before running `make all`, or after running `make clean`:
 │   ├── 03_split-data.py
 │   ├── 04_eda.py
 │   ├── 05_regression.py
-│   └── 06_results.py
+│   ├── 06_results.py
+│   └── 07_data_validation.py
 |
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
@@ -112,7 +113,8 @@ After running `make all`:
 │   ├── 03_split-data.py
 │   ├── 04_eda.py
 │   ├── 05_regression.py
-│   └── 06_results.py
+│   ├── 06_results.py
+│   └── 07_data_validation.py
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
@@ -149,7 +151,7 @@ After running `make all`:
 - Then type `docker-compose down` in the **local Terminal** to stop and clean up the launched container.
 
 ## Dependencies
-- Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).
+- Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718). *Specifically, packages such as `numpy 2.3.5`, `pandas 2.3.3`, and `scikit-learn 1.8.0` are used in this project.*
 - [Quarto v1.8.26](https://quarto.org/docs/blog/posts/2025-10-13-1.8-release/)
 - [TinyTeX v2026.03.02](https://github.com/rstudio/tinytex-releases/releases)
 - [pytest 9.0.2](https://pypi.org/project/pytest/)
