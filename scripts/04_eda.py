@@ -40,7 +40,6 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name, fig4_name):
     
     # create the paths for plots
     outputs_path = Path(outputs_path)
-    outputs_path.mkdir(parents=True, exist_ok=True)
     
     # make first plot - frequency of ranks
     plt.hist(y_train, bins = 12, edgecolor='black')

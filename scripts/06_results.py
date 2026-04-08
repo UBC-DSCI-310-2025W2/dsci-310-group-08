@@ -37,7 +37,6 @@ def results(predictions_path, outputs_path, fig_name):
     
     # make directory to save the plot
     outputs_path = Path(outputs_path)
-    outputs_path.mkdir(parents=True, exist_ok=True)
     plt.savefig(outputs_path / fig_name)
 
 if __name__ == "__main__":
