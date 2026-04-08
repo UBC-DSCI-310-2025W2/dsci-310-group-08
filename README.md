@@ -178,6 +178,7 @@ After running `make all`:
 - [Quarto v1.8.26](https://quarto.org/docs/blog/posts/2025-10-13-1.8-release/).
 - [TinyTeX v2026.03.02](https://github.com/rstudio/tinytex-releases/releases)
 - [pytest 9.0.2](https://pypi.org/project/pytest/)
+- [GNU Make 4.3](https://lists.gnu.org/archive/html/info-gnu/2020-01/msg00004.html)
 
 ## Licenses
 This project report is offered under 
