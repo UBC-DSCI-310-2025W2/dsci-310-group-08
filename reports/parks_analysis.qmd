@@ -201,7 +201,7 @@ We noticed that more than `{python} round(min_missing_cols_data*100, 1)`% of the
 
 There are a total of `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state. Since `city` will now be perfectly correlated with `state`, we can remove that column. 
 
-Finally, we convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!  
+Finally, we convert columns `year` and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!  
 
 Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 
@@ -209,7 +209,7 @@ Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 #| label: tbl-data_processed
 #| tbl-cap: Processed Data Sample
 
-parks_processed.iloc[0:5, 0:6].style.hide(axis="index")
+parks_processed.iloc[0:5, 0:5].style.hide(axis="index")
 ```
 
 Now we are ready to proceed! Our analysis is based on the processed data as shown in @tbl-data_processed.
