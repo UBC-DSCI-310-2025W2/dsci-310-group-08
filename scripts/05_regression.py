@@ -10,9 +10,8 @@ from pathlib import Path
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.create_directory import create_directory 
-from src.get_model_coefficients import get_model_coefficients
+# Import the create_directory and get_model_coefficients functions from parks_pkg_dsci310_08 package
+from parks_pkg_dsci310_08.parks import create_directory, get_model_coefficients
 
 @click.command()
 @click.option(

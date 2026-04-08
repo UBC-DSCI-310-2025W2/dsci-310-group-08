@@ -4,9 +4,8 @@ from pathlib import Path
 import sys
 import os
 
-# Import the find_measurement_last_time function from the src folder
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.find_measurement_last_time import find_measurement_last_time
+# Import the find_measurement_last_time function from parks_pkg_dsci310_08 package
+from parks_pkg_dsci310_08.parks import find_measurement_last_time
 
 @click.command()
 @click.option(
