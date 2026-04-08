@@ -146,15 +146,13 @@ Access to greenspaces shouldn’t be a privilege; it should be a right. Because 
 
 ### Research Question
 
-The objective of this project is to investigate whether characteristics of a city's park system can be used to predict its park access ranking and determine the ranks of cities among the top-performing park systems in the United States. Specifically, we ask:
+The objective of this project is to investigate whether characteristics of a city's park system can be used to predict its park access ranking and determine the ranks of cities among the top-performing park systems in the United States. Specifically, our research question is:
 
-> *Can features describing park availability, amenities, and investment be used to predict a city’s ranking in the Trust for Public Land’s ParkScore index?*
+> *Can we predict a city’s park access ranking in the Trust for Public Land’s ParkScore index based on park characteristics and population features such as total park acreage, number of parks, population size, and population density?*
 
 To answer this question, we developed a regression model that predicts a city's park system rank based on several explanatory variables, including park size, percentage of city land dedicated to parks, access to parks, spending per resident, and availability of amenities such as playgrounds, dog parks, and recreation facilities. By examining how these features relate to park rankings, we aim to identify which characteristics are most strongly associated with higher-performing park systems.
 
 Understanding these relationships and identifying the features that distinguish top-ranked cities may help urban planners and policymakers better understand the factors that contribute to successful park systems and guide decisions about future investments in public green spaces.
-
-**Proposed Research Question:** *Can we predict a city’s park access ranking based on park characteristics and population features such as total park acreage, number of parks, population size, and population density?*
 
 ### About the Dataset
 
@@ -308,7 +306,7 @@ These findings align with the idea that park accessibility, funding, land alloca
 
 We can better visualize the model performance using the scatterplot of Actual vs Predicted Ranks.
 
-![Actual vs Predicted Ranks](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
+![](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
 
 ## Discussion & Summary of Our Findings
 
