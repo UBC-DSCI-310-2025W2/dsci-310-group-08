@@ -30,6 +30,12 @@ def split_dataset(data_frame, target_col, test_size=0.2, random_state=None):
         - y_train : training target Series (as DataFrame with one column)
         - y_test  : test target Series (as DataFrame with one column)
 
+    Examples
+    --------
+    >>> split_dataset(sample_data_frame, target_column)
+    >>> split_dataset(sample_data_frame, target_column, test_size=0.4)
+    >>> split_dataset(sample_data_frame, target_column, 0.4, 42)
+
     Raises
     ------
     TypeError
