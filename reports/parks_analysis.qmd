@@ -306,7 +306,7 @@ These findings align with the idea that park accessibility, funding, land alloca
 
 We can better visualize the model performance using the scatterplot of Actual vs Predicted Ranks.
 
-![Actual vs Predicted Ranks](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
+![](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
 
 ## Discussion & Summary of Our Findings
 
