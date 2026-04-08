@@ -69,7 +69,6 @@ def process_data(raw_path, processed_path):
     
     # create directory to store processed data
     processed_path = Path(processed_path)
-    processed_path.parent.mkdir(parents=True, exist_ok=True)
     # export processed data to csv in the processed folder
     data_processed.to_csv(processed_path, index=False)
 
