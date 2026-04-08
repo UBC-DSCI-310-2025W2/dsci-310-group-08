@@ -29,6 +29,9 @@ def results(predictions_path, outputs_path, fig_name):
     # make figure 4 - accuracy plot
     plt.scatter(y_test, y_pred, alpha=0.5)
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')  # perfect prediction line
+    plt.title('Predicted vs Actual Ranks')
+    plt.grid(True)
+    plt.gca().set_axisbelow(True)
     plt.xlabel('Actual Ranks')
     plt.ylabel('Predicted Ranks')
     

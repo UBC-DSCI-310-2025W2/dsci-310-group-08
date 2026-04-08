@@ -58,7 +58,9 @@ def eda(splits_path, outputs_path, fig1_name, fig2_name, fig3_name, fig4_name):
     plt.clf()
     
     # third plot - scatterplot of current and previous ranks
-    plt.scatter(X_train['rank_last_time'], y_train['rank'], edgecolor='black')
+    plt.scatter(X_train['rank_last_time'], y_train['rank'], edgecolor='black',zorder=1)
+    plt.grid(True)
+    plt.gca().set_axisbelow(True)
     plt.xlabel("Previous Rank")
     plt.ylabel("Current Rank")
     plt.savefig(outputs_path / fig3_name)
