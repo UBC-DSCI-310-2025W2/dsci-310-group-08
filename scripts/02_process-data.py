@@ -66,6 +66,7 @@ def process_data(raw_path, processed_path):
     data_processed['rank'] = data_processed['rank'].astype('int')
     data_processed['rank_last_time'] = data_processed['rank_last_time'].astype('int')
     data_processed = data_processed.drop(columns=data_processed.filter(regex='data$').columns)
+    data_processed = data_processed.drop(columns='city')
     
     # create directory to store processed data
     processed_path = Path(processed_path)

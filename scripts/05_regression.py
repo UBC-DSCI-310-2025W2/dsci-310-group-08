@@ -45,9 +45,9 @@ def regression(splits_path, predictions_path, predictions_result_path):
     X_test['year'] = X_test['year'].astype('category')
     
     # isolating different types of features
-    categorical_features = X_train.select_dtypes(include=["object", "string", "category"]).drop(columns=['city']).columns.tolist()
+    categorical_features = X_train.select_dtypes(include=["object", "string", "category"]).columns.tolist()
     numerical_features = X_train.select_dtypes(include=['int', 'float']).drop(columns=['rank_last_time']).columns.tolist()
-    drop_features = ['city', 'rank_last_time']
+    drop_features = ['rank_last_time']
     
     # preprocessor
     preprocessor = make_column_transformer(
