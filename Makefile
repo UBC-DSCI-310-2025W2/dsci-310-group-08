@@ -25,7 +25,7 @@ data/processed/parks_processed.csv: data/raw/parks_raw.csv scripts/02_process-da
 # script 03
 # split the processed data into training and testing sets and separate explanatory variables from the target column
 # and save them into separate .csv files
-data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv: data/processed/parks_processed.csv scripts/03_split-data.py
+data/processed/splits/X_train.csv data/processed/splits/y_train.csv data/processed/splits/X_test.csv data/processed/splits/y_test.csv: data/processed/validation_passed.txt scripts/03_split-data.py
 	python scripts/03_split-data.py \
 		--data_path=data/processed/parks_processed.csv \
 		--splits_path=data/processed/splits
@@ -59,6 +59,13 @@ outputs/results/05_actual-vs-predicted.png: data/processed/predictions/test_pred
 		--outputs_path=outputs/results \
 		--fig_name=05_actual-vs-predicted.png
 
+# script 07
+# data validation of processed dataset
+data/processed/validation_passed.txt: data/processed/parks_processed.csv scripts/07_data_validation.py
+	python scripts/07_data_validation.py \
+		--processed_path=data/processed/parks_processed.csv \
+		--output_path=data/processed/validation_passed.txt
+
 # render the HTML report from the Quarto .qmd file and move it to the docs folder
 docs/index.html: reports/parks_analysis.qmd data/raw/parks_raw.csv data/raw/data_dict.csv \
 	data/processed/parks_processed.csv \
@@ -85,6 +92,7 @@ clean:
 	rm -rf docs
 	rm -f data/raw/*.csv
 	rm -f data/processed/*.csv
+	rm -f data/processed/*.txt
 	rm -rf data/processed/splits
 	rm -rf data/processed/predictions
 	rm -f outputs/**/*.csv
