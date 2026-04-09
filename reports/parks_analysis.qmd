@@ -146,15 +146,13 @@ Access to greenspaces shouldn’t be a privilege; it should be a right. Because 
 
 ### Research Question
 
-The objective of this project is to investigate whether characteristics of a city's park system can be used to predict its park access ranking and determine the ranks of cities among the top-performing park systems in the United States. Specifically, we ask:
+The objective of this project is to investigate whether characteristics of a city's park system can be used to predict its park access ranking and determine the ranks of cities among the top-performing park systems in the United States. Specifically, our research question is:
 
-> *Can features describing park availability, amenities, and investment be used to predict a city’s ranking in the Trust for Public Land’s ParkScore index?*
+> *Can we predict a city’s park access ranking in the Trust for Public Land’s ParkScore index based on park characteristics and population features such as total park acreage, number of parks, population size, and population density?*
 
 To answer this question, we developed a regression model that predicts a city's park system rank based on several explanatory variables, including park size, percentage of city land dedicated to parks, access to parks, spending per resident, and availability of amenities such as playgrounds, dog parks, and recreation facilities. By examining how these features relate to park rankings, we aim to identify which characteristics are most strongly associated with higher-performing park systems.
 
 Understanding these relationships and identifying the features that distinguish top-ranked cities may help urban planners and policymakers better understand the factors that contribute to successful park systems and guide decisions about future investments in public green spaces.
-
-**Proposed Research Question:** *Can we predict a city’s park access ranking based on park characteristics and population features such as total park acreage, number of parks, population size, and population density?*
 
 ### About the Dataset
 
@@ -199,9 +197,9 @@ Since this dataset records the yearly rankings of park access across U.S. cities
 
 We noticed that more than `{python} round(min_missing_cols_data*100, 1)`% of the data in columns `restroom_data`, `restroom_points`, `splashground_data`, `splashground_points`, `total_points`, `total_pct`, `city_dup`, and `park_benches` is missing, with some columns approaching `{python} round(max_missing_cols_data*100, 1)`%. Therefore, we decided to drop these columns as advanced data imputation methods are also beyond the scope of this course.
 
-There are a total of `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state.
+There are a total of `{python} n_city` cities in this dataset, but each city only has fewer than 10 observations. This makes `city` not an ideal categorical variable for regression due to the potential overfitting issue. Therefore, we perform feature aggregation and add a new column called `state` so that each category has more valid observations. We manually map each city into a state. Since `city` will now be perfectly correlated with `state`, we can remove that column. 
 
-Finally, we convert columns `year`, `city`, and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!
+Finally, we convert columns `year` and `state` to type `category`, and columns `rank` and `rank_last_time` to type `int`. In addition, we know that variables ending with "points" are essentially their yearly normalized values (higher points = better), so we decided to remove raw numerical variables (i.e., variables ending with `"_data"`) and just keep the normalized ones with potential categorical variables in the model. In particular, our response variable is **`rank`**!  
 
 Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 
@@ -209,7 +207,7 @@ Here, we present the first 5 rows of the processed data in @tbl-data_processed.
 #| label: tbl-data_processed
 #| tbl-cap: Processed Data Sample
 
-parks_processed.iloc[0:5, 0:6].style.hide(axis="index")
+parks_processed.iloc[0:5, 0:5].style.hide(axis="index")
 ```
 
 Now we are ready to proceed! Our analysis is based on the processed data as shown in @tbl-data_processed.
@@ -228,7 +226,7 @@ Here is the distribution of ranks (our target variable) in the training set:
 
 {{< pagebreak >}}
 
-![Ordinal Rank vs Value Frequency in the Training Set](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=70%}
+![Frequency of ordinal ranks in the training split.](../outputs/eda/01_rank_frequency.png){#fig-rank_freq width=70%}
 
 From @fig-rank_freq, we can see that the ranks are somewhat evenly distributed, with a slight majority of parks receiving a lower rank.
 
@@ -247,17 +245,17 @@ The first thing to note is that every column has `{python} n_rows` values, meani
 
 Since we expect previous ranks to be quite important in predicting the current rank, we look at the distribution of the feature `rank_last_time`.
 
-![Previous Rank Value vs Frequency it Appears in the Training Set](../outputs/eda/02_rank-last-time_frequency.png){#fig-rank_last_freq width=70%}
+![Frequency of previous rank values in the training data.](../outputs/eda/02_rank-last-time_frequency.png){#fig-rank_last_freq width=70%}
 
 In @fig-rank_last_freq, we see a similar distribution as the target variable, with a decent majority of the ranks being on the lower half of the spectrum. Due to its similarity to the target variable, it is important to check the correlation between `rank_last_time` and `rank`.
 
-![Previous Rank vs Current Rank](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=80%}
+![Scatter plot illustrating the relationship between the lagged feature (Previous Rank) and the target variable (Current Rank) within the training dataset.](../outputs/eda/03_rank_rank-last-time_scatter.png){#fig-rank_scatter width=80%}
 
 We can see it in the scatterplot in @fig-rank_scatter that the two variables are almost perfectly correlated with a correlation of `{python} round(rank_corr*100, 0)`%. This either means that `rank_last_time` is a strong predictor for `rank` or that it presents data leakage by acting as a proxy for `rank`. To prevent the potential data leakage problem, we remove `rank_last_time` as a feature before setting up the predictive model.
 
 Lastly, let's inspect the distributions of the point-based features in a more visually interpretable boxplot. We are also be able to check for outliers this way.
 
-![Boxplots of the Point-based Features](../outputs/eda/04_numerical_boxplots.png){#fig-num_boxplot}
+![The frequency distribution of park's point-based metrics.](../outputs/eda/04_numerical_boxplots.png){#fig-num_boxplot}
 
 @fig-num_boxplot shows that the medians are relatively similar, except for `pct_near_park_points`, and that most columns have similar standard deviations. Something to note is every feature, with the exception for `amenities_points`, has several outliers. Additionally, the features `med_park_size_points` and `park_pct_city_points` have nearly identical distributions.
 
@@ -277,7 +275,7 @@ Now, we fit the model on the training data using *alpha =* `{python} round(best_
 
 The model performed exceptionally well on the testing data. It explains `{python} round(test_r2*100, 1)`% of the variance in park rankings on the test set. The model has a **RMSE** (Root Mean-Squared Error) score of `{python} round(rmse, 2)`. This means that on average, predictions are off by about `{python} round(rmse, 0)` ranks. This is reasonable given the ranks range from `{python} y_train_min` to `{python} y_train_max`.
 
-Since our target is rank, an ordinal variable, we also calculate the **Spearman's Rank Correlation**. We use this measure to evaluate the correlation between the predicted and actual ranks. The Spearman correlation on the test data is `{python} round(spearman_corr, 3)`%. This means that the predicted rankings are very strongly correlated with the actual rankings in terms of order. Even if the exact rank is off by ~`{python} round(rmse, 0)` positions, the model is still very good at getting the relative ordering of cities correct (i.e. high-ranked cities are predicted high, low-ranked cities predicted low). The Spearman p-value is essentially `{python} round(spearman_p, 0)`, meaning the correlation is highly statistically significant.
+Since our target is rank, an ordinal variable, we also calculate the **Spearman's Rank Correlation**. We use this measure to evaluate the correlation between the predicted and actual ranks. The Spearman correlation on the test data is `{python} round(spearman_corr, 3)`. This means that the predicted rankings are very strongly correlated with the actual rankings in terms of order. Even if the exact rank is off by ~`{python} round(rmse, 0)` positions, the model is still very good at getting the relative ordering of cities correct (i.e. high-ranked cities are predicted high, low-ranked cities predicted low). The Spearman p-value is essentially `{python} round(spearman_p, 0)`, meaning the correlation is highly statistically significant.
 
 Let's take a look at the model coefficients and understand the relationships between the predictor variables and the target.
 
@@ -310,11 +308,11 @@ These findings align with the idea that park accessibility, funding, land alloca
 
 We can better visualize the model performance using the scatterplot of Actual vs Predicted Ranks.
 
-![Actual vs Predicted Ranks](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
+![Scatter plot comparing observed park ranks against the predicted values.](../outputs/results/05_actual-vs-predicted.png){#fig-actual_vs_predicted}
 
 ## Discussion & Summary of Our Findings
 
-Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. The model achieved an RMSE score of approximately `{python} round(rmse, 0)` and a Spearman's rank correlation of `{python} round(spearman_corr, 3)`%, meaning that the predictions are roughly off by only ~`{python} round(rmse, 0)` ranks while still capturing the relative order of cities very accurately. Overall, the model is explaining `{python} round(test_r2*100, 1)`% of the variation in rankings on the test set. Looking at @fig-actual_vs_predicted, we can see that the predicted ranks follow the actual ranks closely, with the regression line passing through the bulk of the data points, indicating that the model captures the overall trend in rankings well. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities, as well as year of ranking and the state in which the park is located do contribute meaningfully to how cities are ranked in the ParkScore system. 
+Our ridge regression model was able to predict city park system rankings with relatively strong performance, fitting quite well. The model achieved an RMSE score of approximately `{python} round(rmse, 0)` and a Spearman's rank correlation of `{python} round(spearman_corr, 3)`, meaning that the predictions are roughly off by only ~`{python} round(rmse, 0)` ranks while still capturing the relative order of cities very accurately. Overall, the model is explaining `{python} round(test_r2*100, 1)`% of the variation in rankings on the test set. Looking at @fig-actual_vs_predicted, we can see that the predicted ranks follow the actual ranks closely, with the regression line passing through the bulk of the data points, indicating that the model captures the overall trend in rankings well. Therefore, this suggests that measurable park attributes, such as park size, accessibility, and amenities, as well as year of ranking and the state in which the park is located do contribute meaningfully to how cities are ranked in the ParkScore system. 
 
 Among the predictor variables as listed in @tbl-coef and @tbl-coef_wo_state_year, it is interesting to see that the `year` and `state` features had such a large impact on the prediction, with the highest magnitude coefficients. Intuitively, the rankings should not depend that much simply on the year in which the measurements were taken. However, this is somewhat to be expected, and it suggests that park rankings vary significantly across time and location. 
 

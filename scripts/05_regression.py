@@ -10,9 +10,8 @@ from pathlib import Path
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.create_directory import create_directory 
-from src.get_model_coefficients import get_model_coefficients
+# Import the create_directory and get_model_coefficients functions from parks_pkg_dsci310_08 package
+from parks_pkg_dsci310_08.parks import create_directory, get_model_coefficients
 
 @click.command()
 @click.option(
@@ -45,9 +44,9 @@ def regression(splits_path, predictions_path, predictions_result_path):
     X_test['year'] = X_test['year'].astype('category')
     
     # isolating different types of features
-    categorical_features = X_train.select_dtypes(include=["object", "string", "category"]).drop(columns=['city']).columns.tolist()
+    categorical_features = X_train.select_dtypes(include=["object", "string", "category"]).columns.tolist()
     numerical_features = X_train.select_dtypes(include=['int', 'float']).drop(columns=['rank_last_time']).columns.tolist()
-    drop_features = ['city', 'rank_last_time']
+    drop_features = ['rank_last_time']
     
     # preprocessor
     preprocessor = make_column_transformer(

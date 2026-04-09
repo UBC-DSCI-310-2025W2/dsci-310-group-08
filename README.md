@@ -48,19 +48,8 @@ Before running `make all`, or after running `make clean`:
 │   ├── 03_split-data.py
 │   ├── 04_eda.py
 │   ├── 05_regression.py
-│   └── 06_results.py
-|
-├── src/
-│   ├── create_directory.py
-│   ├── find_measurement_last_time.py
-│   ├── get_model_coefficients.py
-│   └── split_dataset.py
-|
-├── tests/
-│   ├── test_create_directory.py
-│   ├── test_find_measurement_last_time.py
-│   ├── test_get_model_coefficients.py
-│   └── test_split_dataset.py
+│   ├── 06_results.py
+│   └── 07_data_validation.py
 |
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
@@ -124,19 +113,8 @@ After running `make all`:
 │   ├── 03_split-data.py
 │   ├── 04_eda.py
 │   ├── 05_regression.py
-│   └── 06_results.py
-|
-├── src/
-│   ├── create_directory.py
-│   ├── find_measurement_last_time.py
-│   ├── get_model_coefficients.py
-│   └── split_dataset.py
-|
-├── tests/
-│   ├── test_create_directory.py
-│   ├── test_find_measurement_last_time.py
-│   ├── test_get_model_coefficients.py
-│   └── test_split_dataset.py
+│   ├── 06_results.py
+│   └── 07_data_validation.py
 │
 ├── .gitignore
 ├── CODE_OF_CONDUCT.md
@@ -167,24 +145,19 @@ docker-compose up --build jupyter
 - Enter `dsci310_group_08` as the token/password to log into Jupyter Lab.
 - Next, in Jupyter Lab, you should be able to see all files and folders in our project repo there.
 
-*We recommend you to use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats or to execute **unit tests** for our **abstracted functions** using `pytest`. You can achieve all of these via simple command-line arguments. Please follow the instructions below:*
+*We recommend you use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats. You can achieve these via simple command-line arguments. Please follow the instructions below:*
 
 - Launch a new Terminal **inside Jupyter Lab** (If you cannot find where to launch a Terminal inside Jupyter Lab, please watch this very short [video](https://www.youtube.com/watch?v=ynMjz1tiq9o)). You should see something like `(base) jovyan@xxxxxxxxxxxx:~/work$` in the terminal.
 - To clean up existing outputs and rendered Quarto reports, type 
 ```bash
 make clean
 ```
- and press <kbd>ENTER</kbd>. 
+and press <kbd>ENTER</kbd>. 
 - To render the `.qmd` source file into `PDF` and `HTML` formats, type 
 ```bash
 make all
 ``` 
 and press <kbd>ENTER</kbd>. 
-- To execute unit tests for the abstracted functions, type 
-```bash
-pytest tests/
-```
- and press <kbd>ENTER</kbd>, then wait for all tests to be executed.
 - Once you are done, press <kbd>CTRL</kbd>+<kbd>C</kbd> in your **local Terminal (outside the Jupyter Lab container)** to close Jupyter Lab.
 - Then type 
 ```bash 
@@ -193,11 +166,13 @@ docker-compose down
 in the **local Terminal** to stop and clean up the launched container.
 
 ## Dependencies
-- Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).
-- [Quarto v1.8.26](https://quarto.org/docs/blog/posts/2025-10-13-1.8-release/).
+- Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718). *Specifically, packages such as `numpy 2.3.5`, `pandas 2.3.3`, and `scikit-learn 1.8.0` are used in this project.*
+- [Quarto v1.8.26](https://quarto.org/docs/blog/posts/2025-10-13-1.8-release/)
 - [TinyTeX v2026.03.02](https://github.com/rstudio/tinytex-releases/releases)
 - [pytest 9.0.2](https://pypi.org/project/pytest/)
 - [GNU Make 4.3](https://lists.gnu.org/archive/html/info-gnu/2020-01/msg00004.html)
+- [pandera 0.30.1](https://pypi.org/project/pandera/)
+- Our custom Python package: [parks_pkg_dsci310_08 0.1.4](https://test.pypi.org/project/parks_pkg_dsci310_08/) ([Source on GitHub](https://github.com/UBC-DSCI-310-2025W2/parks_pkg_dsci310_08))
 
 ## Licenses
 This project report is offered under 

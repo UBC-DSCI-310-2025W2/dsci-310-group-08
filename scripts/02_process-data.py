@@ -4,9 +4,8 @@ from pathlib import Path
 import sys
 import os
 
-# Import the find_measurement_last_time function from the src folder
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.find_measurement_last_time import find_measurement_last_time
+# Import the find_measurement_last_time function from parks_pkg_dsci310_08 package
+from parks_pkg_dsci310_08.parks import find_measurement_last_time
 
 @click.command()
 @click.option(
@@ -66,10 +65,10 @@ def process_data(raw_path, processed_path):
     data_processed['rank'] = data_processed['rank'].astype('int')
     data_processed['rank_last_time'] = data_processed['rank_last_time'].astype('int')
     data_processed = data_processed.drop(columns=data_processed.filter(regex='data$').columns)
+    data_processed = data_processed.drop(columns='city')
     
     # create directory to store processed data
     processed_path = Path(processed_path)
-    processed_path.parent.mkdir(parents=True, exist_ok=True)
     # export processed data to csv in the processed folder
     data_processed.to_csv(processed_path, index=False)
 

@@ -3,9 +3,8 @@ import click
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.split_dataset import split_dataset
-from src.create_directory import create_directory 
+# Import the create_directory and split_dataset functions from parks_pkg_dsci310_08 package
+from parks_pkg_dsci310_08.parks import create_directory, split_dataset
 
 @click.command()
 @click.option(

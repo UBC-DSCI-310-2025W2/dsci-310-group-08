@@ -30,3 +30,10 @@ USER ${NB_USER}
 
 # Install pytest 9.0.2
 RUN pip install --no-cache-dir pytest==9.0.2
+# Install pandera 0.30.1
+RUN pip install --no-cache-dir pandera==0.30.1
+# Install our own package parks_pkg_dsci310_08 0.1.4
+RUN pip install --no-cache-dir \
+    --index-url https://test.pypi.org/simple/ \
+    --extra-index-url https://pypi.org/simple/ \
+    parks_pkg_dsci310_08==0.1.4

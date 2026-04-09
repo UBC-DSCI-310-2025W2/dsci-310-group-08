@@ -30,7 +30,6 @@ def download_data(input_path, output_path, output_path_data_dict):
 
     # create path to store raw data
     output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
     data_raw.to_csv(output_path, index=False)
 
     # create the data dictionary
@@ -68,7 +67,6 @@ def download_data(input_path, output_path, output_path_data_dict):
     
     # create path to store data dictionary
     output_path_data_dict = Path(output_path_data_dict)
-    output_path_data_dict.parent.mkdir(parents=True, exist_ok=True)
     data_dict.to_csv(output_path_data_dict, index=False)
 
 if __name__ == "__main__":
