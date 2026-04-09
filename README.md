@@ -187,7 +187,8 @@ pytest tests/
  and press <kbd>ENTER</kbd>, then wait for all tests to be executed.
 - Once you are done, press <kbd>CTRL</kbd>+<kbd>C</kbd> in your **local Terminal (outside the Jupyter Lab container)** to close Jupyter Lab.
 - Then type 
-```bash docker-compose down
+```bash 
+docker-compose down
 ``` 
 in the **local Terminal** to stop and clean up the launched container.
 
