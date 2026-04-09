@@ -265,7 +265,9 @@ Lastly, let's inspect the distributions of the point-based features in a more vi
 
 ### Regression Analysis
 
-Since our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`, it would be best to use **ridge regression** to build a predictive model. We drop `city` as a feature as it is represented by `state`. We drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
+Our target variable `rank` is a discrete numerical variable ranging from `{python} y_train_min`-`{python} y_train_max`.  Ordinal regression is best for target variables with only a few categoires.  We decided not to use a poisson-based predictive model because we are not modeling count data.  Lastly, rank specific models were more complicated than what was required for this model and outside the scope of this course.  Therefore, it would be best to use **ridge regression** to build a predictive model for this data.
+
+We drop `city` as a feature as it is represented by `state`. We drop `rank_last_time` as it may act as a proxy to the target and leak information into the predictive model. Since all the remaining numerical features are standardized point-based scores, we use them as is.
 
 Before implementing the model on the data, we optimize the regularization hyperparameter *alpha* through randomized grid search. This tests the model performance using different values of *alpha* and picks the one that results in the best performance. The grid search results in an *alpha* of `{python} round(best_alpha, 4)` that produces a mean cross-validated $R^2$ of `{python} round(best_score*100, 1)`%.
 
