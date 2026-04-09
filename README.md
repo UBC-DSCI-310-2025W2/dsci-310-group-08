@@ -159,7 +159,10 @@ After running `make all`:
 
 - Open `Terminal` on your local machine and navigate to the project's root directory using the `cd` command.
 - Make sure your Docker is running.
-- Run the following command to start the environment: `docker-compose up --build jupyter`.
+- Run the following command to start the environment: 
+```bash 
+docker-compose up --build jupyter
+```
 - Once the container has launched, users need to navigate to a web browser (i.e., Chrome) and copy the URL `http://localhost:8887/lab` into their web browser to access Jupyter Lab.
 - Enter `dsci310_group_08` as the token/password to log into Jupyter Lab.
 - Next, in Jupyter Lab, you should be able to see all files and folders in our project repo there.
@@ -167,11 +170,26 @@ After running `make all`:
 *We recommend you to use **GNU Make** to automate the project, either to clean up existing outputs and rendered Quarto reports or to render the `.qmd` source file into `PDF` and `HTML` formats or to execute **unit tests** for our **abstracted functions** using `pytest`. You can achieve all of these via simple command-line arguments. Please follow the instructions below:*
 
 - Launch a new Terminal **inside Jupyter Lab** (If you cannot find where to launch a Terminal inside Jupyter Lab, please watch this very short [video](https://www.youtube.com/watch?v=ynMjz1tiq9o)). You should see something like `(base) jovyan@xxxxxxxxxxxx:~/work$` in the terminal.
-- To clean up existing outputs and rendered Quarto reports, type `make clean` and press <kbd>ENTER</kbd>. 
-- To render the `.qmd` source file into `PDF` and `HTML` formats, type `make all` and press <kbd>ENTER</kbd>. 
-- To execute unit tests for the abstracted functions, type `pytest tests/` and press <kbd>ENTER</kbd>, then wait for all tests to be executed.
+- To clean up existing outputs and rendered Quarto reports, type 
+```bash
+make clean
+```
+ and press <kbd>ENTER</kbd>. 
+- To render the `.qmd` source file into `PDF` and `HTML` formats, type 
+```bash
+make all
+``` 
+and press <kbd>ENTER</kbd>. 
+- To execute unit tests for the abstracted functions, type 
+```bash
+pytest tests/
+```
+ and press <kbd>ENTER</kbd>, then wait for all tests to be executed.
 - Once you are done, press <kbd>CTRL</kbd>+<kbd>C</kbd> in your **local Terminal (outside the Jupyter Lab container)** to close Jupyter Lab.
-- Then type `docker-compose down` in the **local Terminal** to stop and clean up the launched container.
+- Then type 
+```bash docker-compose down
+``` 
+in the **local Terminal** to stop and clean up the launched container.
 
 ## Dependencies
 - Python 3.13.11, Jupyter and Python Packages listed in the default scipy notebook base Docker image [here](https://github.com/jupyter/docker-stacks/wiki/x86_64-default-scipy-notebook-0dd81e2dd718).
