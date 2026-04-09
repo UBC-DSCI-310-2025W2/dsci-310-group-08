@@ -212,3 +212,4 @@ __marimo__/
 # Ignore the outputs and data files
 **/*.csv
 **/*.png
+**/*.txt

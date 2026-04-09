@@ -75,6 +75,7 @@ After running `make all`:
 │   └── processed/
 │       ├── .gitkeep
 │       ├── parks_processed.csv
+│       ├── validation_passed.txt
 │       |── predictions/
 │       |   └── test_predictions.csv
 │       └── splits/
